@@ -7,3 +7,6 @@ git log --pretty=oneline	//每个版本的提交日志只显示一行
 git reset --hard HEAD^		//返回上一个版本，HEAD表示当前版本，再HEAD~5往前的第五个版本
 git reset --hard 指定的版本ID（不一定要写全）
 git reflog					//用来记录你的每一次命令
+git checkout -- <file>		//丢弃工作区的修改：如果自修改后还没被放到暂存区，撤销修改回到与版本库一致的状态
+											//  如果已添加到暂存区后，又作了修改，撤销修改回到添加到暂存区后的状态
+							//总之，就是让这个文件回到最近一次git commit或git add时的状态
