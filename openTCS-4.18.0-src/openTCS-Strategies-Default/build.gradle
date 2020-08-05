@@ -1,0 +1,19 @@
+apply from: "${rootDir}/gradle/java-project.gradle"
+apply from: "${rootDir}/gradle/java-artifacts.gradle"
+apply from: "${rootDir}/gradle/java-codequality.gradle"
+apply from: "${rootDir}/gradle/guice-project.gradle"
+apply from: "${rootDir}/gradle/maven-publishing.gradle"
+apply from: "${rootDir}/gradle/license-headers.gradle"
+apply plugin: 'org.kordamp.gradle.stats'
+
+dependencies {
+  compile project(':openTCS-API-Injection')
+  compile project(':openTCS-Common')
+  
+  compile group: 'org.jgrapht', name: 'jgrapht-core', version: '1.1.0'
+  compileOnly group: 'org.jgrapht', name: 'jgrapht-core', version: '1.1.0', classifier: 'sources'
+}
+
+task release {
+  dependsOn build
+}

@@ -1,0 +1,16 @@
+apply from: "${rootDir}/gradle/java-project.gradle"
+apply from: "${rootDir}/gradle/java-artifacts.gradle"
+apply from: "${rootDir}/gradle/java-codequality.gradle"
+apply from: "${rootDir}/gradle/maven-publishing.gradle"
+apply from: "${rootDir}/gradle/license-headers.gradle"
+apply plugin: 'org.kordamp.gradle.stats'
+
+dependencies {
+  compile project(':openTCS-API-Base')
+  compile group: 'com.google.inject', name: 'guice', version: '4.2.2'
+  compile group: 'com.google.inject.extensions', name: 'guice-assistedinject', version: '4.2.2'
+}
+
+task release {
+  dependsOn build
+}
