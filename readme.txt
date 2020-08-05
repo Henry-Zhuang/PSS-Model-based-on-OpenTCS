@@ -12,4 +12,6 @@ git checkout -- <file>		//丢弃工作区的修改：如果自修改后还没被
 							//总之，就是让这个文件回到最近一次git commit或git add时的状态
 git reset HEAD <file>		//可以把暂存区的修改撤销掉（unstage），重新放回工作区（也就是只有工作区被修改）
 git rm						//用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容
-git remote add origin https://github.com/Henry-Zhuang-cn/OpenTCS.git	//将本地库与远程库连接
+git remote add origin https://github.com/Henry-Zhuang-cn/OpenTCS.git	//将本地库与远程库连接（HTTP方式）速度较慢
+git remote add origin git@github.com:Henry-Zhuang-cn/OpenTCS.git		//将本地库与远程库连接（SSH方式）
+git push					//把本地库的内容推送到远程，实际上是把当前分支master推送到远程
