@@ -14,4 +14,5 @@ git reset HEAD <file>		//可以把暂存区的修改撤销掉（unstage），重
 git rm						//用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容
 git remote add origin https://github.com/Henry-Zhuang-cn/OpenTCS.git	//将本地库与远程库连接（HTTP方式）速度较慢
 git remote add origin git@github.com:Henry-Zhuang-cn/OpenTCS.git		//将本地库与远程库连接（SSH方式）
-git push					//把本地库的内容推送到远程，实际上是把当前分支master推送到远程
+git push -u origin master	//把本地库的内容推送到远程，实际上是把当前分支master推送到远程
+							//加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令
