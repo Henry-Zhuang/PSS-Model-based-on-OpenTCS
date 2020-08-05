@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import org.opentcs.DataObjectFactory;
 import org.opentcs.access.LocalKernel;
 import org.opentcs.components.kernel.Scheduler;
+import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.DispatcherService;
 import org.opentcs.components.kernel.services.InternalVehicleService;
 import org.opentcs.components.kernel.services.NotificationService;
@@ -85,6 +86,8 @@ public class DefaultVehicleControllerTest {
    * The (mocked) vehicle service.
    */
   private InternalVehicleService vehicleService;
+  
+  private ChangeTrackService changeTrackService;
   /**
    * A dummy scheduler.
    */
@@ -119,6 +122,7 @@ public class DefaultVehicleControllerTest {
                                                         vehicleService,
                                                         mock(NotificationService.class),
                                                         mock(DispatcherService.class),
+                                                        changeTrackService,
                                                         scheduler,
                                                         eventBus);
     stdVehicleController.initialize();
