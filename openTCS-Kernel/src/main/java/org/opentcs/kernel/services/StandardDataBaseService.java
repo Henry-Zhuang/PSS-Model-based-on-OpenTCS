@@ -173,7 +173,9 @@ public class StandardDataBaseService implements DataBaseService {
       String lineData ;
       while((lineData = randFile.readLine()) != null){
         // 仅查询还未满足数量要求的skuID
-        Set<String> tmpSkuIDs = skuIDs.stream().filter(isQuantityPositive(Skus)).collect(Collectors.toSet());
+        Set<String> tmpSkuIDs = skuIDs.stream()
+            .filter(isQuantityPositive(Skus))
+            .collect(Collectors.toSet());
         // 如果各数量要求均已满足，则退出循环
         if(tmpSkuIDs.isEmpty())
           break;

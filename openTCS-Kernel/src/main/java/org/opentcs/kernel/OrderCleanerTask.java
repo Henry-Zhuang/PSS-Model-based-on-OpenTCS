@@ -127,18 +127,18 @@ class OrderCleanerTask
         orderBinPool.removeTransportOrderBin(tOrderBin.getReference());
       
       // Çå¿Õ¼ð»õÌ¨ TEST
-      for(Location pickStation 
-          : orderBinPool.getObjectPool().getObjects(Location.class, 
-                                                    p->p.getType()
-                                                        .getName()
-                                                        .startsWith(Location.PICK_TYPE_PREFIX))){
-        Location previous = pickStation.clone();
-        pickStation = orderBinPool.getObjectPool()
-                                  .replaceObject(pickStation.withBins(new ArrayList<>()));
-        orderBinPool.getObjectPool().emitObjectEvent(pickStation.clone(), 
-                                                     previous,
-                                                     TCSObjectEvent.Type.OBJECT_MODIFIED);
-      }
+//      for(Location pickStation 
+//          : orderBinPool.getObjectPool().getObjects(Location.class, 
+//                                                    p->p.getType()
+//                                                        .getName()
+//                                                        .startsWith(Location.PICK_TYPE_PREFIX))){
+//        Location previous = pickStation.clone();
+//        pickStation = orderBinPool.getObjectPool()
+//                                  .replaceObject(pickStation.withBins(new ArrayList<>()));
+//        orderBinPool.getObjectPool().emitObjectEvent(pickStation.clone(), 
+//                                                     previous,
+//                                                     TCSObjectEvent.Type.OBJECT_MODIFIED);
+//      }
       //////// modified end
     }
   }

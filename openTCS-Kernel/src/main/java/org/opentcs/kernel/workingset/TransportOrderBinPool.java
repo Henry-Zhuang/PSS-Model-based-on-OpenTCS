@@ -226,8 +226,8 @@ public class TransportOrderBinPool {
                 .orElse(null);
     
     if(tOB == null){
-//      if(vehicle != null)
-//        changeTrackService.createChangeTrackOrder(vehicle.getName());
+      if(vehicle != null)
+        changeTrackService.createChangeTrackOrder(vehicle.getName());
       return;
     }
     

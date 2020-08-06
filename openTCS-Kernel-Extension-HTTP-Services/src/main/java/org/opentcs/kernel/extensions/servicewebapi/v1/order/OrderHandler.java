@@ -191,30 +191,30 @@ public class OrderHandler {
       throw new IllegalStateException("There're not enough bins with the given SKU in the data base");
     }
     
-    for(Map.Entry<CsvBinTO, Set<String>> binTOEntry:binTOs.entrySet()){
-      TransportOrderBinCreationTO to
-          = new TransportOrderBinCreationTO(nameFor(name, binTOEntry.getKey()) ,binTOEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
-              .withCustomerOrderName(name)
-              .withQuantity(0)
-              .withDeadline(deadline(order))
-              .withProperties(properties(order.getProperties()))
-              .withRequiredSkuID(binTOEntry.getValue());
-      try {
-        kernelExecutor.submit(() -> {
-          orderBinService.createTransportOrderBin(to);
-          dispatcherService.dispatchBin();
-          dispatcherService.dispatch();            
-        }).get();
+    try{
+      for(Map.Entry<CsvBinTO, Set<String>> binTOEntry:binTOs.entrySet()){
+        TransportOrderBinCreationTO to
+            = new TransportOrderBinCreationTO(nameFor(name, binTOEntry.getKey()) ,binTOEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
+                .withCustomerOrderName(name)
+                .withQuantity(0)
+                .withDeadline(deadline(order))
+                .withProperties(properties(order.getProperties()))
+                .withRequiredSkuID(binTOEntry.getValue());
+        orderBinService.createTransportOrderBin(to);
       }
-      catch (InterruptedException exc) {
-        throw new IllegalStateException("Unexpectedly interrupted");
+      kernelExecutor.submit(() -> {
+        dispatcherService.dispatchBin();
+        dispatcherService.dispatch();            
+      }).get();
+    }
+    catch (InterruptedException exc) {
+      throw new IllegalStateException("Unexpectedly interrupted");
+    }
+    catch (ExecutionException exc) {
+      if (exc.getCause() instanceof RuntimeException) {
+        throw (RuntimeException) exc.getCause();
       }
-      catch (ExecutionException exc) {
-        if (exc.getCause() instanceof RuntimeException) {
-          throw (RuntimeException) exc.getCause();
-        }
-        throw new KernelRuntimeException(exc.getCause());
-      }
+      throw new KernelRuntimeException(exc.getCause());
     }
   }
   //////////////////////////////////////////////////////////////// created end

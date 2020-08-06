@@ -329,8 +329,12 @@ public class DefaultVehicleController
       createFutureCommands(newOrder, orderProperties);
 
       if (canSendNextCommand()) {
-        System.out.println("setDriveOrder");
-        allocateForNextCommand();
+        // 如果当前车辆执行的订单是换轨订单，则进行换轨命令的资源分配和发送
+        if(isProcessingTrackOrder())
+          allocateForNextTrackCommand();
+        // 如果不是换轨订单，则直接进行普通命令的资源分配和发送
+        else
+          allocateForNextCommand();
       }
 
       // Set the vehicle's next expected position.
@@ -377,7 +381,12 @@ public class DefaultVehicleController
       // The vehilce may now process previously restricted steps
       if (updatedVehicle.getState() == Vehicle.State.IDLE
           && canSendNextCommand()) {
-        allocateForNextCommand();
+        // 如果当前车辆执行的订单是换轨订单，则进行换轨命令的资源分配和发送
+        if(isProcessingTrackOrder())
+          allocateForNextTrackCommand();
+        // 如果不是换轨订单，则直接进行普通命令的资源分配和发送
+        else
+          allocateForNextCommand();
       }
     }
   }
@@ -564,8 +573,12 @@ public class DefaultVehicleController
         // Since there's now a new/updated route we need to trigger the next allocation. Otherwise
         // the vehicle would wait forever to get the next command.
         if (canSendNextCommand()) {
-          System.out.println("allocationSuccessful 1");
-          allocateForNextCommand();
+          // 如果当前车辆执行的订单是换轨订单，则进行换轨命令的资源分配和发送
+          if(isProcessingTrackOrder())
+            allocateForNextTrackCommand();
+          // 如果不是换轨订单，则直接进行普通命令的资源分配和发送
+          else
+            allocateForNextCommand();
         }
         return false;
       }
@@ -582,8 +595,12 @@ public class DefaultVehicleController
       // Check if the communication adapter has capacity for another command.
       waitingForAllocation = false;
       if (canSendNextCommand()) {
-        System.out.println("allocationSuccessful 2");
-        allocateForNextCommand();
+        // 如果当前车辆执行的订单是换轨订单，则进行换轨命令的资源分配和发送
+        if(isProcessingTrackOrder())
+          allocateForNextTrackCommand();
+        // 如果不是换轨订单，则直接进行普通命令的资源分配和发送
+        else
+          allocateForNextCommand();
       }
     }
     // Let the scheduler know we've accepted the resources given.
@@ -781,8 +798,12 @@ public class DefaultVehicleController
       // There are more commands to be processed.
       // Check if we can send another command to the comm adapter.
       else if (canSendNextCommand()) {
-        System.out.println("commandExecuted");
-        allocateForNextCommand();
+        // 如果当前车辆执行的订单是换轨订单，则进行换轨命令的资源分配和发送
+        if(isProcessingTrackOrder())
+          allocateForNextTrackCommand();
+        // 如果不是换轨订单，则直接进行普通命令的资源分配和发送
+        else
+          allocateForNextCommand();
       }
     }
   }
@@ -878,11 +899,9 @@ public class DefaultVehicleController
 
     // Find out which resources are actually needed for the next command.
     MovementCommand moveCmd = futureCommands.poll();
-    checkNextCommand(moveCmd);
+
     pendingResources = getNeededResources(moveCmd);
-    /////// modified by Henry
-    if(vehicle.getType().equals(Vehicle.TRACK_VEHICLE_TYPE))
-      pendingResources = new HashSet<>();
+
     /////// modified end
     LOG.debug("{}: Allocating resources: {}", vehicle.getName(), pendingResources);
     scheduler.allocate(this, pendingResources);
@@ -1108,71 +1127,6 @@ public class DefaultVehicleController
   }
   //////////////////////////////////////////////////////////////////// created by Henry
   
-  private static List<Set<TCSResource<?>>> asResourceSequencePST(@Nonnull List<Route.Step> steps) {
-    requireNonNull(steps, "steps");
-
-    List<Set<TCSResource<?>>> result = new ArrayList<>(steps.size());
-    for (Route.Step step : steps) {
-      result.add(new HashSet<>());
-    }
-    return result;
-  }
-
-  private void checkNextCommand(MovementCommand moveCmd) {
-    System.out.println(Thread.currentThread().getName() + " " + vehicle.getName());
-    if(currentDriveOrder.getTransportOrder()!=null
-        && currentDriveOrder.getTransportOrder()
-            .getName().startsWith(OrderConstants.TYPE_CHANGE_TRACK)){
-      
-      TransportOrder currTransportOrder 
-          = vehicleService.fetchObject(TransportOrder.class,currentDriveOrder.getTransportOrder());
-      
-      if(vehicle.getType().equals(Vehicle.BIN_VEHICLE_TYPE)){
-        if(isTrackVehicleInPlace){
-          isTrackVehicleInPlace = false;
-          changeTrackService.notifyTrackVehicle(currTransportOrder.getName());
-        }
-        else if(currTransportOrder.getPastDriveOrders().isEmpty() 
-            && moveCmd.isFinalMovement())
-          waitForTrackVehicle();
-      }
-      else if(vehicle.getType().equals(Vehicle.TRACK_VEHICLE_TYPE)
-          && currTransportOrder.getFutureDriveOrders().isEmpty()
-          && moveCmd.getStep().getRouteIndex() == 0)
-        waitForBinVehicle();
-    }
-  }
-
-  private void waitForTrackVehicle() {
-    synchronized(DefaultVehicleController.this){
-      while(!isTrackVehicleInPlace){
-        try {
-          // Wait untile the Change-track vehicle is in place.
-          DefaultVehicleController.this.wait(1000);
-        }
-        catch (InterruptedException exc) {
-          LOG.warn("VehicleController {}: Unexpectedly interrupted", vehicle.getName(), exc);
-        }
-      }
-    }
-  }
-
-  private void waitForBinVehicle() {
-    synchronized(DefaultVehicleController.this){
-      while(!isBinVehicleInPlace){
-        try {
-          // Wait untile the Transport-bin vehicle is in place.
-          DefaultVehicleController.this.wait(1000);
-        }
-        catch (InterruptedException exc) {
-          LOG.warn("VehicleController {}: Unexpectedly interrupted", vehicle.getName(), exc);
-        }
-      }
-      isBinVehicleInPlace = false;
-      changeTrackService.notifyBinVehicle(currentDriveOrder.getTransportOrder().getName());
-    }
-  }
-  
   @Override
   public void setTrackVehicleInPlace() {
     synchronized(DefaultVehicleController.this){
@@ -1191,6 +1145,166 @@ public class DefaultVehicleController
       this.isBinVehicleInPlace = true;
       DefaultVehicleController.this.notify();
     }
+  }
+  
+  /**
+   * Allocate the resources needed for executing the next command.
+   */
+  private void allocateForNextTrackCommand() {
+    checkState(pendingCommand == null, "pendingCommand != null");
+
+    // Find out which resources are actually needed for the next command.
+    MovementCommand moveCmd = futureCommands.poll();
+    
+    // 当前车辆正在执行的订单实例
+    TransportOrder currTransportOrder 
+          = vehicleService.fetchObject(TransportOrder.class,currentDriveOrder.getTransportOrder());
+    
+    if(vehicle.getType().equals(Vehicle.BIN_VEHICLE_TYPE)){
+      // 是否需要等待换轨车就位
+      if(needAwaitTrackVehicle(moveCmd, currTransportOrder)){
+        // 如果是由内核线程控制当前料箱车，为了避免内核执行线程进入等待状态
+        // 我们新建一个新的线程去代替内核线程进入等待状态,等待换轨车就位
+        if(Thread.currentThread().getName().startsWith("kernel")){
+          Thread waitTrackThread 
+              = new Thread(() -> {
+                waitForTrackVehicle();
+                allocateFor(moveCmd);
+              },vehicle.getName()+"-waitTrackThread");
+          waitTrackThread.start();
+        }
+        else{
+          waitForTrackVehicle();
+          allocateFor(moveCmd);
+        }
+      }
+      else{
+        if(isTrackVehicleInPlace){
+          isTrackVehicleInPlace = false;
+          changeTrackService.notifyTrackVehicle(currTransportOrder.getName());
+        }
+        allocateFor(moveCmd);
+      }
+    }
+    else if(vehicle.getType().equals(Vehicle.TRACK_VEHICLE_TYPE)){
+      // 是否需要等待料箱车就位
+      if(needAwaitBinVehicle(moveCmd, currTransportOrder)){
+        // 如果是由内核线程控制当前换轨车，为了避免内核执行线程进入等待状态
+        // 我们新建一个新的线程去代替内核线程进入等待状态,等待料箱车就位
+        if(Thread.currentThread().getName().startsWith("kernel")){
+          Thread waitBinThread 
+              = new Thread(() -> {
+                waitForBinVehicle();
+                allocateFor(moveCmd);
+              },vehicle.getName()+"-waitBinThread");
+          waitBinThread.start();
+        }
+        else{
+          waitForBinVehicle();
+          allocateFor(moveCmd);
+        }
+      }
+      else
+        allocateFor(moveCmd);
+    }
+  }
+  
+  private boolean isProcessingTrackOrder(){
+    return currentDriveOrder.getTransportOrder() != null 
+        && currentDriveOrder.getTransportOrder()
+            .getName().startsWith(OrderConstants.TYPE_CHANGE_TRACK);
+  }
+  
+  private static List<Set<TCSResource<?>>> asResourceSequencePST(@Nonnull List<Route.Step> steps) {
+    requireNonNull(steps, "steps");
+
+    List<Set<TCSResource<?>>> result = new ArrayList<>(steps.size());
+    for (Route.Step step : steps) {
+      result.add(new HashSet<>());
+    }
+    return result;
+  }
+
+  @Deprecated
+  private boolean checkNextCommand(MovementCommand moveCmd) {
+      
+      TransportOrder currTransportOrder 
+          = vehicleService.fetchObject(TransportOrder.class,currentDriveOrder.getTransportOrder());
+      
+      if(vehicle.getType().equals(Vehicle.BIN_VEHICLE_TYPE)){
+        if(isTrackVehicleInPlace){
+          isTrackVehicleInPlace = false;
+          changeTrackService.notifyTrackVehicle(currTransportOrder.getName());
+        }// note
+        else if(currTransportOrder.getPastDriveOrders().isEmpty()
+            && moveCmd.isFinalMovement())
+          waitForTrackVehicle();
+      }
+      else if(vehicle.getType().equals(Vehicle.TRACK_VEHICLE_TYPE)
+          && currTransportOrder.getFutureDriveOrders().isEmpty()
+          && moveCmd.getStep().getRouteIndex() == 0)
+        waitForBinVehicle();
+    return false;
+  }
+
+  private void waitForTrackVehicle() {
+    synchronized(DefaultVehicleController.this){
+      while(!isTrackVehicleInPlace){
+        try {
+          // Wait untile the Change-track vehicle is in place.
+          DefaultVehicleController.this.wait();
+        }
+        catch (InterruptedException exc) {
+          LOG.warn("VehicleController {}: Unexpectedly interrupted", vehicle.getName(), exc);
+        }
+      }
+    }
+  }
+
+  private void waitForBinVehicle() {
+    synchronized(DefaultVehicleController.this){
+      // 通知待换轨的料箱车，换轨车已就位
+      changeTrackService.notifyBinVehicle(currentDriveOrder.getTransportOrder().getName());
+      while(!isBinVehicleInPlace){
+        try {
+          // Wait untile the Transport-bin vehicle is in place.
+          DefaultVehicleController.this.wait();
+        }
+        catch (InterruptedException exc) {
+          LOG.warn("VehicleController {}: Unexpectedly interrupted", vehicle.getName(), exc);
+        }
+      }
+      isBinVehicleInPlace = false;
+    }
+  }
+
+  private boolean needAwaitTrackVehicle(MovementCommand moveCmd, TransportOrder currTransportOrder) {
+    return !isTrackVehicleInPlace
+        && currTransportOrder.getPastDriveOrders().isEmpty() 
+        && moveCmd.isFinalMovement();
+  }
+
+  private boolean needAwaitBinVehicle(MovementCommand moveCmd, TransportOrder currTransportOrder) {
+    return !isBinVehicleInPlace
+        && currTransportOrder.getFutureDriveOrders().isEmpty()
+        && moveCmd.getStep().getRouteIndex() == 0;
+  }
+  
+  private void allocateFor(MovementCommand moveCmd) {
+    if(vehicle.getType().equals(Vehicle.BIN_VEHICLE_TYPE))
+      pendingResources = getNeededResources(moveCmd);
+    
+    else if(vehicle.getType().equals(Vehicle.TRACK_VEHICLE_TYPE))
+      pendingResources = new HashSet<>();
+    
+    LOG.debug("{}: Allocating resources: {}", vehicle.getName(), pendingResources);
+    scheduler.allocate(this, pendingResources);
+    
+    // Remember that we're waiting for an allocation. This ensures that we only
+    // wait for one allocation at a time, and that we get the resources from the
+    // scheduler in the right order.
+    waitingForAllocation = true;
+    pendingCommand = moveCmd;
   }
   //////////////////////////////////////////////////////////////////// created end
 }
