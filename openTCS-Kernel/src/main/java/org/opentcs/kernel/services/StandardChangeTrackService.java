@@ -94,7 +94,7 @@ public class StandardChangeTrackService
     if(isInitialized())
       return;
     
-    if(dataBaseService.getLocPosition() != null)
+    if(dataBaseService.getLocPosition() == null)
       return;
     
     noVehicleTracks = IntStream.range(1, dataBaseService.getLocPosition().length + 1)
@@ -137,7 +137,7 @@ public class StandardChangeTrackService
       if(noVehicleTOB == null)
         return;
       
-      LOG.info("method entry");
+      LOG.debug("method entry");
       Vehicle vehicle = fetchObject(Vehicle.class, binVehicle);
 
       createChangeTrackOrder(vehicle, noVehicleTOB);
@@ -192,7 +192,7 @@ public class StandardChangeTrackService
 
   @Override
   public void notifyBinVehicle(@Nonnull String orderName) {
-    LOG.info("method entry");
+    LOG.debug("method entry");
     TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
     if(entry == null){
       LOG.warn("Warning track order entry of {} not found when notify binVehicle.",orderName);
@@ -203,7 +203,7 @@ public class StandardChangeTrackService
 
   @Override
   public void notifyTrackVehicle(String orderName) {
-    LOG.info("method entry");
+    LOG.debug("method entry");
     TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
     if(entry == null){
       LOG.warn("Warning track order entry of {} not found when notify trackVehicle.",orderName);
@@ -215,7 +215,7 @@ public class StandardChangeTrackService
   @Override
   public void updateTrackOrder(TCSObjectReference<TransportOrder> orderRef, 
                                TransportOrder.State state) {
-    LOG.info("method entry");
+    LOG.debug("method entry");
     if(state != TransportOrder.State.FINISHED){
       TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderRef.getName()));
       if(entry != null){
@@ -228,6 +228,37 @@ public class StandardChangeTrackService
     trackOrderPool.remove(getPrefix(orderRef.getName()));
   }
 
+  @Override
+  public boolean needtoWaitTrackVehicle(Point dstPoint, String orderName) {
+    TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
+    if(entry == null){
+      LOG.error("Error track order entry of {} not found when notify trackVehicle.",orderName);
+      return false;
+    }
+    int srcTrack = entry.srcTrack;
+    int srcColumn = fetchObject(Point.class, 
+                                fetchObject(Vehicle.class,
+                                            entry.trackVehicle).getCurrentPosition())
+                    .getColumn();
+    return dstPoint.getRow() == srcTrack
+        && dstPoint.getColumn() == srcColumn;
+  }
+
+  @Override
+  public boolean needtoWaitBinVehicle(Point srcPoint, String orderName) {
+    TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
+    if(entry == null){
+      LOG.error("Error track order entry of {} not found when notify trackVehicle.",orderName);
+      return false;
+    }
+    int srcTrack = entry.srcTrack;
+    int srcColumn = fetchObject(Point.class, 
+                                fetchObject(Vehicle.class,
+                                            entry.trackVehicle).getCurrentPosition())
+                    .getColumn();
+    return srcPoint.getRow() == srcTrack
+        && srcPoint.getColumn() == srcColumn;
+  }
 
   private String getPrefix(String orderName) {
     return orderName.substring(0, orderName.length()-BIN_ORDER_SUFFIX.length());
