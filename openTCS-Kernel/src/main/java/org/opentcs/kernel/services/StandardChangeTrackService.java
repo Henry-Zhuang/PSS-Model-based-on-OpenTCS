@@ -91,16 +91,19 @@ public class StandardChangeTrackService
 
   @Override
   public void initialize() {
-    if(isInitialized()){
+    if(isInitialized())
       return;
-    }
+    
+    if(dataBaseService.getLocPosition() != null)
+      return;
     
     noVehicleTracks = IntStream.range(1, dataBaseService.getLocPosition().length + 1)
         .boxed().collect(Collectors.toSet());
 
     fetchObjects(Vehicle.class).stream()
         .filter(veh -> veh.getType().equals(Vehicle.BIN_VEHICLE_TYPE))
-        .forEach(PSB -> noVehicleTracks.remove(fetchObject(Point.class,PSB.getCurrentPosition()).getRow()));
+        .forEach(PSB -> noVehicleTracks.remove(fetchObject(Point.class,
+                                                           PSB.getCurrentPosition()).getRow()));
     
     initialized = true;
   }
