@@ -6,6 +6,7 @@
 package org.opentcs.components.kernel.services;
 
 import org.opentcs.data.TCSObjectReference;
+import org.opentcs.data.model.Point;
 import org.opentcs.data.order.TransportOrder;
 
 /**
@@ -19,4 +20,6 @@ public interface ChangeTrackService
   void notifyBinVehicle(String orderName);
   void notifyTrackVehicle(String orderName);
   void updateTrackOrder(TCSObjectReference<TransportOrder> orderRef, TransportOrder.State state);
+  boolean needtoWaitTrackVehicle(Point dstPoint, String orderName);
+  boolean needtoWaitBinVehicle(Point srcPoint, String orderName);
 }
