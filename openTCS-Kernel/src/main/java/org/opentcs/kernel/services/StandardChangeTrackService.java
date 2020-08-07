@@ -80,6 +80,10 @@ public class StandardChangeTrackService
    * a change-track order for this transport order.</p>
    */
   private Set<Integer> noVehicleTracks = new HashSet<>();
+  /**
+   * Whether the vehicles' states are changed or not.
+   */
+  private volatile boolean vehicleStateChanged;
   
   @Inject
   public StandardChangeTrackService(TCSObjectService objectService,
@@ -94,30 +98,49 @@ public class StandardChangeTrackService
     this.controllerPool = requireNonNull(controllerPool, "controllerPool");
   }
 
-
   @Override
-  public void initTrackList() {
+  public void updateTrackList() {
+    if (!isVehicleStateChanged())
+      return;
+    
     if(dataBaseService.getLocPosition() == null)
       return;
     
-    LOG.info("Initializing change track service");
-    
     noVehicleTracks = IntStream.range(1, dataBaseService.getLocPosition().length + 1)
         .boxed().collect(Collectors.toSet());
-
-    Set<Vehicle> vehicles = fetchObjects(Vehicle.class);
-    if(vehicles.isEmpty())
-      return;
     
-    vehicles.stream()
+    fetchObjects(Vehicle.class,
+                 vehicle -> vehicle.getIntegrationLevel() == Vehicle.IntegrationLevel.TO_BE_UTILIZED)
+        .stream()
         .filter(veh -> veh.getType().equals(Vehicle.BIN_VEHICLE_TYPE))
         .forEach(PSB -> noVehicleTracks.remove(fetchObject(Point.class,
                                                            PSB.getCurrentPosition()).getRow()));
+    vehicleStateChanged = false;
+  }
+  
+  private boolean isVehicleStateChanged() {
+    return vehicleStateChanged;
   }
 
   @Override
+  public void clear() {
+
+    trackOrderPool.clear();
+    noVehicleTracks.clear();
+
+    vehicleStateChanged = true;
+  }
+  
+  @Override
+  public void setVehicleStateChanged(){
+    vehicleStateChanged = true;
+  }
+  
+  @Override
   public void createChangeTrackOrder(String binVehicle) {
     synchronized(this){
+      
+      updateTrackList();
       
       if(binVehicle == null){
         LOG.error("Error %s is not existed",binVehicle);

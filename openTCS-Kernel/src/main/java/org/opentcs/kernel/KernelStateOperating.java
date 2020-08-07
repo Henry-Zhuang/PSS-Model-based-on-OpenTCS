@@ -27,6 +27,7 @@ import org.opentcs.components.kernel.Dispatcher;
 import org.opentcs.components.kernel.KernelExtension;
 import org.opentcs.components.kernel.Router;
 import org.opentcs.components.kernel.Scheduler;
+import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.customizations.kernel.ActiveInOperatingMode;
 import org.opentcs.customizations.kernel.GlobalSyncObject;
@@ -134,6 +135,11 @@ class KernelStateOperating
    */
   private ScheduledFuture<?> cleanerTaskFuture;
   /**
+   * The change-track service.
+   * modified by Henry
+   */
+  private final ChangeTrackService changeTrackService;
+  /**
    * This instance's <em>initialized</em> flag.
    */
   private boolean initialized;
@@ -167,7 +173,8 @@ class KernelStateOperating
                        @ActiveInOperatingMode Set<KernelExtension> extensions,
                        AttachmentManager attachmentManager,
                        VehicleService vehicleService,
-                       TransportOrderBinPool orderBinPool) {
+                       TransportOrderBinPool orderBinPool,
+                       ChangeTrackService changeTrackService) {
     super(globalSyncObject,
           objectPool,
           model,
@@ -188,6 +195,7 @@ class KernelStateOperating
     this.attachmentManager = requireNonNull(attachmentManager, "attachmentManager");
     this.vehicleService = requireNonNull(vehicleService, "vehicleService");
     this.orderBinPool = requireNonNull(orderBinPool, "orderBinPool");
+    this.changeTrackService = requireNonNull(changeTrackService, "changeTrackService");
   }
 
   // Implementation of interface Kernel starts here.
@@ -224,7 +232,7 @@ class KernelStateOperating
     attachmentManager.initialize();
     LOG.debug("Initializing script file manager '{}'...", scriptFileManager);
     scriptFileManager.initialize();
-
+    
     // Start a task for cleaning up old orders periodically.
     cleanerTaskFuture = kernelExecutor.scheduleAtFixedRate(orderCleanerTask,
                                                            orderCleanerTask.getSweepInterval(),
@@ -269,6 +277,10 @@ class KernelStateOperating
     cleanerTaskFuture.cancel(false);
     cleanerTaskFuture = null;
 
+    //// modified by Henry
+    LOG.debug("Terminating change track service ...");
+    changeTrackService.clear();
+    //// modified end
     // Terminate strategies.
     recoveryEvaluator.terminate();
     LOG.debug("Terminating dispatcher '{}'...", dispatcher);

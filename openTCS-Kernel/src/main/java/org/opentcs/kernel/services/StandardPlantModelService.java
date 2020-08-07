@@ -78,11 +78,6 @@ public class StandardPlantModelService
    * modified by Henry
    */
   private final DataBaseService dataBaseService;
-  /**
-   * The change-track service.
-   * modified by Henry
-   */
-  private final ChangeTrackService changeTrackService;
 
   /**
    * Creates a new instance.
@@ -105,8 +100,7 @@ public class StandardPlantModelService
                                    ModelPersister modelPersister,
                                    @ApplicationEventBus EventHandler eventHandler,
                                    NotificationService notificationService,
-                                   DataBaseService dataBaseService,
-                                   ChangeTrackService changeTrackService) {
+                                   DataBaseService dataBaseService) {
     super(objectService);
     this.kernel = requireNonNull(kernel, "kernel");
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
@@ -115,7 +109,6 @@ public class StandardPlantModelService
     this.eventHandler = requireNonNull(eventHandler, "eventHandler");
     this.notificationService = requireNonNull(notificationService, "notificationService");
     this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
-    this.changeTrackService = requireNonNull(changeTrackService, "changeTrackService");
   }
 
   @Override
@@ -179,7 +172,6 @@ public class StandardPlantModelService
       // modified by Henry
       dataBaseService.updateRowAndColumn();
       dataBaseService.updateDataBase();
-      changeTrackService.initTrackList();
     }
 
     savePlantModel();

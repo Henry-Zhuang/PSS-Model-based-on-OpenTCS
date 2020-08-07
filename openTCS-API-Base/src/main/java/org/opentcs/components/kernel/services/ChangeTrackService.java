@@ -15,7 +15,9 @@ import org.opentcs.data.order.TransportOrder;
  */
 public interface ChangeTrackService 
     extends TCSObjectService {
-  void initTrackList();
+  void updateTrackList();
+  void clear();
+  void setVehicleStateChanged();
   void createChangeTrackOrder(String vehicleName);
   void notifyBinVehicle(String orderName);
   void notifyTrackVehicle(String orderName);

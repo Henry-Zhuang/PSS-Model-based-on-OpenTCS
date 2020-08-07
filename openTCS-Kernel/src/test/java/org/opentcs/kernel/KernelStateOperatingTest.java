@@ -25,6 +25,7 @@ import org.opentcs.components.kernel.Dispatcher;
 import org.opentcs.components.kernel.KernelExtension;
 import org.opentcs.components.kernel.Router;
 import org.opentcs.components.kernel.Scheduler;
+import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.kernel.extensions.controlcenter.vehicles.AttachmentManager;
@@ -66,6 +67,8 @@ public class KernelStateOperatingTest {
   private LocalVehicleControllerPool controllerPool;
 
   private AttachmentManager attachmentManager;
+  
+  private ChangeTrackService changeTrackService;
 
   @Before
   public void setUp() {
@@ -179,6 +182,7 @@ public class KernelStateOperatingTest {
                                         extensions,
                                         attachmentManager,
                                         mock(VehicleService.class),
-                                        orderBinPool));
+                                        orderBinPool,
+                                        changeTrackService));
   }
 }

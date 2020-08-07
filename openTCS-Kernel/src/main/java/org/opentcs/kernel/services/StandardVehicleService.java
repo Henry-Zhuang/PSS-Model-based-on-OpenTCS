@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 //modified by Henry
 import org.opentcs.data.model.Location;
 import java.util.ArrayList;
+import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.data.TCSObject;
 
@@ -92,6 +93,11 @@ public class StandardVehicleService
    */
   private final DataBaseService dataBaseService;
   /**
+   * The change track service.
+   * modified by Henry
+   */
+  private final ChangeTrackService changeTrackService;
+  /**
    * Creates a new instance.
    *
    * @param objectService The tcs object service.
@@ -103,6 +109,7 @@ public class StandardVehicleService
    * @param commAdapterRegistry The registry for all communication adapters.
    * @param model The model to be used.
    * @param dataBaseService The data base service to be used.
+   * @param changeTrackService The change track service.
    */
   @Inject
   public StandardVehicleService(TCSObjectService objectService,
@@ -113,7 +120,8 @@ public class StandardVehicleService
                                 AttachmentManager attachmentManager,
                                 VehicleCommAdapterRegistry commAdapterRegistry,
                                 Model model,
-                                DataBaseService dataBaseService) {
+                                DataBaseService dataBaseService,
+                                ChangeTrackService changeTrackService) {
     super(objectService);
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.globalObjectPool = requireNonNull(globalObjectPool, "globalObjectPool");
@@ -123,6 +131,7 @@ public class StandardVehicleService
     this.commAdapterRegistry = requireNonNull(commAdapterRegistry, "commAdapterRegistry");
     this.model = requireNonNull(model, "model");
     this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
+    this.changeTrackService = requireNonNull(changeTrackService,"changeTrackService");
   }
 
   @Override
@@ -322,6 +331,10 @@ public class StandardVehicleService
                           integrationLevel.name())
         );
       }
+      
+      if(vehicle.getIntegrationLevel() == Vehicle.IntegrationLevel.TO_BE_UTILIZED
+          || integrationLevel == Vehicle.IntegrationLevel.TO_BE_UTILIZED)
+      {changeTrackService.setVehicleStateChanged();System.out.println("fuck");}
 
       model.setVehicleIntegrationLevel(ref, integrationLevel);
     }
