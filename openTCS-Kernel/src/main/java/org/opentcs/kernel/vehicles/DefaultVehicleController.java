@@ -1136,6 +1136,7 @@ public class DefaultVehicleController
       DefaultVehicleController.this.notify();
     }
   }
+  
   @Override
   public void setBinVehicleInPlace() {
     synchronized(DefaultVehicleController.this){
@@ -1148,21 +1149,22 @@ public class DefaultVehicleController
   }
   
   /**
-   * Allocate the resources needed for executing the next command.
+   * Allocate the resources needed for executing the next track command.
    */
   private void allocateForNextTrackCommand() {
     checkState(pendingCommand == null, "pendingCommand != null");
-
+    checkState(currentDriveOrder.getTransportOrder() != null, "The current order is null");
+    
     // Find out which resources are actually needed for the next command.
     MovementCommand moveCmd = futureCommands.poll();
     
-    // 当前车辆正在执行的订单实例
-    TransportOrder currTransportOrder 
-          = vehicleService.fetchObject(TransportOrder.class,currentDriveOrder.getTransportOrder());
+    // 当前车辆正在执行的订单名
+    String currOrderName
+          = currentDriveOrder.getTransportOrder().getName();
     
     if(vehicle.getType().equals(Vehicle.BIN_VEHICLE_TYPE)){
       // 是否需要等待换轨车就位
-      if(needAwaitTrackVehicle(moveCmd, currTransportOrder)){
+      if(needtoWaitTrackVehicle(moveCmd, currOrderName)){
         // 如果是由内核线程控制当前料箱车，为了避免内核执行线程进入等待状态
         // 我们新建一个新的线程去代替内核线程进入等待状态,等待换轨车就位
         if(Thread.currentThread().getName().startsWith("kernel")){
@@ -1181,14 +1183,14 @@ public class DefaultVehicleController
       else{
         if(isTrackVehicleInPlace){
           isTrackVehicleInPlace = false;
-          changeTrackService.notifyTrackVehicle(currTransportOrder.getName());
+          changeTrackService.notifyTrackVehicle(currOrderName);
         }
         allocateFor(moveCmd);
       }
     }
     else if(vehicle.getType().equals(Vehicle.TRACK_VEHICLE_TYPE)){
       // 是否需要等待料箱车就位
-      if(needAwaitBinVehicle(moveCmd, currTransportOrder)){
+      if(needtoWaitBinVehicle(moveCmd, currOrderName)){
         // 如果是由内核线程控制当前换轨车，为了避免内核执行线程进入等待状态
         // 我们新建一个新的线程去代替内核线程进入等待状态,等待料箱车就位
         if(Thread.currentThread().getName().startsWith("kernel")){
@@ -1225,28 +1227,18 @@ public class DefaultVehicleController
     return result;
   }
 
-  @Deprecated
-  private boolean checkNextCommand(MovementCommand moveCmd) {
-      
-      TransportOrder currTransportOrder 
-          = vehicleService.fetchObject(TransportOrder.class,currentDriveOrder.getTransportOrder());
-      
-      if(vehicle.getType().equals(Vehicle.BIN_VEHICLE_TYPE)){
-        if(isTrackVehicleInPlace){
-          isTrackVehicleInPlace = false;
-          changeTrackService.notifyTrackVehicle(currTransportOrder.getName());
-        }// note
-        else if(currTransportOrder.getPastDriveOrders().isEmpty()
-            && moveCmd.isFinalMovement())
-          waitForTrackVehicle();
-      }
-      else if(vehicle.getType().equals(Vehicle.TRACK_VEHICLE_TYPE)
-          && currTransportOrder.getFutureDriveOrders().isEmpty()
-          && moveCmd.getStep().getRouteIndex() == 0)
-        waitForBinVehicle();
-    return false;
+  private boolean needtoWaitTrackVehicle(MovementCommand moveCmd, String currOrderName){
+    Point dstPoint = moveCmd.getStep().getDestinationPoint();
+    return !isTrackVehicleInPlace
+        && changeTrackService.needtoWaitTrackVehicle(dstPoint, currOrderName);
   }
 
+  private boolean needtoWaitBinVehicle(MovementCommand moveCmd, String currOrderName){
+    Point srcPoint = moveCmd.getStep().getSourcePoint();
+    return !isBinVehicleInPlace
+        && changeTrackService.needtoWaitBinVehicle(srcPoint, currOrderName);
+  }
+  
   private void waitForTrackVehicle() {
     synchronized(DefaultVehicleController.this){
       while(!isTrackVehicleInPlace){
@@ -1276,18 +1268,6 @@ public class DefaultVehicleController
       }
       isBinVehicleInPlace = false;
     }
-  }
-
-  private boolean needAwaitTrackVehicle(MovementCommand moveCmd, TransportOrder currTransportOrder) {
-    return !isTrackVehicleInPlace
-        && currTransportOrder.getPastDriveOrders().isEmpty() 
-        && moveCmd.isFinalMovement();
-  }
-
-  private boolean needAwaitBinVehicle(MovementCommand moveCmd, TransportOrder currTransportOrder) {
-    return !isBinVehicleInPlace
-        && currTransportOrder.getFutureDriveOrders().isEmpty()
-        && moveCmd.getStep().getRouteIndex() == 0;
   }
   
   private void allocateFor(MovementCommand moveCmd) {
