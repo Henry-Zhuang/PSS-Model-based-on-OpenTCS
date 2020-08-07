@@ -17,6 +17,7 @@ import org.opentcs.access.KernelRuntimeException;
 import org.opentcs.access.LocalKernel;
 import org.opentcs.access.ModelTransitionEvent;
 import org.opentcs.access.to.model.PlantModelCreationTO;
+import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.InternalPlantModelService;
 import org.opentcs.components.kernel.services.NotificationService;
@@ -77,6 +78,11 @@ public class StandardPlantModelService
    * modified by Henry
    */
   private final DataBaseService dataBaseService;
+  /**
+   * The change-track service.
+   * modified by Henry
+   */
+  private final ChangeTrackService changeTrackService;
 
   /**
    * Creates a new instance.
@@ -88,7 +94,8 @@ public class StandardPlantModelService
    * @param modelPersister The model persister to be used.
    * @param eventHandler Where this instance sends events to.
    * @param notificationService The notification service.
-   * @param dataBaseService The data base service
+   * @param dataBaseService The data base service.
+   * @param changeTrackService The change-track service.
    */
   @Inject
   public StandardPlantModelService(LocalKernel kernel,
@@ -98,7 +105,8 @@ public class StandardPlantModelService
                                    ModelPersister modelPersister,
                                    @ApplicationEventBus EventHandler eventHandler,
                                    NotificationService notificationService,
-                                   DataBaseService dataBaseService) {
+                                   DataBaseService dataBaseService,
+                                   ChangeTrackService changeTrackService) {
     super(objectService);
     this.kernel = requireNonNull(kernel, "kernel");
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
@@ -107,6 +115,7 @@ public class StandardPlantModelService
     this.eventHandler = requireNonNull(eventHandler, "eventHandler");
     this.notificationService = requireNonNull(notificationService, "notificationService");
     this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
+    this.changeTrackService = requireNonNull(changeTrackService, "changeTrackService");
   }
 
   @Override
@@ -170,6 +179,7 @@ public class StandardPlantModelService
       // modified by Henry
       dataBaseService.updateRowAndColumn();
       dataBaseService.updateDataBase();
+      changeTrackService.initTrackList();
     }
 
     savePlantModel();

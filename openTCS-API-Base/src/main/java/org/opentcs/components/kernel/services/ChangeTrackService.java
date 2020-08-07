@@ -15,11 +15,11 @@ import org.opentcs.data.order.TransportOrder;
  */
 public interface ChangeTrackService 
     extends TCSObjectService {
-  void initialize();
+  void initTrackList();
   void createChangeTrackOrder(String vehicleName);
   void notifyBinVehicle(String orderName);
   void notifyTrackVehicle(String orderName);
   void updateTrackOrder(TCSObjectReference<TransportOrder> orderRef, TransportOrder.State state);
-  boolean needtoWaitTrackVehicle(Point dstPoint, String orderName);
-  boolean needtoWaitBinVehicle(Point srcPoint, String orderName);
+  boolean isEnteringFirstTrackPoint(Point dstPoint, String orderName);
+  boolean isLeavingFirstTrackPoint(Point srcPoint, String orderName);
 }

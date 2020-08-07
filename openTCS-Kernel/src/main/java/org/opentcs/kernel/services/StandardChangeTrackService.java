@@ -53,27 +53,33 @@ public class StandardChangeTrackService
    */
   private static final Logger LOG = LoggerFactory.getLogger(StandardChangeTrackService.class);
   /**
-   * The service we use to create transport orders.
+   * The service we use to create change-track orders.
    */
   private final TransportOrderService orderService;
   /**
-   * Provides names for transport orders and order sequences.
+   * Provides names for change-track orders.
    */
   private final ObjectNameProvider objectNameProvider;
   /**
-   * 
+   * The data base service.
    */
   private final DataBaseService dataBaseService;
   /**
    * The vehicle controller pool.
    */
   private final VehicleControllerPool controllerPool;
-    
+  /**
+   * The change-track order pool.
+   * <p>The key is a unique change-track order name prefix.</p>
+   * <p>The value is a track order entry of this change-track order.</p>
+   */
   private final Map<String, TrackOrderEntry> trackOrderPool = new HashMap<>();
-  
+  /**
+   * A list of the tracks where there is no vehicles.
+   * <p>If there is any transport order assigned to a no-vehicle track, we need to create
+   * a change-track order for this transport order.</p>
+   */
   private Set<Integer> noVehicleTracks = new HashSet<>();
-  
-  private boolean initialized = false;
   
   @Inject
   public StandardChangeTrackService(TCSObjectService objectService,
@@ -90,26 +96,23 @@ public class StandardChangeTrackService
 
 
   @Override
-  public void initialize() {
-    if(isInitialized())
-      return;
-    
+  public void initTrackList() {
     if(dataBaseService.getLocPosition() == null)
       return;
+    
+    LOG.info("Initializing change track service");
     
     noVehicleTracks = IntStream.range(1, dataBaseService.getLocPosition().length + 1)
         .boxed().collect(Collectors.toSet());
 
-    fetchObjects(Vehicle.class).stream()
+    Set<Vehicle> vehicles = fetchObjects(Vehicle.class);
+    if(vehicles.isEmpty())
+      return;
+    
+    vehicles.stream()
         .filter(veh -> veh.getType().equals(Vehicle.BIN_VEHICLE_TYPE))
         .forEach(PSB -> noVehicleTracks.remove(fetchObject(Point.class,
                                                            PSB.getCurrentPosition()).getRow()));
-    
-    initialized = true;
-  }
-
-  private boolean isInitialized(){
-    return initialized;
   }
 
   @Override
@@ -121,7 +124,6 @@ public class StandardChangeTrackService
         return;
       }
       
-      initialize();
       // 该PSB已被分配了换轨任务，不可再分配新的换轨任务
       for(Map.Entry<String, TrackOrderEntry> entry : trackOrderPool.entrySet()){
         if(binVehicle.equals(entry.getValue().getBinVehicle()))
@@ -195,7 +197,7 @@ public class StandardChangeTrackService
     LOG.debug("method entry");
     TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
     if(entry == null){
-      LOG.warn("Warning track order entry of {} not found when notify binVehicle.",orderName);
+      LOG.error("Error track order entry of {} not found when notifying bin vehicle.",orderName);
       return;
     }
     controllerPool.getVehicleController(entry.getBinVehicle()).setTrackVehicleInPlace();
@@ -206,7 +208,7 @@ public class StandardChangeTrackService
     LOG.debug("method entry");
     TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
     if(entry == null){
-      LOG.warn("Warning track order entry of {} not found when notify trackVehicle.",orderName);
+      LOG.error("Error track order entry of {} not found when notifying track vehicle.",orderName);
       return;
     }
     controllerPool.getVehicleController(entry.getTrackVehicle()).setBinVehicleInPlace();
@@ -221,18 +223,27 @@ public class StandardChangeTrackService
       if(entry != null){
         LOG.warn("Warning change-track order {} is failed.",orderRef.getName());
         noVehicleTracks.remove(entry.getSrcTrack());
-        noVehicleTracks.add(entry.getDstTrack());
+        int currTrack = fetchObject(Point.class,
+                                    fetchObject(Vehicle.class,entry.getBinVehicle())
+                                    .getCurrentPosition())
+                        .getRow();
+        noVehicleTracks.add(currTrack);
+        trackOrderPool.remove(getPrefix(orderRef.getName()));
       }
     }
-    
-    trackOrderPool.remove(getPrefix(orderRef.getName()));
+    else if(fetchObjects(TransportOrder.class,
+                         order -> order.getName().startsWith(getPrefix(orderRef.getName())))
+        .stream()
+        .allMatch(tOrder -> tOrder.hasState(TransportOrder.State.FINISHED))){
+      trackOrderPool.remove(getPrefix(orderRef.getName()));
+    }
   }
 
   @Override
-  public boolean needtoWaitTrackVehicle(Point dstPoint, String orderName) {
+  public boolean isEnteringFirstTrackPoint(Point dstPoint, String orderName) {
     TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
     if(entry == null){
-      LOG.error("Error track order entry of {} not found when notify trackVehicle.",orderName);
+      LOG.warn("Warning track order entry of {} not found when checking isEnteringFirstTrackPoint.",orderName);
       return false;
     }
     int srcTrack = entry.srcTrack;
@@ -245,10 +256,10 @@ public class StandardChangeTrackService
   }
 
   @Override
-  public boolean needtoWaitBinVehicle(Point srcPoint, String orderName) {
+  public boolean isLeavingFirstTrackPoint(Point srcPoint, String orderName) {
     TrackOrderEntry entry = trackOrderPool.get(getPrefix(orderName));
     if(entry == null){
-      LOG.error("Error track order entry of {} not found when notify trackVehicle.",orderName);
+      LOG.warn("Error track order entry of {} not found when checking isLeavingFirstTrackPoint.",orderName);
       return false;
     }
     int srcTrack = entry.srcTrack;

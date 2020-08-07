@@ -80,7 +80,7 @@ class KernelStateOperating
    */
   private final TransportOrderPool orderPool;
   /**
-   * The order facade to the object pool.
+   * The order facade to the object bin pool.
    * created by Henry
    */
   private final TransportOrderBinPool orderBinPool;

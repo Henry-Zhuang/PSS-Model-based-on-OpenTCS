@@ -46,7 +46,6 @@ import org.opentcs.data.order.DriveOrder;
 import org.opentcs.data.order.OrderConstants;
 import org.opentcs.data.order.Route;
 import org.opentcs.data.order.Route.Step;
-import org.opentcs.data.order.TransportOrder;
 import org.opentcs.drivers.vehicle.AdapterCommand;
 import org.opentcs.drivers.vehicle.LoadHandlingDevice;
 import org.opentcs.drivers.vehicle.MovementCommand;
@@ -1181,7 +1180,7 @@ public class DefaultVehicleController
         }
       }
       else{
-        if(isTrackVehicleInPlace){
+        if(needtoNotifyTrackVehicle(moveCmd, currOrderName)){
           isTrackVehicleInPlace = false;
           changeTrackService.notifyTrackVehicle(currOrderName);
         }
@@ -1230,13 +1229,19 @@ public class DefaultVehicleController
   private boolean needtoWaitTrackVehicle(MovementCommand moveCmd, String currOrderName){
     Point dstPoint = moveCmd.getStep().getDestinationPoint();
     return !isTrackVehicleInPlace
-        && changeTrackService.needtoWaitTrackVehicle(dstPoint, currOrderName);
+        && changeTrackService.isEnteringFirstTrackPoint(dstPoint, currOrderName);
   }
 
+  private boolean needtoNotifyTrackVehicle(MovementCommand moveCmd, String currOrderName) {
+    Point srcPoint = moveCmd.getStep().getSourcePoint();
+    return isTrackVehicleInPlace
+        && changeTrackService.isLeavingFirstTrackPoint(srcPoint, currOrderName);
+  }
+  
   private boolean needtoWaitBinVehicle(MovementCommand moveCmd, String currOrderName){
     Point srcPoint = moveCmd.getStep().getSourcePoint();
     return !isBinVehicleInPlace
-        && changeTrackService.needtoWaitBinVehicle(srcPoint, currOrderName);
+        && changeTrackService.isLeavingFirstTrackPoint(srcPoint, currOrderName);
   }
   
   private void waitForTrackVehicle() {

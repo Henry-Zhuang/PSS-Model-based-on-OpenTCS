@@ -36,6 +36,7 @@ import org.opentcs.kernel.workingset.NotificationBuffer;
 import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.kernel.workingset.PrefixedUlidObjectNameProvider;
+import org.opentcs.kernel.workingset.TransportOrderBinPool;
 import org.opentcs.util.event.SimpleEventBus;
 
 /**
@@ -53,6 +54,8 @@ public class KernelStateOperatingTest {
   private KernelApplicationConfiguration configuration;
 
   private TCSObjectPool objectPool;
+  
+  private TransportOrderBinPool orderBinPool;
 
   private Router router;
 
@@ -158,6 +161,7 @@ public class KernelStateOperatingTest {
 
     return spy(new KernelStateOperating(new Object(),
                                         objectPool,
+        
                                         mock(Model.class),
                                         new TransportOrderPool(objectPool,
                                                                new PrefixedUlidObjectNameProvider()),
@@ -174,6 +178,7 @@ public class KernelStateOperatingTest {
                                         mock(OrderCleanerTask.class),
                                         extensions,
                                         attachmentManager,
-                                        mock(VehicleService.class)));
+                                        mock(VehicleService.class),
+                                        orderBinPool));
   }
 }
