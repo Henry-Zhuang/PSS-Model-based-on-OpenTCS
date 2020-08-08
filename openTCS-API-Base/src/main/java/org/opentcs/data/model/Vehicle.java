@@ -19,7 +19,6 @@ import java.util.Set;
 import org.opentcs.data.ObjectHistory;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectReference;
-import org.opentcs.data.model.Location.Bin;
 import org.opentcs.data.order.OrderConstants;
 import org.opentcs.data.order.OrderSequence;
 import org.opentcs.data.order.TransportOrder;
@@ -155,7 +154,7 @@ public class Vehicle
   /**
    * The vehicle's current bin.
    */
-  private Bin bin = new Bin();
+  private Bin bin = new Bin("");
   /**
    * The vehicle's type.
    */
@@ -292,7 +291,7 @@ public class Vehicle
     this.loadHandlingDevices = listWithoutNullValues(requireNonNull(loadHandlingDevices,
                                                                     "loadHandlingDevices"));
   }
-//modified by Henry
+// created by Henry
   @SuppressWarnings("deprecation")
   private Vehicle(int objectID, 
                   String name, 

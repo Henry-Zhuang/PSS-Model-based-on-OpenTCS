@@ -21,7 +21,7 @@ import org.opentcs.data.ObjectPropConstants;
 import static org.opentcs.data.ObjectPropConstants.LOC_DEFAULT_REPRESENTATION;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.model.Location;
-import org.opentcs.data.model.Location.Bin;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Triple;
 import org.opentcs.data.model.visualization.ElementPropKeys;
 import org.opentcs.data.model.visualization.LocationRepresentation;
@@ -92,7 +92,7 @@ public class LocationAdapter
       // Bins
       for(int i=0;i<model.getBinsSize();i++){
         // update the binID. property
-        model.getPropertyBin(i).get(0).setText(location.getBin(i).getBinID());
+        model.getPropertyBin(i).get(0).setText(location.getBin(i).getName());
         // update the binSKU. property
         model.getPropertyBin(i).get(1).setText(location.getBin(i).getSKUString());
       }
@@ -112,7 +112,7 @@ public class LocationAdapter
     /////////////////////////modified by Henry
     List<List<StringProperty>> pBins = new ArrayList<>(((LocationModel) modelComponent).getPropertyBins());
     List<Bin> Bins = pBins.stream().filter(pBin -> !pBin.get(0).getText().equals(""))
-        .map(pBin -> new Bin().withBinID(pBin.get(0).getText()).withSKUString(pBin.get(1).getText()))
+        .map(pBin -> new Bin(pBin.get(0).getText()).withSKUString(pBin.get(1).getText()))
         .collect(Collectors.toList());
     ////////////////////////modified end
     PlantModelCreationTO result = plantModel

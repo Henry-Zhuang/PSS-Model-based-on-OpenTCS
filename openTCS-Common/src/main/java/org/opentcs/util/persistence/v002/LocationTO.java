@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.opentcs.data.model.Location;
+import org.opentcs.data.model.Bin;
 
 /**
  *
@@ -176,25 +176,24 @@ public class LocationTO
   }
   
   
-  public List<Location.Bin> getLocationBins(){
-    List<Location.Bin> locBins = new ArrayList<>();
+  public List<Bin> getLocationBins(){
+    List<Bin> locBins = new ArrayList<>();
     for(BinTO bin : bins){
-      List<Location.SKU> locSKUs = new ArrayList<>();
+      List<Bin.SKU> locSKUs = new ArrayList<>();
       for(BinTO.SkuTO sku:bin.getSku())
-        locSKUs.add(new Location.SKU(sku.getSkuID(), sku.getQuantity()));
-      locBins.add(new Location.Bin().withBinID(bin.getBinID())
-                                     .withSKUs(new HashSet<>(locSKUs)));
+        locSKUs.add(new Bin.SKU(sku.getSkuID(), sku.getQuantity()));
+      locBins.add(new Bin(bin.getBinID()).withSKUs(new HashSet<>(locSKUs)));
     }
     return locBins;
   }
   
-  public LocationTO setBinsViaLocBins(List<Location.Bin> locBins){
+  public LocationTO setBinsViaLocBins(List<Bin> locBins){
     List<BinTO> tmpBins = new ArrayList<>();
-    for(Location.Bin locBin:locBins){
+    for(Bin locBin : locBins){
       List<BinTO.SkuTO> skuList = new ArrayList<>();
-      for(Location.SKU locSKU:locBin.getSKUs())
+      for(Bin.SKU locSKU : locBin.getSKUs())
         skuList.add(new BinTO.SkuTO().setSkuID(locSKU.getSkuID()).setQuantity(locSKU.getQuantity()));
-      tmpBins.add(new BinTO().setBinID(locBin.getBinID()).setSku(skuList));
+      tmpBins.add(new BinTO().setBinID(locBin.getName()).setSku(skuList));
     }
     this.bins = tmpBins;
     return this;

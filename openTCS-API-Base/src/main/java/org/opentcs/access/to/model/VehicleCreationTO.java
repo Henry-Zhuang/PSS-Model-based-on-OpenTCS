@@ -17,7 +17,7 @@ import org.opentcs.util.annotations.ScheduledApiChange;
 
 //modified by Henry
 import static java.util.Objects.requireNonNull;
-import org.opentcs.data.model.Location.Bin;
+import org.opentcs.data.model.Bin;
 
 /**
  * A transfer object describing a block in the plant model.
@@ -60,7 +60,7 @@ public class VehicleCreationTO
   /**
    * The vehicle's current bin.
    */
-  private Bin bin = new Bin();
+  private Bin bin = new Bin("");
   /**
    * The vehicle's type.
    */

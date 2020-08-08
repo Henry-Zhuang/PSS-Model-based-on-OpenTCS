@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.data.TCSObject;
+import org.opentcs.data.model.Bin;
 
 /**
  * This class is the standard implementation of the {@link VehicleService} interface.
@@ -334,7 +335,7 @@ public class StandardVehicleService
       
       if(vehicle.getIntegrationLevel() == Vehicle.IntegrationLevel.TO_BE_UTILIZED
           || integrationLevel == Vehicle.IntegrationLevel.TO_BE_UTILIZED)
-      {changeTrackService.setVehicleStateChanged();System.out.println("fuck");}
+        changeTrackService.setVehicleStateChanged();
 
       model.setVehicleIntegrationLevel(ref, integrationLevel);
     }
@@ -366,10 +367,21 @@ public class StandardVehicleService
       Vehicle vehicle = globalObjectPool.getObject(Vehicle.class, vehicleRef);
       Vehicle previousVehicle = vehicle.clone();
       Location previousLocation = location.clone();
-      vehicle = globalObjectPool.replaceObject(vehicle.withBin(location.pop()));
+      Bin previousBin = location.pop();
+      
+      if (previousBin == null){
+        LOG.error("{} is catching bin from a empty stack {}",vehicleRef.getName(),location.getName());
+        return;
+      }
+      
+      Bin currentBin = globalObjectPool.replaceObject(previousBin.withAttachedVehicle(vehicleRef));
+      vehicle = globalObjectPool.replaceObject(vehicle.withBin(currentBin));
       location = globalObjectPool.replaceObject(location);
+      
       globalObjectPool.emitObjectEvent(location.clone(), previousLocation, TCSObjectEvent.Type.OBJECT_MODIFIED);
       globalObjectPool.emitObjectEvent(vehicle.clone(), previousVehicle, TCSObjectEvent.Type.OBJECT_MODIFIED);
+      globalObjectPool.emitObjectEvent(currentBin, previousBin, TCSObjectEvent.Type.OBJECT_MODIFIED);
+      
       dataBaseService.updateDataBase();
     }
   }
@@ -382,12 +394,28 @@ public class StandardVehicleService
       Vehicle vehicle = globalObjectPool.getObject(Vehicle.class, vehicleRef);
       Vehicle previousVehicle = vehicle.clone();
       Location previousLocation = location.clone();
-      location.push(vehicle.getBin());
-      vehicle = globalObjectPool.replaceObject(vehicle.withBin(new Location.Bin()));
-      location = globalObjectPool.replaceObject(location);
-      globalObjectPool.emitObjectEvent(location.clone(), previousLocation, TCSObjectEvent.Type.OBJECT_MODIFIED);
-      globalObjectPool.emitObjectEvent(vehicle.clone(), previousVehicle, TCSObjectEvent.Type.OBJECT_MODIFIED);
-      dataBaseService.updateDataBase();
+      Bin previousBin = vehicle.getBin();
+      Bin currentBin = previousBin
+                      .withAttachedLocation(location.getReference())
+                      .withLocationRow(location.getRow())
+                      .withLocationColumn(location.getColumn())
+                      .withBinPosition(location.stackSize());
+      
+      if(location.push(currentBin)){
+        vehicle = globalObjectPool.replaceObject(vehicle.withBin(new Bin("")));
+        location = globalObjectPool.replaceObject(location);
+        currentBin = globalObjectPool.replaceObject(currentBin);
+        
+        globalObjectPool.emitObjectEvent(location.clone(), previousLocation, TCSObjectEvent.Type.OBJECT_MODIFIED);
+        globalObjectPool.emitObjectEvent(vehicle.clone(), previousVehicle, TCSObjectEvent.Type.OBJECT_MODIFIED);
+        globalObjectPool.emitObjectEvent(currentBin, previousBin, TCSObjectEvent.Type.OBJECT_MODIFIED);
+        dataBaseService.updateDataBase();
+      }
+      else{
+        LOG.error("ERROR {} droping bin to {} failed",vehicleRef.getName(),location.getName());
+        vehicle = globalObjectPool.replaceObject(vehicle.withBin(new Bin("")));
+        globalObjectPool.emitObjectEvent(vehicle.clone(), previousVehicle, TCSObjectEvent.Type.OBJECT_MODIFIED);
+      }
     }
   }
     

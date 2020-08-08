@@ -11,7 +11,6 @@ package org.opentcs.guing.exchange.adapter;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ import org.opentcs.access.to.model.VisualLayoutCreationTO;
 import org.opentcs.components.kernel.services.TCSObjectService;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectReference;
-import org.opentcs.data.model.Location;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Path;
 import org.opentcs.data.model.Point;
 import org.opentcs.data.model.Vehicle;
@@ -123,7 +122,7 @@ public class VehicleAdapter
 
       model.propertiesChanged(new NullAttributesChangeListener());
       //modified by Henry
-      model.getPropertyBinID().setText(vehicle.getBin().getBinID());
+      model.getPropertyBinID().setText(vehicle.getBin().getName());
       model.getPropertyBinSKU().setText(vehicle.getBin().getSKUString());
       model.getPropertyType().setText(vehicle.getType());
     }
@@ -149,7 +148,7 @@ public class VehicleAdapter
                 .withMaxReverseVelocity(getMaximumReverseVelocity(vehicleModel))
                 .withProperties(getKernelProperties(vehicleModel))
                 //////////// modified by Henry
-                .withBin(new Location.Bin().withBinID(vehicleModel.getPropertyBinID().getText())
+                .withBin(new Bin(vehicleModel.getPropertyBinID().getText())
                 .withSKUString(vehicleModel.getPropertyBinSKU().getText()))
                 .withType(vehicleModel.getPropertyType().getText())
                 //////////// modified end
@@ -232,7 +231,6 @@ public class VehicleAdapter
     else {
       vehicleModel.getPropertyCurrentOrderName().setText(vehicle.getTransportOrder().getName());
     }
-
   }
 
   private void updateCurrentOrderSequenceName(Vehicle vehicle,

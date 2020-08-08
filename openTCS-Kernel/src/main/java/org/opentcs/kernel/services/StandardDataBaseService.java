@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import org.opentcs.access.to.order.DestinationCreationTO;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.database.to.CsvBinTO;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Location;
 import org.opentcs.data.model.Point;
 import org.opentcs.kernel.workingset.Model;
@@ -76,15 +77,8 @@ public class StandardDataBaseService implements DataBaseService {
                                                                  CHARSET));){
       write(writer, Arrays.asList(CsvBinTO.CsvTitle));
       int i;
-      CsvBinTO tmpData;
-      for(Location location:model.getObjectPool().getObjects(Location.class)){
-//        write(writer, Arrays.asList(new String[]{location.getName(),String.valueOf(location.stackSize())}));//TEST
-        for(i=location.stackSize()-1;i>=0;i--){
-          tmpData = new CsvBinTO(location, i);
-          if(!isPickStation(tmpData.getLocationName()))
-            write(writer, tmpData.toList());
-        }
-      }
+      for(Bin bin:model.getObjectPool().getObjects(Bin.class))     
+        write(writer, bin.toList());
     }
     catch (IOException ex){
       LOG.error("Error updating Data base",ex);
@@ -287,6 +281,10 @@ public class StandardDataBaseService implements DataBaseService {
         tmpLoc = model.getObjectPool().getObject(Location.class, link.getLocation());
         tmpLoc.setColumn(point.getColumn());
         tmpLoc.setRow(point.getRow());
+        
+        for(Bin bin : tmpLoc.getBins())
+          model.getObjectPool().replaceObject(bin);
+        
         model.getObjectPool().replaceObject(tmpLoc);
         locationPosition[tmpLoc.getRow()-1][tmpLoc.getColumn()-1] = tmpLoc.getName();
       }
@@ -419,7 +417,7 @@ public class StandardDataBaseService implements DataBaseService {
 
   private boolean isPickStation(String locationName) {
     return model.getObjectPool().getObject(Location.class,locationName)
-              .getType().getName().startsWith(Location.PICK_TYPE_PREFIX);
+              .getType().getName().startsWith(Location.PICK_STATION_PREFIX);
   }
   
   private static Predicate<String> isQuantityPositive(Map<String, Integer> Skus) {

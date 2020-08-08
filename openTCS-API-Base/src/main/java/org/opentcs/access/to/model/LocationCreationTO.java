@@ -21,7 +21,7 @@ import org.opentcs.util.annotations.ScheduledApiChange;
 
 //modified by Henry
 import java.util.List;
-import org.opentcs.data.model.Location.Bin;
+import org.opentcs.data.model.Bin;
 /**
  * A transfer object describing a location in a plant model.
  *
@@ -91,13 +91,12 @@ public class LocationCreationTO
     this.links = requireNonNull(links, "links");
   }
   
-  private LocationCreationTO(@Nonnull
-      String name, @Nonnull
-          Map<String, String> properties, @Nonnull
-              String typeName, @Nonnull
-                  Triple position, @Nonnull
-                      Map<String, Set<String>> links, @Nonnull
-                          List<Bin> Bins) {
+  private LocationCreationTO(@Nonnull String name, 
+                             @Nonnull Map<String, String> properties, 
+                             @Nonnull String typeName, 
+                             @Nonnull Triple position, 
+                             @Nonnull Map<String, Set<String>> links, 
+                             @Nonnull List<Bin> Bins) {
     super(name, properties);
     this.typeName = requireNonNull(typeName, "typeName");
     this.position = requireNonNull(position, "position");

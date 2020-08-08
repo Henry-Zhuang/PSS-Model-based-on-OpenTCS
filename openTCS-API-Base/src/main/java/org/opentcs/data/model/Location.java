@@ -9,7 +9,6 @@ package org.opentcs.data.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,7 +24,6 @@ import org.opentcs.util.annotations.ScheduledApiChange;
 
 //modified by Henry
 import java.util.List;
-import java.util.stream.Collectors;
 /**
  * A location at which a {@link Vehicle} may perform an action.
  * <p>
@@ -46,12 +44,6 @@ public class Location
     extends TCSResource<Location>
     implements Serializable,
                Cloneable {
-
-  /**
-   * The SKU separator when converting a set of SKUs to String.
-   */
-  public static final String SKU_SEPARATOR = " ; ";
-  public static final String QUANTITY_SEPARATOR = ":";
 
   /**
    * This location's position in mm.
@@ -77,7 +69,7 @@ public class Location
   /**
    * 
    */
-  public static final String PICK_TYPE_PREFIX = "Pick";
+  public static final String PICK_STATION_PREFIX = "Pick";
   /**
    * The row that this location is located based on y position.
    */
@@ -149,8 +141,8 @@ public class Location
     this.position = requireNonNull(position, "position");
     this.attachedLinks = new HashSet<>(requireNonNull(attachedLinks, "attachedLinks"));
     this.Bins = requireNonNull(Bins,"Bins");
-    this.row = requireNonNull(row,"row");
-    this.column = requireNonNull(column,"column");
+    this.row = row;
+    this.column = column;
   }
   
   
@@ -360,7 +352,7 @@ public class Location
    * @return the specified bin stored in the stack.
    */
   public Bin getBin(int index) {
-    return index>=Bins.size()? new Bin() : Bins.get(index);
+    return index>=Bins.size()? new Bin("") : Bins.get(index);
   }
   
   
@@ -398,7 +390,7 @@ public class Location
    */
   @SuppressWarnings("deprecation")
   public boolean push (Bin bin){
-    if(bin==null || isStackFull() || bin.getBinID().equals(""))
+    if(bin==null || isStackFull() || bin.getName().equals(""))
       return false;
     else{
       Bins.add(bin);
@@ -412,7 +404,8 @@ public class Location
    */
   @SuppressWarnings("deprecation")
   public Bin pop(){
-        if(isStackEmpty()) return new Bin();
+        if(isStackEmpty()) 
+          return null;
         Bin bin = getBin(Bins.size()-1);
         Bins.remove(Bins.size()-1);
         return bin;
@@ -446,6 +439,11 @@ public class Location
   
   public void setRow(int row){
     this.row = row;
+    List<Bin> newBins = new ArrayList<>();
+    for(Bin bin : Bins)
+      newBins.add(bin.withLocationRow(row));
+
+    Bins = newBins;
   }
   
   public int getColumn(){
@@ -454,6 +452,11 @@ public class Location
   
   public void setColumn(int column){
     this.column = column;
+    List<Bin> newBins = new ArrayList<>();
+    for(Bin bin : Bins)
+      newBins.add(bin.withLocationColumn(column));
+
+    Bins = newBins;
   }
   
  ///////////////////////////////////////////////////////////////////modified end} 
@@ -644,128 +647,128 @@ public class Location
       return new Link(location, point, allowedOperations);
     }
   }
-  /**
-   * A bin stored in the location, containing SKUs.
-   * @author Henry
-   */
-  public static class Bin
-      implements Serializable,
-                 Cloneable {
-    private String binID;
-    private Set<SKU> SKUs;
-    private boolean locked = false;
-    public Bin(){
-      binID = "";
-      SKUs = new HashSet<>();
-    }
-    public Bin(String binID, Set<SKU> SKUs, boolean locked){
-      this.binID = requireNonNull(binID,"binID");
-      this.SKUs = requireNonNull(SKUs,"SKUs");
-      this.locked = requireNonNull(locked,"locked");
-    }
-    
-    /**
-    * Check if the bin is locked.
-    * @return {@code true} if, and only if the bin is locked
-    */
-    public boolean isLocked(){
-      return locked;
-    }
-    public void lock(){
-      locked = true;
-    }
-    public void unlock(){
-      locked = false;
-    }
-
-    public String getBinID(){
-      return binID;
-    }
-    public Bin withBinID(String binID){
-      return new Bin(binID, SKUs, locked);
-    }
-    
-    public Set<SKU> getSKUs(){
-      return SKUs;
-    }
-    public Bin withSKUs(Set<SKU> SKUs){
-      return new Bin(binID, SKUs, locked);
-    }
-    
-    public String getSKUString(){
-      return new ArrayList<>(SKUs).stream().map(SKU -> SKU.toString())
-                                  .collect(Collectors.joining(SKU_SEPARATOR));
-    }
-    
-    public Bin withSKUString(String skuString){
-      List<SKU> Skus = Arrays.asList(skuString.split(SKU_SEPARATOR))
-                      .stream().filter(sku -> !sku.isEmpty())
-                      .map(sku -> {
-                        String[] tmpSku = sku.split(QUANTITY_SEPARATOR);
-                        return new SKU(tmpSku[0],Integer.parseInt(tmpSku[1]));
-                          })
-                      .collect(Collectors.toList());
-      return new Bin(binID, new HashSet<>(Skus), locked);
-    }
-    
-    @Override
-    public Bin clone(){
-      return new Bin(binID, SKUs, locked);
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-      if(obj instanceof Bin){
-        Bin tmpObj = (Bin) obj;
-        return binID.equals(tmpObj.getBinID());
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return binID.hashCode();
-    }
-  }
-  
-  public static class SKU
-      implements Serializable,
-                 Cloneable {
-    private final String skuID;
-    private final int quantity;
-    public SKU(){
-      skuID = "";
-      quantity = 0;
-    }
-    public SKU(String skuID, int quantity){
-      this.skuID = requireNonNull(skuID,"skuID");
-      this.quantity = requireNonNull(quantity,"quantity");
-    }
-    public String getSkuID(){
-      return skuID;
-    }
-    public int getQuantity(){
-      return quantity;
-    }
-    @Override
-    public SKU clone(){
-      return new SKU(skuID, quantity);
-    }
-    @Override
-    public String toString(){
-      return skuID+QUANTITY_SEPARATOR+quantity;
-    }
-    @Override
-    public boolean equals(Object obj) {
-      if(obj instanceof SKU){
-        SKU tmpObj = (SKU) obj;
-        return skuID.equals(tmpObj.getSkuID());
-      }
-      return false;
-    }
-    @Override
-    public int hashCode() {
-      return skuID.hashCode();
-    }
-  }
+//  /**
+//   * A bin stored in the location, containing SKUs.
+//   * @author Henry
+//   */
+//  public static class Bin
+//      implements Serializable,
+//                 Cloneable {
+//    private String binID;
+//    private Set<SKU> SKUs;
+//    private boolean locked = false;
+//    public Bin(){
+//      binID = "";
+//      SKUs = new HashSet<>();
+//    }
+//    public Bin(String binID, Set<SKU> SKUs, boolean locked){
+//      this.binID = requireNonNull(binID,"binID");
+//      this.SKUs = requireNonNull(SKUs,"SKUs");
+//      this.locked = requireNonNull(locked,"locked");
+//    }
+//    
+//    /**
+//    * Check if the bin is locked.
+//    * @return {@code true} if, and only if the bin is locked
+//    */
+//    public boolean isLocked(){
+//      return locked;
+//    }
+//    public void lock(){
+//      locked = true;
+//    }
+//    public void unlock(){
+//      locked = false;
+//    }
+//
+//    public String getBinID(){
+//      return binID;
+//    }
+//    public Bin withBinID(String binID){
+//      return new Bin(binID, SKUs, locked);
+//    }
+//    
+//    public Set<SKU> getSKUs(){
+//      return SKUs;
+//    }
+//    public Bin withSKUs(Set<SKU> SKUs){
+//      return new Bin(binID, SKUs, locked);
+//    }
+//    
+//    public String getSKUString(){
+//      return new ArrayList<>(SKUs).stream().map(SKU -> SKU.toString())
+//                                  .collect(Collectors.joining(org.opentcs.data.model.Bin.SKU_SEPARATOR));
+//    }
+//    
+//    public Bin withSKUString(String skuString){
+//      List<SKU> Skus = Arrays.asList(skuString.split(org.opentcs.data.model.Bin.SKU_SEPARATOR))
+//                      .stream().filter(sku -> !sku.isEmpty())
+//                      .map(sku -> {
+//                        String[] tmpSku = sku.split(org.opentcs.data.model.Bin.QUANTITY_SEPARATOR);
+//                        return new SKU(tmpSku[0],Integer.parseInt(tmpSku[1]));
+//                          })
+//                      .collect(Collectors.toList());
+//      return new Bin(binID, new HashSet<>(Skus), locked);
+//    }
+//    
+//    @Override
+//    public Bin clone(){
+//      return new Bin(binID, SKUs, locked);
+//    }
+//    
+//    @Override
+//    public boolean equals(Object obj) {
+//      if(obj instanceof Bin){
+//        Bin tmpObj = (Bin) obj;
+//        return binID.equals(tmpObj.getBinID());
+//      }
+//      return false;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//      return binID.hashCode();
+//    }
+//  }
+//  
+//  public static class SKU
+//      implements Serializable,
+//                 Cloneable {
+//    private final String skuID;
+//    private final int quantity;
+//    public SKU(){
+//      skuID = "";
+//      quantity = 0;
+//    }
+//    public SKU(String skuID, int quantity){
+//      this.skuID = requireNonNull(skuID,"skuID");
+//      this.quantity = requireNonNull(quantity,"quantity");
+//    }
+//    public String getSkuID(){
+//      return skuID;
+//    }
+//    public int getQuantity(){
+//      return quantity;
+//    }
+//    @Override
+//    public SKU clone(){
+//      return new SKU(skuID, quantity);
+//    }
+//    @Override
+//    public String toString(){
+//      return skuID+org.opentcs.data.model.Bin.QUANTITY_SEPARATOR+quantity;
+//    }
+//    @Override
+//    public boolean equals(Object obj) {
+//      if(obj instanceof SKU){
+//        SKU tmpObj = (SKU) obj;
+//        return skuID.equals(tmpObj.getSkuID());
+//      }
+//      return false;
+//    }
+//    @Override
+//    public int hashCode() {
+//      return skuID.hashCode();
+//    }
+//  }
 }

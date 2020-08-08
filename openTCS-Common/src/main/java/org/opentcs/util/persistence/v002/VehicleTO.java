@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Location;
 
 import org.opentcs.util.persistence.v002.LocationTO.BinTO;
@@ -59,18 +60,18 @@ public class VehicleTO
     return this;
   }
   
-  public Location.Bin getLocationBin(){
-    List<Location.SKU> locSKUs = new ArrayList<>();
-    for(BinTO.SkuTO sku:bin.getSku())
-      locSKUs.add(new Location.SKU(sku.getSkuID(), sku.getQuantity()));
-    return new Location.Bin().withBinID(bin.getBinID()).withSKUs(new HashSet<>(locSKUs));
+  public Bin getLocationBin(){
+    List<Bin.SKU> locSKUs = new ArrayList<>();
+    for(BinTO.SkuTO sku : bin.getSku())
+      locSKUs.add(new Bin.SKU(sku.getSkuID(), sku.getQuantity()));
+    return new Bin(bin.getBinID()).withSKUs(new HashSet<>(locSKUs));
   }
   
-  public VehicleTO setBinViaLocBin(Location.Bin locBin){
+  public VehicleTO setBinViaLocBin(Bin locBin){
     List<BinTO.SkuTO> skuList = new ArrayList<>();
-    for(Location.SKU locSKU:locBin.getSKUs())
+    for(Bin.SKU locSKU : locBin.getSKUs())
       skuList.add(new BinTO.SkuTO().setSkuID(locSKU.getSkuID()).setQuantity(locSKU.getQuantity()));
-    BinTO tmpBin = new BinTO().setBinID(locBin.getBinID()).setSku(skuList);
+    BinTO tmpBin = new BinTO().setBinID(locBin.getName()).setSku(skuList);
     this.bin = tmpBin;
     return this;
   }

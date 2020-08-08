@@ -26,6 +26,7 @@ import org.opentcs.access.to.model.PointCreationTO;
 import org.opentcs.access.to.model.VehicleCreationTO;
 import org.opentcs.access.to.model.VisualLayoutCreationTO;
 import org.opentcs.data.ObjectPropConstants;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Block;
 import org.opentcs.data.model.Location;
 import org.opentcs.data.model.Point;
@@ -183,7 +184,7 @@ public class PlantModelElementConverter {
     );
     
     ////modified by Henry
-    model.getPropertyBinID().setText(vehicleTO.getBin().getBinID());
+    model.getPropertyBinID().setText(vehicleTO.getBin().getName());
     model.getPropertyBinSKU().setText(vehicleTO.getBin().getSKUString());
     model.getPropertyType().setText(vehicleTO.getType());
     ////modified end
@@ -231,8 +232,8 @@ public class PlantModelElementConverter {
     
     //////////////////////////////////////////////////////////////////modified by Henry
     int i = 0;
-    for(Location.Bin bin : locationTO.getBins()){
-      model.getPropertyBin(i).get(0).setText(bin.getBinID());
+    for(Bin bin : locationTO.getBins()){
+      model.getPropertyBin(i).get(0).setText(bin.getName());
       model.getPropertyBin(i).get(1).setText(bin.getSKUString());
       i++;
       if(i>=model.getBinsSize())

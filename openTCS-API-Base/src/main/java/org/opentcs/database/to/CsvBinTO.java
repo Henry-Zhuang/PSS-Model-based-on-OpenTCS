@@ -14,15 +14,16 @@ import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Location;
-import org.opentcs.data.model.Location.SKU;
+import org.opentcs.data.model.Bin.SKU;
 
 /**
  * A bin transfer Object of a csv file.
  * @author Henry
  */
 public final class CsvBinTO {
-  public static final String[] CsvTitle={"BinID.", "SKUs", "Location", "Row", "Column", "Position", "Locked"};
+  public static final String[] CsvTitle={"BinID.", "SKUs", "AttachedObject", "Row", "Column", "Position", "Locked"};
   private String locationName="";
   private int locationRow=0;
   private int locationColumn=0;
@@ -62,7 +63,7 @@ public final class CsvBinTO {
   
   public CsvBinTO(@Nonnull Location location,
                   @Nonnull int binPosition){
-    this.binID = requireNonNull(location.getBin(binPosition).getBinID(),"binID");
+    this.binID = requireNonNull(location.getBin(binPosition).getName(),"binID");
     this.SKUs = requireNonNull(location.getBin(binPosition).getSKUs(),"SKUs");
     this.locationName = requireNonNull(location.getName(),"locationName");
     this.locationRow = requireNonNull(location.getRow(),"locationRow");
@@ -130,10 +131,10 @@ public final class CsvBinTO {
     return dataList;
   }
   public Set<SKU> stringToSKUs(String skuString){
-    List<SKU> Skus = Arrays.asList(skuString.split(Location.SKU_SEPARATOR))
+    List<SKU> Skus = Arrays.asList(skuString.split(Bin.SKU_SEPARATOR))
                       .stream().filter(sku -> !sku.isEmpty())
                       .map(sku -> {
-                        String[] tmpSku = sku.split(Location.QUANTITY_SEPARATOR);
+                        String[] tmpSku = sku.split(Bin.QUANTITY_SEPARATOR);
                         return new SKU(tmpSku[0],Integer.parseInt(tmpSku[1]));
                       })
                       .collect(Collectors.toList());
@@ -141,7 +142,7 @@ public final class CsvBinTO {
   }
   public String SKUsToString(Set<SKU> SKUs){
     return new ArrayList<>(SKUs).stream().map(SKU -> SKU.toString())
-                                  .collect(Collectors.joining(Location.SKU_SEPARATOR));
+                                  .collect(Collectors.joining(Bin.SKU_SEPARATOR));
   }
   public int getSKUQuantity(String skuID){
     for(SKU sku:SKUs){

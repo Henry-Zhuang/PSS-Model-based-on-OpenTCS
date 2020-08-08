@@ -38,6 +38,7 @@ import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectEvent;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.model.Block;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Group;
 import org.opentcs.data.model.Location;
 import org.opentcs.data.model.LocationType;
@@ -1290,8 +1291,18 @@ public class Model {
     }
     newLocation = newLocation.withAttachedLinks(locationLinks);
 
-    //modified by Henry
-    newLocation = newLocation.withBins(to.getBins());
+    //////// modified by Henry
+    List<Bin> newBins = new ArrayList<>();
+    int i = 0;
+    for(Bin bin : to.getBins()){
+      Bin newBin = bin.withAttachedLocation(newLocation.getReference()).withBinPosition(i++);
+      newBins.add(newBin);
+      objectPool.addObject(newBin);
+      objectPool.emitObjectEvent(newBin.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
+    }
+    
+    newLocation = newLocation.withBins(newBins);
+    //////// modified end
     objectPool.addObject(newLocation);
     objectPool.emitObjectEvent(newLocation.clone(),
                                null,
@@ -1712,7 +1723,16 @@ public class Model {
         .withMaxReverseVelocity(to.getMaxReverseVelocity())
         .withProperties(to.getProperties());
     
-    newVehicle = newVehicle.withBin(to.getBin()).withType(to.getType());//modified by Henry
+    ////////// modified by Henry
+    Bin newBin = to.getBin();
+    if(!newBin.getName().equals("")){
+      newBin = newBin.withAttachedVehicle(newVehicle.getReference());
+      objectPool.addObject(newBin);
+      objectPool.emitObjectEvent(newBin.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
+    }
+    
+    newVehicle = newVehicle.withBin(newBin).withType(to.getType());
+    //////////modified end
     objectPool.addObject(newVehicle);
     objectPool.emitObjectEvent(newVehicle.clone(),
                                null,
