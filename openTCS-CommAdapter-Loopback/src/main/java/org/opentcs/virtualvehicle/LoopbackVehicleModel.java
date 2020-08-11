@@ -35,9 +35,17 @@ public class LoopbackVehicleModel
    */
   private final String unloadOperation;
   /**
+   * Indicates which operation is a waiting for picking operation.
+   */
+  private final String waitPickingOperation;
+  /**
    * The time needed for executing operations.
    */
   private int operatingTime;
+  /**
+   * The time needed for picking.
+   */
+  private final int pickingTime;
   /**
    * The velocity controller for calculating the simulated vehicle's velocity and current position.
    */
@@ -54,8 +62,10 @@ public class LoopbackVehicleModel
                                                      attachedVehicle.getMaxReverseVelocity(),
                                                      attachedVehicle.getMaxVelocity());
     this.operatingTime = parseOperatingTime(attachedVehicle);
+    this.pickingTime = parsePickingTime(attachedVehicle);
     this.loadOperation = extractLoadOperation(attachedVehicle);
     this.unloadOperation = extractUnloadOperation(attachedVehicle);
+    this.waitPickingOperation = extractWaitOperation(attachedVehicle);
   }
 
   public String getLoadOperation() {
@@ -64,6 +74,11 @@ public class LoopbackVehicleModel
 
   public String getUnloadOperation() {
     return this.unloadOperation;
+  }
+  
+  // created by Henry
+  public String getWaitPickingOperation(){
+    return this.waitPickingOperation;
   }
 
   /**
@@ -98,6 +113,15 @@ public class LoopbackVehicleModel
    */
   public synchronized int getOperatingTime() {
     return operatingTime;
+  }
+  
+  /**
+   * Returns the default picking time.
+   * created by Henry
+   * @return The default picking time
+   */
+  public int getPickingTime(){
+    return pickingTime;
   }
 
   /**
@@ -264,6 +288,12 @@ public class LoopbackVehicleModel
     // Ensure it's a positive value.
     return Math.max(Parsers.tryParseString(opTime, 5000), 1);
   }
+  
+  private int parsePickingTime(Vehicle vehicle) {
+    String pickTime = vehicle.getProperty(LoopbackAdapterConstants.PROPKEY_PICKING_TIME);
+    // Ensure it's a positive value.
+    return Math.max(Parsers.tryParseString(pickTime, 5000), 1);
+  }
 
   /**
    * Gets the maximum acceleration. If the user did not specify any, 1000(m/s²) is returned.
@@ -301,6 +331,14 @@ public class LoopbackVehicleModel
     String result = attachedVehicle.getProperty(LoopbackAdapterConstants.PROPKEY_UNLOAD_OPERATION);
     if (result == null) {
       result = LoopbackAdapterConstants.PROPVAL_UNLOAD_OPERATION_DEFAULT;
+    }
+    return result;
+  }
+  
+  private static String extractWaitOperation(Vehicle attachedVehicle) {
+    String result = attachedVehicle.getProperty(LoopbackAdapterConstants.PROPKEY_WAIT_PICKING_OPERATION);
+    if (result == null) {
+      result = LoopbackAdapterConstants.PROPVAL_WAIT_PICKING_OPERATION_DEFAULT;
     }
     return result;
   }

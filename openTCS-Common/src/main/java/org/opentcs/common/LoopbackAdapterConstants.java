@@ -24,6 +24,11 @@ public interface LoopbackAdapterConstants {
    */
   String PROPKEY_OPERATING_TIME = "loopback:operatingTime";
   /**
+   * The key of the vehicle property that specifies the default waiting time.
+   * created by Henry
+   */
+  String PROPKEY_PICKING_TIME = "loopback:pickingTime";
+  /**
    * The key of the vehicle property that specifies which operation loads the load handling device.
    */
   String PROPKEY_LOAD_OPERATION = "loopback:loadOperation";
@@ -39,6 +44,16 @@ public interface LoopbackAdapterConstants {
    * The default value of the unload operation property.
    */
   String PROPVAL_UNLOAD_OPERATION_DEFAULT = "Unload cargo";
+  /**
+   * The key of the vehicle property that specifies which operation means to wait.
+   * created by Henry
+   */
+  String PROPKEY_WAIT_PICKING_OPERATION = "loopback:waitPickingOperation";
+  /**
+   * The default value of the wait operation property.
+   * created by Henry
+   */
+  String PROPVAL_WAIT_PICKING_OPERATION_DEFAULT = "Wait Picking";
   /**
    * The key of the vehicle property that specifies the maximum acceleration of a vehicle.
    */

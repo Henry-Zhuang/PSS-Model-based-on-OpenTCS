@@ -695,12 +695,12 @@ public class Location
 //      return new Bin(binID, SKUs, locked);
 //    }
 //    
-//    public String getSKUString(){
+//    public String getAllSKUString(){
 //      return new ArrayList<>(SKUs).stream().map(SKU -> SKU.toString())
 //                                  .collect(Collectors.joining(org.opentcs.data.model.Bin.SKU_SEPARATOR));
 //    }
 //    
-//    public Bin withSKUString(String skuString){
+//    public Bin withAllSKUString(String skuString){
 //      List<SKU> Skus = Arrays.asList(skuString.split(org.opentcs.data.model.Bin.SKU_SEPARATOR))
 //                      .stream().filter(sku -> !sku.isEmpty())
 //                      .map(sku -> {

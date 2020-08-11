@@ -36,17 +36,9 @@ public class TransportOrderBin
    */
   @Nonnull
   private String type = OrderBinConstants.TYPE_NONE;
-
-  private String sourceLocationName = "";
   
   private String binID = "";
 
-  private int locationRow = 0;
-
-  private int locationColumn = 0;
-
-  private int binPosition = 0;
-    
   @Nonnull
   private Map<String, Integer> requiredSku = new HashMap<>();
   @Nonnull
@@ -80,7 +72,18 @@ public class TransportOrderBin
     this.deadline = Instant.ofEpochMilli(Long.MAX_VALUE);
   }
 
-  public TransportOrderBin(String name, Map<String, String> properties, ObjectHistory history, String type, String binID, Map<String, Integer> requiredSku, String customerOrderName, TCSObjectReference<TransportOrder> attachedTransportOrder, State state, Instant creationTime, Instant deadline, Instant finishedTime, String sourceLocationName, int locationRow, int locationColumn, int binPosition) {
+  public TransportOrderBin(String name, 
+                           Map<String, String> properties, 
+                           ObjectHistory history, 
+                           String type, 
+                           String binID, 
+                           Map<String, Integer> requiredSku, 
+                           String customerOrderName, 
+                           TCSObjectReference<TransportOrder> attachedTransportOrder, 
+                           State state, 
+                           Instant creationTime, 
+                           Instant deadline, 
+                           Instant finishedTime) {
     super(name, properties, history);
     this.type = requireNonNull(type, "type");
     this.binID = requireNonNull(binID, "binID");
@@ -91,10 +94,6 @@ public class TransportOrderBin
     this.creationTime = requireNonNull(creationTime, "creationTime");
     this.deadline = requireNonNull(deadline, "deadline");
     this.finishedTime = requireNonNull(finishedTime, "finishedTime");
-    this.sourceLocationName = requireNonNull(sourceLocationName, "sourceLocationName");
-    this.locationRow = requireNonNull(locationRow, "locationRow");
-    this.locationColumn = requireNonNull(locationColumn, "locationColumn");
-    this.binPosition = requireNonNull(binPosition, "binPosition");
   }
 
   @Override
@@ -110,8 +109,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   @Override
@@ -127,8 +125,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   @Override
@@ -144,8 +141,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   @Override
@@ -161,8 +157,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   @Override
@@ -179,8 +174,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public String getType() {
@@ -204,8 +198,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public String getBinID() {
@@ -224,8 +217,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public Map<String, Integer> getRequiredSku() {
@@ -244,8 +236,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public String getCustomerOrderName() {
@@ -264,8 +255,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public TCSObjectReference<TransportOrder> getAttachedTransportOrder() {
@@ -284,8 +274,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public State getState() {
@@ -309,8 +298,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 state == State.FINISHED ? Instant.now() : finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 state == State.FINISHED ? Instant.now() : finishedTime);
   }
 
   public Instant getCreationTime() {
@@ -329,8 +317,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public Instant getDeadline() {
@@ -349,8 +336,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public Instant getFinishedTime() {
@@ -369,88 +355,7 @@ public class TransportOrderBin
                                  state,
                                  creationTime,
                                  deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
-  }
-
-  public String getSourceLocationName() {
-    return sourceLocationName;
-  }
-
-  public TransportOrderBin withSourceLocationName(String sourceLocationName) {
-    return new TransportOrderBin(getName(),
-                                 getProperties(),
-                                 getHistory(),
-                                 type,
-                                 binID,
-                                 requiredSku,
-                                 customerOrderName,
-                                 attachedTransportOrder,
-                                 state,
-                                 creationTime,
-                                 deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
-  }
-
-  public int getBinPosition() {
-    return binPosition;
-  }
-
-  public TransportOrderBin withBinPosition(int binPosition) {
-    return new TransportOrderBin(getName(),
-                                 getProperties(),
-                                 getHistory(),
-                                 type,
-                                 binID,
-                                 requiredSku,
-                                 customerOrderName,
-                                 attachedTransportOrder,
-                                 state,
-                                 creationTime,
-                                 deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
-  }
-
-  public int getLocationRow() {
-    return locationRow;
-  }
-
-  public TransportOrderBin withLocationRow(int locationRow) {
-    return new TransportOrderBin(getName(),
-                                 getProperties(),
-                                 getHistory(),
-                                 type,
-                                 binID,
-                                 requiredSku,
-                                 customerOrderName,
-                                 attachedTransportOrder,
-                                 state,
-                                 creationTime,
-                                 deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
-  }
-
-  public int getLocationColumn() {
-    return locationColumn;
-  }
-
-  public TransportOrderBin withLocationColumn(int locationColumn) {
-    return new TransportOrderBin(getName(),
-                                 getProperties(),
-                                 getHistory(),
-                                 type,
-                                 binID,
-                                 requiredSku,
-                                 customerOrderName,
-                                 attachedTransportOrder,
-                                 state,
-                                 creationTime,
-                                 deadline,
-                                 finishedTime,
-                                 sourceLocationName, locationRow, locationColumn, binPosition);
+                                 finishedTime);
   }
 
   public enum State {

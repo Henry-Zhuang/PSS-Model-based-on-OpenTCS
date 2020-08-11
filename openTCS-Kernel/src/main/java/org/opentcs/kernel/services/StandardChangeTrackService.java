@@ -28,6 +28,7 @@ import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
 import org.opentcs.data.TCSObjectReference;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Point;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.DriveOrder;
@@ -155,7 +156,10 @@ public class StandardChangeTrackService
       
       TransportOrderBin noVehicleTOB = fetchObjects(TransportOrderBin.class).stream()
           .filter(tOrderBin -> tOrderBin.hasState(TransportOrderBin.State.AWAIT_DISPATCH))
-          .filter(tOB -> noVehicleTracks.contains(tOB.getLocationRow()))
+          .filter(tOB -> {
+              Bin bin = fetchObject(Bin.class,tOB.getBinID());
+              return noVehicleTracks.contains(bin.getLocationRow());
+            })
           .sorted(Comparator.comparing(TransportOrderBin::getDeadline))
           .findFirst()
           .orElse(null);
@@ -182,8 +186,11 @@ public class StandardChangeTrackService
     }
     
     int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getRow();
-    int dstTrack = tOB.getLocationRow();
-    String dstLocation = tOB.getSourceLocationName();
+    Bin bin = fetchObject(Bin.class,tOB.getBinID());
+    if(bin.getAttachedLocation() == null)
+      return;
+    int dstTrack = bin.getLocationRow();
+    String dstLocation = bin.getAttachedLocation().getName();
     
     String orderName = nameFor(OrderConstants.TYPE_CHANGE_TRACK);
     TransportOrderCreationTO psbTO = new TransportOrderCreationTO(orderName+BIN_ORDER_SUFFIX)

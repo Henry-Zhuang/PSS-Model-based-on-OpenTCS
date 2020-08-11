@@ -35,6 +35,5 @@ public interface TransportOrderBinService
       throws ObjectUnknownException;
   
   void enableTOrderBinForIdleVehicle();
-    
-  
+
 }

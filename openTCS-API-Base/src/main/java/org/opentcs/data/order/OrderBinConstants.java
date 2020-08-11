@@ -13,4 +13,17 @@ public interface OrderBinConstants {
   String TYPE_NONE = "None";
   String TYPE_INBOUND = "Inbound";
   String TYPE_OUTBOUND = "Outbound";
+  
+  /**
+   * The load operation for PSB vehicle.
+   */
+  String OPERATION_LOAD = "Catch";
+  /**
+   * The unload operation for PSB vehicle.
+   */
+  String OPERATION_UNLOAD = "Drop";
+  /**
+   * The operation means waiting for picking.
+   */
+  String OPERATION_WAIT_PICKING = "Wait Picking";
 }

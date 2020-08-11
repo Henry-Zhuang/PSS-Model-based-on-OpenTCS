@@ -505,7 +505,11 @@ public class LoopbackCommunicationAdapter
       }
 
       LOG.debug("Operating...");
-      final int operatingTime = getProcessModel().getOperatingTime();
+      final int operatingTime;
+      if(operation.equals(getProcessModel().getWaitPickingOperation()))
+        operatingTime = getProcessModel().getPickingTime();
+      else
+        operatingTime = getProcessModel().getOperatingTime();
       getProcessModel().setVehicleState(Vehicle.State.EXECUTING);
       for (int timePassed = 0; timePassed < operatingTime && !isTerminated();
            timePassed += simAdvanceTime) {

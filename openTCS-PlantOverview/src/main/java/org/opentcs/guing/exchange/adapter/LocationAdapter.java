@@ -94,7 +94,7 @@ public class LocationAdapter
         // update the binID. property
         model.getPropertyBin(i).get(0).setText(location.getBin(i).getName());
         // update the binSKU. property
-        model.getPropertyBin(i).get(1).setText(location.getBin(i).getSKUString());
+        model.getPropertyBin(i).get(1).setText(location.getBin(i).getAllSKUString());
       }
       model.getPropertyBinsNum().setValue(location.stackSize());
       
@@ -112,7 +112,7 @@ public class LocationAdapter
     /////////////////////////modified by Henry
     List<List<StringProperty>> pBins = new ArrayList<>(((LocationModel) modelComponent).getPropertyBins());
     List<Bin> Bins = pBins.stream().filter(pBin -> !pBin.get(0).getText().equals(""))
-        .map(pBin -> new Bin(pBin.get(0).getText()).withSKUString(pBin.get(1).getText()))
+        .map(pBin -> new Bin(pBin.get(0).getText()).withAllSKUString(pBin.get(1).getText()))
         .collect(Collectors.toList());
     ////////////////////////modified end
     PlantModelCreationTO result = plantModel

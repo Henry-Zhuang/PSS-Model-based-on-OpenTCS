@@ -164,6 +164,7 @@ public class Model {
           || curObject instanceof Vehicle
           || curObject instanceof LocationType
           || curObject instanceof Location
+          || curObject instanceof Bin
           || curObject instanceof Block
           || curObject instanceof Group
           || curObject instanceof org.opentcs.data.model.StaticRoute

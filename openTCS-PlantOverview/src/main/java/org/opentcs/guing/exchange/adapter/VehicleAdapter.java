@@ -123,7 +123,7 @@ public class VehicleAdapter
       model.propertiesChanged(new NullAttributesChangeListener());
       //modified by Henry
       model.getPropertyBinID().setText(vehicle.getBin().getName());
-      model.getPropertyBinSKU().setText(vehicle.getBin().getSKUString());
+      model.getPropertyBinSKU().setText(vehicle.getBin().getAllSKUString());
       model.getPropertyType().setText(vehicle.getType());
     }
     catch (CredentialsException e) {
@@ -149,7 +149,7 @@ public class VehicleAdapter
                 .withProperties(getKernelProperties(vehicleModel))
                 //////////// modified by Henry
                 .withBin(new Bin(vehicleModel.getPropertyBinID().getText())
-                .withSKUString(vehicleModel.getPropertyBinSKU().getText()))
+                .withAllSKUString(vehicleModel.getPropertyBinSKU().getText()))
                 .withType(vehicleModel.getPropertyType().getText())
                 //////////// modified end
         )

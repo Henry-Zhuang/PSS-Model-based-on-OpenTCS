@@ -64,7 +64,7 @@ public class Bin
   /**
    * Whether the bin is locked or not.
    */
-  private boolean locked;
+  private volatile boolean locked;
 
   public Bin(String binID){
     super(binID);
@@ -249,20 +249,32 @@ public class Bin
                   locked);
   }
   
-  public String getSKUString(){
-    return new ArrayList<>(SKUs).stream().map(SKU -> SKU.toString())
-                                .collect(Collectors.joining(org.opentcs.data.model.Bin.SKU_SEPARATOR));
+  public SKU getSKU(String skuID){
+    return SKUs.stream().filter(sku -> sku.getSkuID().equals(skuID)).findAny().orElse(null);
+  }
+  
+  public String getAllSKUString(){
+    return SKUs.stream().map(SKU -> SKU.toString())
+                                .collect(Collectors.joining(SKU_SEPARATOR));
   }
     
-  public Bin withSKUString(String skuString){
-    List<SKU> Skus = Arrays.asList(skuString.split(org.opentcs.data.model.Bin.SKU_SEPARATOR))
+  public Bin withAllSKUString(String skuString){
+    Set<SKU> Skus = Arrays.asList(skuString.split(SKU_SEPARATOR))
                     .stream().filter(sku -> !sku.isEmpty())
                     .map(sku -> {
                       String[] tmpSku = sku.split(org.opentcs.data.model.Bin.QUANTITY_SEPARATOR);
                       return new SKU(tmpSku[0],Integer.parseInt(tmpSku[1]));
                         })
-                    .collect(Collectors.toList());
-    return this.withSKUs(new HashSet<>(Skus));
+                    .collect(Collectors.toSet());
+    return this.withSKUs(Skus);
+  }
+  
+  public int getQuantity(String skuID){
+    for(SKU sku:SKUs){
+      if(sku.getSkuID().equals(skuID))
+        return sku.getQuantity();
+    }
+    return 0;
   }
   
   /**
@@ -273,11 +285,13 @@ public class Bin
     return locked;
   }
   
-  public void lock(){
+  public Bin lock(){
     locked = true;
+    return this;
   }
-  public void unlock(){
+  public Bin unlock(){
     locked = false;
+    return this;
   }
   
   @SuppressWarnings("deprecation")

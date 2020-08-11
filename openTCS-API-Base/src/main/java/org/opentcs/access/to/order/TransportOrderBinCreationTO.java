@@ -7,15 +7,14 @@ package org.opentcs.access.to.order;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
 import static java.util.Objects.requireNonNull;
-import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.opentcs.access.to.CreationTO;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.order.OrderBinConstants;
-import org.opentcs.database.to.CsvBinTO;
 
 /**
  *
@@ -26,13 +25,10 @@ public class TransportOrderBinCreationTO
     implements Serializable {
   
   @Nonnull
-  private CsvBinTO binTO = new CsvBinTO();
+  private String binID = "";
   
   @Nonnull
-  private Set<String> requiredSkuID = new HashSet<>();
-  
-  @Nonnull
-  private int quantity = 0;
+  private Map<String, Integer> requiredSku = new HashMap<>();
   
   @Nullable
   private int quantityPerBin;
@@ -40,7 +36,7 @@ public class TransportOrderBinCreationTO
   @Nonnull
   private String customerOrderName = "";
   /**
-   * The type of the transport bin order.
+   * The type of the transport binID order.
    */
   @Nonnull
   private String type = OrderBinConstants.TYPE_NONE;
@@ -53,32 +49,30 @@ public class TransportOrderBinCreationTO
   /**
    * Creates a new instance.
    *
-   * @param name
-   * @param binTO The name of this transport order.
+   * @param name The name of this transport order binID.
+   * @param binID The specific binID of this transport order bin.
    * @param type The destinations that need to be travelled to.
    */
   public TransportOrderBinCreationTO(@Nonnull String name,
-                                        @Nonnull CsvBinTO binTO, 
+                                        @Nonnull String binID, 
                                         @Nonnull String type) {
     super(name);
-    this.binTO = requireNonNull(binTO, "binTO");
+    this.binID = requireNonNull(binID, "binID");
     this.type = requireNonNull(type, "type");
   }
 
   private TransportOrderBinCreationTO(@Nonnull String name, 
-                                        @Nonnull CsvBinTO binTO, 
+                                        @Nonnull String binID, 
                                         @Nonnull Map<String, String> properties, 
                                         @Nonnull String type, 
-                                        @Nonnull Set<String> requiredSkuID, 
-                                        @Nonnull int quantity, 
+                                        @Nonnull Map<String,Integer> requiredSku, 
                                         @Nullable int quantityPerBin, 
                                         @Nonnull String customerOrderName, 
                                         @Nonnull Instant deadline) {
     super(name, properties);
-    this.binTO = requireNonNull(binTO, "binTO");
+    this.binID = requireNonNull(binID, "binID");
     this.type = requireNonNull(type, "type");
-    this.requiredSkuID = requireNonNull(requiredSkuID, "requiredSkuID");
-    this.quantity = requireNonNull(quantity, "quantity");
+    this.requiredSku = requireNonNull(requiredSku, "requiredSku");
     this.quantityPerBin = quantityPerBin;
     this.customerOrderName = requireNonNull(customerOrderName, "customerOrderName");
     this.deadline = requireNonNull(deadline, "deadline");
@@ -93,11 +87,10 @@ public class TransportOrderBinCreationTO
   @Override
   public TransportOrderBinCreationTO withProperties(@Nonnull Map<String, String> properties) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         properties,
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);
@@ -116,27 +109,25 @@ public class TransportOrderBinCreationTO
   @Override
   public TransportOrderBinCreationTO withProperty(@Nonnull String key, @Nonnull String value) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         propertiesWith(key, value),
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);
   }
 
-  public CsvBinTO getBinTO() {
-    return binTO;
+  public String getBinID() {
+    return binID;
   }
  
-  public TransportOrderBinCreationTO withBinTO(@Nonnull CsvBinTO binTO) {
+  public TransportOrderBinCreationTO withBinID(@Nonnull String binID) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         getModifiableProperties(),
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);
@@ -160,43 +151,25 @@ public class TransportOrderBinCreationTO
    */
   public TransportOrderBinCreationTO withType(@Nonnull String type) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         getModifiableProperties(),
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);
   }
 
-  public Set<String> getRequiredSkuID() {
-    return requiredSkuID;
+  public Map<String,Integer> getRequiredSku() {
+    return requiredSku;
   }
 
-  public TransportOrderBinCreationTO withRequiredSkuID(Set<String> requiredSkuID) {
+  public TransportOrderBinCreationTO withRequiredSku(Map<String,Integer> requiredSku) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         getModifiableProperties(),
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
-                                        quantityPerBin, 
-                                        customerOrderName, 
-                                        deadline);
-  }
-
-  public int getQuantity() {
-    return quantity;
-  }
-
-  public TransportOrderBinCreationTO withQuantity(int quantity) {
-    return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
-                                        getModifiableProperties(),
-                                        type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);
@@ -208,11 +181,10 @@ public class TransportOrderBinCreationTO
 
   public TransportOrderBinCreationTO withQuantityPerBin(int quantityPerBin) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         getModifiableProperties(),
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);
@@ -224,11 +196,10 @@ public class TransportOrderBinCreationTO
 
   public TransportOrderBinCreationTO withCustomerOrderName(String customerOrderName) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         getModifiableProperties(),
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);
@@ -248,11 +219,10 @@ public class TransportOrderBinCreationTO
    */
   public TransportOrderBinCreationTO withDeadline(@Nonnull Instant deadline) {
     return new TransportOrderBinCreationTO(getName(), 
-                                        binTO,
+                                        binID,
                                         getModifiableProperties(),
                                         type, 
-                                        requiredSkuID, 
-                                        quantity, 
+                                        requiredSku, 
                                         quantityPerBin, 
                                         customerOrderName, 
                                         deadline);

@@ -6,16 +6,18 @@
 package org.opentcs.kernel.workingset;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.opentcs.access.KernelRuntimeException;
+import org.opentcs.access.to.order.DestinationCreationTO;
 import org.opentcs.access.to.order.TransportOrderBinCreationTO;
 import org.opentcs.access.to.order.TransportOrderCreationTO;
 import org.opentcs.components.kernel.services.ChangeTrackService;
@@ -26,13 +28,14 @@ import org.opentcs.data.ObjectUnknownException;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectEvent;
 import org.opentcs.data.TCSObjectReference;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Location;
 import org.opentcs.data.model.Point;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.OrderBinConstants;
 import org.opentcs.data.order.TransportOrder;
 import org.opentcs.data.order.TransportOrderBin;
-import org.opentcs.database.to.CsvBinTO;
+import static org.opentcs.kernel.services.StandardDataBaseService.locationPosition;
 import static org.opentcs.util.Assertions.checkArgument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,13 +126,9 @@ public class TransportOrderBinPool {
     TransportOrderBin newOrder = new TransportOrderBin(to.getName(),to.getType())
         .withCreationTime(Instant.now())
         .withDeadline(to.getDeadline())
-        .withBinID(to.getBinTO().getBinID())
-        .withBinPosition(to.getBinTO().getBinPosition())
-        .withSourceLocationName(to.getBinTO().getLocationName())
-        .withLocationRow(to.getBinTO().getRow())
-        .withLocationColumn(to.getBinTO().getColumn())
+        .withBinID(to.getBinID())
         .withCustomerOrderName(to.getCustomerOrderName())
-        .withRequiredSku(RequiredSku(to.getRequiredSkuID(), to.getBinTO()))
+        .withRequiredSku(to.getRequiredSku())
         .withState(TransportOrderBin.State.AWAIT_DISPATCH)
         .withProperties(to.getProperties());
     objectPool.addObject(newOrder);
@@ -231,17 +230,20 @@ public class TransportOrderBinPool {
       return;
     }
     
+    Bin bin = objectPool.getObject(Bin.class, tOB.getBinID());
+    
     TransportOrderCreationTO to = new TransportOrderCreationTO(tOB.getName()
                                                               +"["
-                                                              +tOB.getSourceLocationName()
+                                                              +bin.getAttachedLocation().getName()
                                                               +":"
-                                                              +tOB.getBinPosition()
+                                                              +bin.getBinPosition()
                                                               +"]");
     if (tOB.hasType(OrderBinConstants.TYPE_OUTBOUND)){
-      to = to.withDestinations(dataBaseService.outboundDestinations(tOB.getSourceLocationName(), 
-                                                                    tOB.getLocationRow(), 
-                                                                    tOB.getLocationColumn(), 
-                                                                    tOB.getBinPosition()))
+      // 判断指定料箱在出库后是否需要回库
+      // 如果在分拣后，料箱为空，则不需要回库，否则需要回库
+      boolean needBack = !isBinEmptyAfterPick(bin, tOB.getRequiredSku());
+      
+      to = to.withDestinations(outboundDestinations(bin, needBack))
           .withIntendedVehicleName(vehicle.getName())
           //.withDependencyNames(new HashSet<>(order.getDependencies()))
           .withDeadline(tOB.getDeadline())
@@ -263,25 +265,81 @@ public class TransportOrderBinPool {
       throw new KernelRuntimeException(exc.getCause());
     }
   }
-  
-  private Map<String, Integer> RequiredSku(Set<String> requiredSkuID, CsvBinTO binTO) {
-    return requiredSkuID.stream().collect(Collectors.toMap(skuID -> skuID, binTO::getSKUQuantity));
-  }
 
-  private Predicate<? super TransportOrderBin> inTheSameTrackWith(Vehicle vehicle) {
+  private Predicate<TransportOrderBin> inTheSameTrackWith(Vehicle vehicle) {
     return tOrderBin -> {
-      Location sourceLocation = objectPool.getObject(Location.class,tOrderBin.getSourceLocationName());
-      int locationRow = objectPool.getObject(Point.class, 
-                                               sourceLocation.getAttachedLinks()
-                                                   .stream()
-                                                   .collect(Collectors.toList())
-                                                   .get(0)
-                                                   .getPoint())
-                                              .getRow();
+      Bin bin = objectPool.getObject(Bin.class,tOrderBin.getBinID());
+      if(bin.getAttachedLocation() == null){
+        LOG.error("A bin {} which has been attached to a TransportOrder, has unknown location.",bin.getName());
+        return false;
+      }
+      
+      int binRow = bin.getLocationRow();
       int vehicleRow = objectPool.getObject(Point.class,
                                                vehicle.getCurrentPosition()).getRow();
-      return locationRow == vehicleRow;
+      return binRow == vehicleRow;
     };
+  }
+  
+  private boolean isBinEmptyAfterPick(Bin bin, Map<String, Integer> requiredSku) {
+    int reqTotalQuantity = requiredSku.values().stream().reduce(Integer::sum).orElse(0);
+    int binTotalQuantity = bin.getSKUs().stream().mapToInt(Bin.SKU::getQuantity).sum();
+    return reqTotalQuantity == binTotalQuantity;
+  }
+  
+  private List<DestinationCreationTO> outboundDestinations(Bin bin, boolean needBack){
+    String locationName = bin.getAttachedLocation().getName();
+    int row = bin.getLocationRow();
+    int column = bin.getLocationColumn();
+    int binPosition = bin.getBinPosition();
+    
+    List<DestinationCreationTO> result = new ArrayList<>();
+    int stackSize = objectPool.getObject(Location.class, locationName).stackSize();
+    List<String> tmpLocs = dataBaseService.getVacantNeighbours(row, column, stackSize-1-binPosition);
+    if(tmpLocs == null)
+      return null;
+    // 该轨道的分拣台
+    String pickStation = getPickStation(row);
+
+    // 倒箱
+    for(String tmpLoc:tmpLocs){
+      result.add(new DestinationCreationTO(locationName, OrderBinConstants.OPERATION_LOAD));
+      result.add(new DestinationCreationTO(tmpLoc, OrderBinConstants.OPERATION_UNLOAD));
+    }
+   
+    // 指定料箱出库
+    result.add(new DestinationCreationTO(locationName, OrderBinConstants.OPERATION_LOAD));
+    result.add(new DestinationCreationTO(pickStation, OrderBinConstants.OPERATION_UNLOAD));
+    
+    // 如果需要将指定料箱回库
+    if(needBack){
+      // 等待分拣
+      result.add(new DestinationCreationTO(pickStation, OrderBinConstants.OPERATION_WAIT_PICKING));
+
+      // 分拣完成后，指定料箱回库
+      result.add(new DestinationCreationTO(pickStation, OrderBinConstants.OPERATION_LOAD));
+      result.add(new DestinationCreationTO(locationName, OrderBinConstants.OPERATION_UNLOAD));
+    }
+    
+    // 将之前倒箱的料箱放回原处
+    for(int i=tmpLocs.size()-1;i>=0;i--){
+      result.add(new DestinationCreationTO(tmpLocs.get(i),OrderBinConstants.OPERATION_LOAD));
+      result.add(new DestinationCreationTO(locationName, OrderBinConstants.OPERATION_UNLOAD));
+    }
+    return result;
+  }
+  
+  private String getPickStation(int row){
+    for(String location:locationPosition[row-1]){
+      if(location != null && isPickStation(location))
+        return location;
+    }
+    return null;
+  }
+  
+  private boolean isPickStation(String locationName) {
+    return objectPool.getObject(Location.class,locationName)
+              .getType().getName().startsWith(Location.PICK_STATION_PREFIX);
   }
 }
 

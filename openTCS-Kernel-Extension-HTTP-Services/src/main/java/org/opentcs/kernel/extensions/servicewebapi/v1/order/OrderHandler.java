@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import static java.util.Objects.requireNonNull;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
@@ -31,10 +30,10 @@ import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.customizations.kernel.KernelExecutor;
 import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
+import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.OrderBinConstants;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.database.to.CsvBinTO;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Destination;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Property;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Sku;
@@ -70,6 +69,10 @@ public class OrderHandler {
   private final DataBaseService dataBaseService;
   
   private final TransportOrderBinService orderBinService;
+  /**
+   * 用零长度的byte数组作为同步锁.
+   */
+  private final byte[] lock = new byte[0];
 
   /**
    * Creates a new instance.
@@ -129,52 +132,6 @@ public class OrderHandler {
   }
   
   //////////////////////////////////////////////////////////////// created by Henry
-  @Deprecated
-  public void createOutboundOrderTest(String name, TransportWithSku order)
-      throws ObjectUnknownException,
-             ObjectExistsException,
-             KernelRuntimeException,
-             IllegalStateException {
-    requireNonNull(name, "name");
-    requireNonNull(order, "order");
-    
-    for(Sku sku:order.getSkus()){
-      List<List<DestinationCreationTO>> destinationLists = new ArrayList<>();
-      try{
-        destinationLists = dataBaseService.getDestinationsViaSKU(sku.getSkuID(),sku.getQuantity());
-      }
-      catch (InterruptedException exc){
-        throw new IllegalStateException("There're not enough bins with the given SKU in the data base");
-      }
-      int nameNum = 1;
-      for (List<DestinationCreationTO> destinations:destinationLists){
-        TransportOrderCreationTO to
-            = new TransportOrderCreationTO(name+'-'+String.format("%04d", nameNum), destinations)
-                .withIntendedVehicleName(orderService.getIntendedVehicleByTrack(destinations.get(0).getDestLocationName()))
-                .withDependencyNames(new HashSet<>(order.getDependencies()))
-                .withDeadline(deadline(order))
-                .withProperties(properties(order.getProperties()));
-        nameNum++;
-
-        try {
-          kernelExecutor.submit(() -> {
-            orderService.createTransportOrder(to);
-            dispatcherService.dispatch();
-          }).get();
-        }
-        catch (InterruptedException exc) {
-          throw new IllegalStateException("Unexpectedly interrupted");
-        }
-        catch (ExecutionException exc) {
-          if (exc.getCause() instanceof RuntimeException) {
-            throw (RuntimeException) exc.getCause();
-          }
-          throw new KernelRuntimeException(exc.getCause());
-        }
-      }
-    }
-  }
-  
   public void createOutboundOrder(String name, TransportWithSku order)
       throws ObjectUnknownException,
              ObjectExistsException,
@@ -182,24 +139,25 @@ public class OrderHandler {
              IllegalStateException {
     requireNonNull(name, "name");
     requireNonNull(order, "order");
-    Map<CsvBinTO, Set<String>> binTOs = new HashMap<>();
-    try{
-      binTOs = dataBaseService.getBinsViaSkus(order.getSkus().stream()
-                                                      .collect(Collectors.toMap(Sku::getSkuID,Sku::getQuantity)));
-    }
-    catch (InterruptedException exc){
-      throw new IllegalStateException("There're not enough bins with the given SKU in the data base");
+    Map<String, Map<String,Integer>> binRequirements = new HashMap<>();
+    synchronized(lock){
+      try{
+        binRequirements = dataBaseService.getBinsViaSkus(order.getSkus().stream()
+                                                .collect(Collectors.toMap(Sku::getSkuID,Sku::getQuantity)));
+      }
+      catch (InterruptedException exc){
+        throw new IllegalStateException(exc);
+      }
     }
     
     try{
-      for(Map.Entry<CsvBinTO, Set<String>> binTOEntry:binTOs.entrySet()){
+      for(Map.Entry<String, Map<String,Integer>> binEntry : binRequirements.entrySet()){
         TransportOrderBinCreationTO to
-            = new TransportOrderBinCreationTO(nameFor(name, binTOEntry.getKey()) ,binTOEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
+            = new TransportOrderBinCreationTO(nameFor(name, binEntry.getKey()) ,binEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
                 .withCustomerOrderName(name)
-                .withQuantity(0)
                 .withDeadline(deadline(order))
                 .withProperties(properties(order.getProperties()))
-                .withRequiredSkuID(binTOEntry.getValue());
+                .withRequiredSku(binEntry.getValue());
         orderBinService.createTransportOrderBin(to);
       }
       kernelExecutor.submit(() -> {
@@ -208,7 +166,7 @@ public class OrderHandler {
       }).get();
     }
     catch (InterruptedException exc) {
-      throw new IllegalStateException("Unexpectedly interrupted");
+      throw new IllegalStateException("Unexpectedly interrupted",exc);
     }
     catch (ExecutionException exc) {
       if (exc.getCause() instanceof RuntimeException) {
@@ -279,8 +237,8 @@ public class OrderHandler {
     return order.getDeadline() == null ? Instant.MAX : order.getDeadline();
   }
   
-  private String nameFor(String customerOrderName, CsvBinTO binTO){
-    return customerOrderName+"-"+binTO.getBinID();
+  private String nameFor(String customerOrderName, String binID){
+    return customerOrderName + "-" + binID;
   }
   
 ///////////////////////////////////////////// created end

@@ -79,7 +79,6 @@ public interface OrderConstants {
    * A type for transport orders.
    */
   String TYPE_TRANSPORT = "Transport";
-  
   /**
    * A type for change track orders.
    * created by Henry

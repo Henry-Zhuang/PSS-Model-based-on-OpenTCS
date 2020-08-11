@@ -19,10 +19,10 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import org.opentcs.access.to.order.DestinationCreationTO;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.database.to.CsvBinTO;
 import org.opentcs.data.model.Bin;
@@ -77,8 +77,27 @@ public class StandardDataBaseService implements DataBaseService {
                                                                  CHARSET));){
       write(writer, Arrays.asList(CsvBinTO.CsvTitle));
       int i;
-      for(Bin bin:model.getObjectPool().getObjects(Bin.class))     
-        write(writer, bin.toList());
+      model.getObjectPool().getObjects(Bin.class)
+          .stream()
+          .filter(bin -> bin.getAttachedLocation() != null)
+          .sorted((Bin bin1, Bin bin2) -> {
+            if(bin1.getAttachedLocation().equals(bin2.getAttachedLocation())){
+              Integer binPosition1 = bin1.getBinPosition();
+              Integer binPosition2 = bin2.getBinPosition();
+              return binPosition1.compareTo(binPosition2);
+            }
+            else
+              return bin2.getAttachedLocation().getName()
+                  .compareTo(bin1.getAttachedLocation().getName());
+          })
+          .forEach(b -> {
+            try{
+              write(writer, b.toList());
+            }
+            catch (IOException ex){
+              LOG.error("Error updating Data base",ex);
+            }
+          });
     }
     catch (IOException ex){
       LOG.error("Error updating Data base",ex);
@@ -88,174 +107,104 @@ public class StandardDataBaseService implements DataBaseService {
     }
   }
   
+//  @Override
+//  public Map<CsvBinTO, Set<String>> getBinsViaSkus(Map<String, Integer> Skus) throws InterruptedException {
+//    for(Map.Entry<String, Integer> skuEntry : Skus.entrySet()){
+//      if (skuEntry.getKey().isEmpty())
+//        Skus.remove(skuEntry.getKey());
+//    }
+//    List<String> skuIDs = new ArrayList<>(Skus.keySet());
+//    Map<CsvBinTO, Set<String>> requiredBinTOs = new HashMap<>();
+//    rwlock.readLock().lock();
+//    try (RandomAccessFile randFile = new RandomAccessFile(file, "r");){
+//      String lineData ;
+//      while((lineData = randFile.readLine()) != null){
+//        // 仅查询还未满足数量要求的skuID
+//        Set<String> tmpSkuIDs = skuIDs.stream()
+//            .filter(isQuantityPositive(Skus))
+//            .collect(Collectors.toSet());
+//        // 如果各数量要求均已满足，则退出循环
+//        if(tmpSkuIDs.isEmpty())
+//          break;
+//        // 查询该料箱是否存有未满足数量要求的skuID
+//        tmpSkuIDs = tmpSkuIDs.stream().filter(lineData::contains).collect(Collectors.toSet());
+//        if(!tmpSkuIDs.isEmpty()){
+//          CsvBinTO bin = read(lineData);
+//          requiredBinTOs.put(bin, tmpSkuIDs);
+//          // 减去数量要求
+//          for(String skuID:tmpSkuIDs)
+//            Skus.put(skuID, Skus.get(skuID) - bin.getSKUQuantity(skuID));
+//        }
+//      }
+//    }
+//    catch (IOException ex){
+//      LOG.error("Error getBinsViaSKU in Data base",ex);
+//    }
+//    finally{
+//      rwlock.readLock().unlock();
+//    }
+//    Set<String> tmpSkuIDs = skuIDs.stream().filter(isQuantityPositive(Skus)).collect(Collectors.toSet());
+//    if(!tmpSkuIDs.isEmpty())
+//    {
+//      LOG.error("Error there're not enough available SKUs({}) in the data base",tmpSkuIDs);
+////      throw new InterruptedException("There're not enough bins with the given SKU in the data base");
+//    }
+//    return requiredBinTOs;
+//  }
   @Override
-  public boolean lockSKU(String SKU){
-    if (SKU.equals("")){
-      LOG.error("Error SKU is empty when locking bin");
-      return false;
-    }
-    rwlock.writeLock().lock();
-    createNewFile();
-    boolean modified=false;
-    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),
-                                                                 CHARSET));){
-      write(writer, Arrays.asList(CsvBinTO.CsvTitle));
-      int i;
-      CsvBinTO tmpData;
-      for(Location location:model.getObjectPool().getObjects(Location.class)){
-        for(i=location.stackSize()-1;i>=0;i--){
-          if(location.getBin(i).getSKUString().contains(SKU))
-            location.getBin(i).lock();
-          tmpData = new CsvBinTO(location, i);
-          modified = true;
-          write(writer, tmpData.toList());
-        }
-      }
-    }
-    catch (IOException ex){
-      LOG.error("Error locking SKU in Data base",ex);
-    }
-    finally{
-      rwlock.writeLock().unlock();
-    }
-    return modified;
-  }
-  
-  @Override
-  public boolean unlockSKU(String SKU){
-    if (SKU.equals("")){
-      LOG.error("Error SKU is empty when locking bin");
-      return false;
-    }
-    rwlock.writeLock().lock();
-    createNewFile();
-    boolean modified=false;
-    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),
-                                                                 CHARSET));){
-      write(writer, Arrays.asList(CsvBinTO.CsvTitle));
-      int i;
-      CsvBinTO tmpData;
-      for(Location location:model.getObjectPool().getObjects(Location.class)){
-        for(i=location.stackSize()-1;i>=0;i--){
-          if(location.getBin(i).getSKUString().contains(SKU))
-            location.getBin(i).unlock();
-          tmpData = new CsvBinTO(location, i);
-          modified = true;
-          write(writer, tmpData.toList());
-        }
-      }
-    }
-    catch (IOException ex){
-      LOG.error("Error unlocking SKU in Data base",ex);
-    }
-    finally{
-      rwlock.writeLock().unlock();
-    }
-    return modified;
-  }
-  
-  @Override
-  public Map<CsvBinTO, Set<String>> getBinsViaSkus(Map<String, Integer> Skus) throws InterruptedException {
+  public Map<String, Map<String, Integer>> getBinsViaSkus(Map<String, Integer> Skus) throws InterruptedException {
     for(Map.Entry<String, Integer> skuEntry : Skus.entrySet()){
       if (skuEntry.getKey().isEmpty())
         Skus.remove(skuEntry.getKey());
     }
     List<String> skuIDs = new ArrayList<>(Skus.keySet());
-    Map<CsvBinTO, Set<String>> requiredBinTOs = new HashMap<>();
-    rwlock.readLock().lock();
-    try (RandomAccessFile randFile = new RandomAccessFile(file, "r");){
-      String lineData ;
-      while((lineData = randFile.readLine()) != null){
-        // 仅查询还未满足数量要求的skuID
-        Set<String> tmpSkuIDs = skuIDs.stream()
-            .filter(isQuantityPositive(Skus))
-            .collect(Collectors.toSet());
-        // 如果各数量要求均已满足，则退出循环
-        if(tmpSkuIDs.isEmpty())
-          break;
-        // 查询该料箱是否存有未满足数量要求的skuID
-        tmpSkuIDs = tmpSkuIDs.stream().filter(lineData::contains).collect(Collectors.toSet());
-        if(!tmpSkuIDs.isEmpty()){
-          CsvBinTO bin = read(lineData);
-          requiredBinTOs.put(bin, tmpSkuIDs);
-          // 减去数量要求
-          for(String skuID:tmpSkuIDs)
-            Skus.put(skuID, Skus.get(skuID) - bin.getSKUQuantity(skuID));
-        }
+    Map<String, Map<String, Integer>> requiredBins = new HashMap<>();
+    
+    Set<Bin> bins = model.getObjectPool().getObjects(Bin.class, bin -> {
+      return !bin.isLocked() && bin.getAttachedLocation() != null && !bin.getSKUs().isEmpty();
+    });
+    // 未满足数量要求的skuID
+    Set<String> requiredSkuIDs = skuIDs.stream()
+        .filter(isQuantityPositive(Skus)).collect(Collectors.toSet());
+    
+    // 遍历数据库中的每个料箱
+    for(Bin bin : bins){
+      // 如果各数量要求均已满足，则退出循环
+      if(requiredSkuIDs.isEmpty())
+        break;
+      
+      // 查询该料箱是否存有未满足数量要求的skuID
+      Map<String, Integer> requiredSku = requiredSkuIDs.stream()
+          .map(id -> bin.getSKU(id))
+          .filter(sku -> sku != null)
+          .collect(Collectors.toMap(Bin.SKU::getSkuID, getQuantityWithLimit(Skus)));
+      
+      // 如果该料箱含有要求的SKU
+      if(!requiredSku.isEmpty()){
+        requiredBins.put(bin.getName(), requiredSku);
+        model.getObjectPool().replaceObject(bin.lock());
+        // 减去数量要求
+        for(Map.Entry<String,Integer> sku : requiredSku.entrySet())
+          Skus.put(sku.getKey(), Skus.get(sku.getKey()) - sku.getValue());
+        
+        // 更新剩下未满足数量要求的skuID
+        requiredSkuIDs = skuIDs.stream()
+            .filter(isQuantityPositive(Skus)).collect(Collectors.toSet());
       }
     }
-    catch (IOException ex){
-      LOG.error("Error getBinsViaSKU in Data base",ex);
-    }
-    finally{
-      rwlock.readLock().unlock();
-    }
-    Set<String> tmpSkuIDs = skuIDs.stream().filter(isQuantityPositive(Skus)).collect(Collectors.toSet());
-    if(!tmpSkuIDs.isEmpty())
+    
+    if(!requiredSkuIDs.isEmpty())
     {
-      LOG.error("Error there're not enough available SKUs({}) in the data base",tmpSkuIDs);
+      LOG.error("Error there're not enough available SKUs({}) in the data base",requiredSkuIDs);
 //      throw new InterruptedException("There're not enough bins with the given SKU in the data base");
     }
-    return requiredBinTOs;
-  }
-  
-  @Override
-  @Deprecated
-  public List<List<DestinationCreationTO>> getDestinationsViaSKU (String skuID, int quantity) throws InterruptedException {
-    if (skuID.equals("")){
-      LOG.error("Error SKU is empty when getting bins via SKU");
-      return null;
-    }
-    rwlock.readLock().lock();
-    List<List<DestinationCreationTO>> destinationLists = new ArrayList<>();
-    try (RandomAccessFile randFile = new RandomAccessFile(file, "r");){
-      String lineData ;
-      while((lineData = randFile.readLine()) != null && quantity > 0 ){
-        if(lineData.contains(skuID)){
-          CsvBinTO bin = read(lineData);
-          List<DestinationCreationTO> destinations = outboundDestinations(bin);
-          if(destinations != null){
-            destinationLists.add(destinations);
-            quantity -= bin.getSKUQuantity(skuID);
-          }
-        }
-      }
-    }
-    catch (IOException ex){
-      LOG.error("Error getDestinationsViaSKU in Data base",ex);
-    }
-    finally{
-      rwlock.readLock().unlock();
-    }
-    if(quantity>0)
-    {
-      LOG.error("Error there're not enough available SKUs({}) in the data base",skuID);
-      throw new InterruptedException("There're not enough bins with the given SKU in the data base");
-    }
-    return destinationLists;
+    
+    return requiredBins;
   }
   
   @Override
   public int getStackSize(String locationName){
-    rwlock.readLock().lock();
-    Integer stackSize = 0;
-    try (RandomAccessFile randFile = new RandomAccessFile(file, "r");){
-      String lineData ;
-      while((lineData = randFile.readLine())!=null){
-        if(lineData.contains(locationName)){
-          String[] strData = lineData.split(CSV_COLUMN_SEPARATOR);
-          stackSize = Integer.valueOf(strData[5]) + 1;
-          break;
-        }
-      }
-    }
-    catch (IOException ex){
-      LOG.error("Error getStackSize in Data base",ex);
-    }
-    finally{
-      rwlock.readLock().unlock();
-    }
-    return stackSize;
+    return model.getObjectPool().getObject(Location.class, locationName).stackSize();
   }
 
   @Override
@@ -337,67 +286,17 @@ public class StandardDataBaseService implements DataBaseService {
     return vacancyNum <= 0 ? vacantNeighbours : null;
   }
   
-  @Deprecated
-  private List<DestinationCreationTO> outboundDestinations(CsvBinTO bin){
-    String originLoc = bin.getLocationName();
-    List<DestinationCreationTO> result = new ArrayList<>();
-    int stackSize = getStackSize(originLoc);
-    List<String> tmpLocs = getVacantNeighbours(bin.getRow(), bin.getColumn(), stackSize-1-bin.getBinPosition());
-    if(tmpLocs == null)
-      return null;
-    for(String tmpLoc:tmpLocs){
-      result.add(new DestinationCreationTO(originLoc, getLoadOperation()));
-      result.add(new DestinationCreationTO(tmpLoc, getUnloadOperation()));
-    }    
-   
-    result.add(new DestinationCreationTO(originLoc, getLoadOperation()));
-    result.add(new DestinationCreationTO(getPickStation(bin.getRow()), getUnloadOperation()));
-   
-    for(int i=tmpLocs.size()-1;i>=0;i--){
-      result.add(new DestinationCreationTO(tmpLocs.get(i),getLoadOperation()));
-      result.add(new DestinationCreationTO(originLoc, getUnloadOperation()));
-    }
-    return result;
+  private static Function<Bin.SKU, Integer> getQuantityWithLimit(Map<String, Integer> Skus){
+    return p -> {
+      Integer limit = Skus.get(p.getSkuID());
+      Integer quantity = p.getQuantity();
+      return quantity <= limit ? quantity : limit;
+    };      
   }
   
-  @Override
-  public List<DestinationCreationTO> outboundDestinations(String locationName, int row, int column, int binPosition){
-    List<DestinationCreationTO> result = new ArrayList<>();
-    int stackSize = getStackSize(locationName);
-    List<String> tmpLocs = getVacantNeighbours(row, column, stackSize-1-binPosition);
-    if(tmpLocs == null)
-      return null;
-    for(String tmpLoc:tmpLocs){
-      result.add(new DestinationCreationTO(locationName, getLoadOperation()));
-      result.add(new DestinationCreationTO(tmpLoc, getUnloadOperation()));
-    }    
-   
-    result.add(new DestinationCreationTO(locationName, getLoadOperation()));
-    result.add(new DestinationCreationTO(getPickStation(row), getUnloadOperation()));
-   
-    for(int i=tmpLocs.size()-1;i>=0;i--){
-      result.add(new DestinationCreationTO(tmpLocs.get(i),getLoadOperation()));
-      result.add(new DestinationCreationTO(locationName, getUnloadOperation()));
-    }
-    return result;
-  }
-  
-  private String getPickStation(int row){
-    for(String location:locationPosition[row-1]){
-      if(location != null && isPickStation(location))
-        return location;
-    }
-    return null;
-  }
-    
   private void write(BufferedWriter writer, List<String> data) throws IOException {
     writer.write(String.join(CSV_COLUMN_SEPARATOR, data));
     writer.newLine();
-  }
-  
-  private CsvBinTO read(String lineData) {
-    String[] strData = lineData.split(CSV_COLUMN_SEPARATOR);
-    return new CsvBinTO(strData);
   }
 
   private void createNewFile() {

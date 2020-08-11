@@ -185,7 +185,7 @@ public class PlantModelElementConverter {
     
     ////modified by Henry
     model.getPropertyBinID().setText(vehicleTO.getBin().getName());
-    model.getPropertyBinSKU().setText(vehicleTO.getBin().getSKUString());
+    model.getPropertyBinSKU().setText(vehicleTO.getBin().getAllSKUString());
     model.getPropertyType().setText(vehicleTO.getType());
     ////modified end
     return model;
@@ -234,7 +234,7 @@ public class PlantModelElementConverter {
     int i = 0;
     for(Bin bin : locationTO.getBins()){
       model.getPropertyBin(i).get(0).setText(bin.getName());
-      model.getPropertyBin(i).get(1).setText(bin.getSKUString());
+      model.getPropertyBin(i).get(1).setText(bin.getAllSKUString());
       i++;
       if(i>=model.getBinsSize())
         break;
