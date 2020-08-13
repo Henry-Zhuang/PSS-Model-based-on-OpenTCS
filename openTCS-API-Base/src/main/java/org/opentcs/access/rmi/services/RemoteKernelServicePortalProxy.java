@@ -27,6 +27,7 @@ import static org.opentcs.access.rmi.services.RegistrationName.REMOTE_PLANT_MODE
 import static org.opentcs.access.rmi.services.RegistrationName.REMOTE_ROUTER_SERVICE;
 import static org.opentcs.access.rmi.services.RegistrationName.REMOTE_SCHEDULER_SERVICE;
 import static org.opentcs.access.rmi.services.RegistrationName.REMOTE_TRANSPORT_ORDER_SERVICE;
+import static org.opentcs.access.rmi.services.RegistrationName.REMOTE_TIME_FACTOR_SERVICE;
 import static org.opentcs.access.rmi.services.RegistrationName.REMOTE_VEHICLE_SERVICE;
 import org.opentcs.components.kernel.services.DispatcherService;
 import org.opentcs.components.kernel.services.NotificationService;
@@ -34,6 +35,7 @@ import org.opentcs.components.kernel.services.PlantModelService;
 import org.opentcs.components.kernel.services.RouterService;
 import org.opentcs.components.kernel.services.SchedulerService;
 import org.opentcs.components.kernel.services.ServiceUnavailableException;
+import org.opentcs.components.kernel.services.TimeFactorService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.components.kernel.services.VehicleService;
 import org.slf4j.Logger;
@@ -102,6 +104,12 @@ public class RemoteKernelServicePortalProxy
    */
   private final RemoteSchedulerServiceProxy schedulerService
       = new RemoteSchedulerServiceProxy();
+  /**
+   * The time factor service.
+   * created by Henry
+   */
+  private final RemoteTimeFactorServiceProxy timeFactorService
+      = new RemoteTimeFactorServiceProxy();
 
   /**
    * Creates a new instance.
@@ -261,6 +269,13 @@ public class RemoteKernelServicePortalProxy
   public SchedulerService getSchedulerService() {
     return schedulerService;
   }
+  
+  // created by Henry
+  @Override
+  @Nonnull
+  public TimeFactorService getTimeFactorService() {
+    return timeFactorService;
+  }
 
   private void updateServiceLogins(Registry registry)
       throws RemoteException, NotBoundException {
@@ -298,6 +313,12 @@ public class RemoteKernelServicePortalProxy
         .setClientId(getClientId())
         .setRemoteService((RemoteSchedulerService) registry.lookup(REMOTE_SCHEDULER_SERVICE))
         .setServiceListener(this);
+    
+    //modified by Henry
+    timeFactorService
+        .setClientId(getClientId())
+        .setRemoteService((RemoteTimeFactorService) registry.lookup(REMOTE_TIME_FACTOR_SERVICE))
+        .setServiceListener(this);
   }
 
   private void resetServiceLogins() {
@@ -309,5 +330,7 @@ public class RemoteKernelServicePortalProxy
     dispatcherService.setClientId(null).setRemoteService(null).setServiceListener(null);
     routerService.setClientId(null).setRemoteService(null).setServiceListener(null);
     schedulerService.setClientId(null).setRemoteService(null).setServiceListener(null);
+    // modified by Henry
+    timeFactorService.setClientId(null).setRemoteService(null).setServiceListener(null);
   }
 }

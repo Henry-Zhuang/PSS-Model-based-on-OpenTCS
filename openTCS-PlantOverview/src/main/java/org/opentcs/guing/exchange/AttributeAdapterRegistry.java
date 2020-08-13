@@ -16,7 +16,9 @@ import org.opentcs.guing.application.ApplicationState;
 import org.opentcs.guing.application.OperationMode;
 import org.opentcs.guing.event.SystemModelTransitionEvent;
 import org.opentcs.guing.exchange.adapter.PathLockAdapter;
+import org.opentcs.guing.exchange.adapter.TimeFactorAdapter;
 import org.opentcs.guing.exchange.adapter.VehicleAllowedOrderTypesAdapter;
+import org.opentcs.guing.model.elements.LayoutModel;
 import org.opentcs.guing.model.elements.PathModel;
 import org.opentcs.guing.model.elements.VehicleModel;
 import org.opentcs.guing.persistence.ModelManager;
@@ -123,6 +125,12 @@ public class AttributeAdapterRegistry
     }
     for (PathModel model : modelManager.getModel().getPathModels()) {
       model.addAttributesChangeListener(new PathLockAdapter(portalProvider,
+                                                            applicationState,
+                                                            model));
+    }
+    // modified by Henry
+    for (LayoutModel model: modelManager.getModel().getLayoutModels()) {
+      model.addAttributesChangeListener(new TimeFactorAdapter(portalProvider,
                                                             applicationState,
                                                             model));
     }

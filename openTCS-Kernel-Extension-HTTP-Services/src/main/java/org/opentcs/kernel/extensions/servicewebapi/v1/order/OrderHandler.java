@@ -30,7 +30,6 @@ import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.customizations.kernel.KernelExecutor;
 import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
-import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.OrderBinConstants;
 import org.opentcs.data.order.TransportOrder;

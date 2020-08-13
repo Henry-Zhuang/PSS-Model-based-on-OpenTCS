@@ -25,6 +25,9 @@ public class LayoutModel
 
   public static final String SCALE_X = "scaleX";
   public static final String SCALE_Y = "scaleY";
+  /// modified by Henry
+  public static final String TIME_FACTOR = "TimeFactor";
+  ///
   /**
    * This class's resource bundle.
    */
@@ -50,6 +53,10 @@ public class LayoutModel
   public LengthProperty getPropertyScaleY() {
     return (LengthProperty) getProperty(SCALE_Y);
   }
+  
+  public StringProperty getPropertyTimeFactor() {
+    return (StringProperty) getProperty(TIME_FACTOR);
+  }
 
   public KeyValueSetProperty getPropertyMiscellaneous() {
     return (KeyValueSetProperty) getProperty(MISCELLANEOUS);
@@ -70,7 +77,16 @@ public class LayoutModel
     pScaleY.setDescription(bundle.getString("layoutModel.property_scaleY.description"));
     pScaleY.setHelptext(bundle.getString("layoutModel.property_scaleY.helptext"));
     setProperty(SCALE_Y, pScaleY);
-
+    
+    ///// modified by Henry
+    StringProperty pTimeFactor = new StringProperty(this);
+    pTimeFactor.setDescription(bundle.getString("layoutModel.property_timeFactor.description"));
+    pTimeFactor.setHelptext(bundle.getString("layoutModel.property_timeFactor.helptext"));
+    pTimeFactor.setCollectiveEditable(true);
+    pTimeFactor.setOperatingEditable(true);
+    setProperty(TIME_FACTOR, pTimeFactor);
+    ///// modified end
+        
     KeyValueSetProperty pMiscellaneous = new KeyValueSetProperty(this);
     pMiscellaneous.setDescription(bundle.getString("layoutModel.property_miscellaneous.description"));
     pMiscellaneous.setHelptext(bundle.getString("layoutModel.property_miscellaneous.helptext"));

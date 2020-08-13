@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,10 +23,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.opentcs.components.kernel.services.DataBaseService;
-import org.opentcs.database.to.CsvBinTO;
 import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Location;
 import org.opentcs.data.model.Point;
+import org.opentcs.data.model.TrackDefinition;
 import org.opentcs.kernel.workingset.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,10 @@ public class StandardDataBaseService implements DataBaseService {
    * This class' logger.
    */
   private static final Logger LOG = LoggerFactory.getLogger(StandardVehicleService.class);
+  /**
+   * The csv file's first line.
+   */
+  public static final String[] CsvTitle={"BinID.", "SKUs", "AttachedObject", "Row", "Column", "Position", "Locked"};
   /**
    * A read write lock be used for accessing the database of the kernel.
    */
@@ -75,7 +78,7 @@ public class StandardDataBaseService implements DataBaseService {
     createNewFile();
     try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),
                                                                  CHARSET));){
-      write(writer, Arrays.asList(CsvBinTO.CsvTitle));
+      write(writer, Arrays.asList(CsvTitle));
       int i;
       model.getObjectPool().getObjects(Bin.class)
           .stream()
@@ -84,11 +87,11 @@ public class StandardDataBaseService implements DataBaseService {
             if(bin1.getAttachedLocation().equals(bin2.getAttachedLocation())){
               Integer binPosition1 = bin1.getBinPosition();
               Integer binPosition2 = bin2.getBinPosition();
-              return binPosition1.compareTo(binPosition2);
+              return binPosition2.compareTo(binPosition1);
             }
             else
-              return bin2.getAttachedLocation().getName()
-                  .compareTo(bin1.getAttachedLocation().getName());
+              return bin1.getAttachedLocation().getName()
+                  .compareTo(bin2.getAttachedLocation().getName());
           })
           .forEach(b -> {
             try{
@@ -107,52 +110,9 @@ public class StandardDataBaseService implements DataBaseService {
     }
   }
   
-//  @Override
-//  public Map<CsvBinTO, Set<String>> getBinsViaSkus(Map<String, Integer> Skus) throws InterruptedException {
-//    for(Map.Entry<String, Integer> skuEntry : Skus.entrySet()){
-//      if (skuEntry.getKey().isEmpty())
-//        Skus.remove(skuEntry.getKey());
-//    }
-//    List<String> skuIDs = new ArrayList<>(Skus.keySet());
-//    Map<CsvBinTO, Set<String>> requiredBinTOs = new HashMap<>();
-//    rwlock.readLock().lock();
-//    try (RandomAccessFile randFile = new RandomAccessFile(file, "r");){
-//      String lineData ;
-//      while((lineData = randFile.readLine()) != null){
-//        // 仅查询还未满足数量要求的skuID
-//        Set<String> tmpSkuIDs = skuIDs.stream()
-//            .filter(isQuantityPositive(Skus))
-//            .collect(Collectors.toSet());
-//        // 如果各数量要求均已满足，则退出循环
-//        if(tmpSkuIDs.isEmpty())
-//          break;
-//        // 查询该料箱是否存有未满足数量要求的skuID
-//        tmpSkuIDs = tmpSkuIDs.stream().filter(lineData::contains).collect(Collectors.toSet());
-//        if(!tmpSkuIDs.isEmpty()){
-//          CsvBinTO bin = read(lineData);
-//          requiredBinTOs.put(bin, tmpSkuIDs);
-//          // 减去数量要求
-//          for(String skuID:tmpSkuIDs)
-//            Skus.put(skuID, Skus.get(skuID) - bin.getSKUQuantity(skuID));
-//        }
-//      }
-//    }
-//    catch (IOException ex){
-//      LOG.error("Error getBinsViaSKU in Data base",ex);
-//    }
-//    finally{
-//      rwlock.readLock().unlock();
-//    }
-//    Set<String> tmpSkuIDs = skuIDs.stream().filter(isQuantityPositive(Skus)).collect(Collectors.toSet());
-//    if(!tmpSkuIDs.isEmpty())
-//    {
-//      LOG.error("Error there're not enough available SKUs({}) in the data base",tmpSkuIDs);
-////      throw new InterruptedException("There're not enough bins with the given SKU in the data base");
-//    }
-//    return requiredBinTOs;
-//  }
   @Override
   public Map<String, Map<String, Integer>> getBinsViaSkus(Map<String, Integer> Skus) throws InterruptedException {
+    
     for(Map.Entry<String, Integer> skuEntry : Skus.entrySet()){
       if (skuEntry.getKey().isEmpty())
         Skus.remove(skuEntry.getKey());
@@ -161,7 +121,8 @@ public class StandardDataBaseService implements DataBaseService {
     Map<String, Map<String, Integer>> requiredBins = new HashMap<>();
     
     Set<Bin> bins = model.getObjectPool().getObjects(Bin.class, bin -> {
-      return !bin.isLocked() && bin.getAttachedLocation() != null && !bin.getSKUs().isEmpty();
+      return !bin.isLocked() && bin.getAttachedLocation() != null 
+          && !bin.getSKUs().isEmpty() && !isPickStation(bin.getAttachedLocation().getName());
     });
     // 未满足数量要求的skuID
     Set<String> requiredSkuIDs = skuIDs.stream()
@@ -215,28 +176,59 @@ public class StandardDataBaseService implements DataBaseService {
       sortedXPos.add(point.getPosition().getX());
       sortedYPos.add(point.getPosition().getY());
     }
-    
-    sortedXPos = sortedXPos.stream().distinct().sorted().collect(Collectors.toList());
-    sortedYPos = sortedYPos.stream().distinct().sorted().collect(Collectors.toList());
-    
-    locationPosition = new String[sortedYPos.size()][sortedXPos.size()];
-    
-    for (Point point:model.getObjectPool().getObjects(Point.class)){
-      point.setColumn(sortedXPos.indexOf(point.getPosition().getX()) + 1);
-      point.setRow(sortedYPos.indexOf(point.getPosition().getY()) + 1);
-      model.getObjectPool().replaceObject(point);
-      Location tmpLoc;
-      for(Location.Link link:point.getAttachedLinks()){
-        tmpLoc = model.getObjectPool().getObject(Location.class, link.getLocation());
-        tmpLoc.setColumn(point.getColumn());
-        tmpLoc.setRow(point.getRow());
+    List<Long> psbTrackPool;
+    List<Long> pstTrackPool;
+    switch(TrackDefinition.PSB_TRACK_DEFINITION){
+      case Y_POSITION :
+        // 如果PSB轨道是以Y轴坐标进行划分
+        psbTrackPool = sortedYPos.stream().distinct().sorted().collect(Collectors.toList());
+        pstTrackPool = sortedXPos.stream().distinct().sorted().collect(Collectors.toList());
         
-        for(Bin bin : tmpLoc.getBins())
-          model.getObjectPool().replaceObject(bin);
+        locationPosition = new String[psbTrackPool.size()][pstTrackPool.size()];
+    
+        for (Point point:model.getObjectPool().getObjects(Point.class)){
+          point.setPsbTrack(psbTrackPool.indexOf(point.getPosition().getY()) + 1);
+          point.setPstTrack(pstTrackPool.indexOf(point.getPosition().getX()) + 1);
+          model.getObjectPool().replaceObject(point);
+          Location tmpLoc;
+          for(Location.Link link:point.getAttachedLinks()){
+            tmpLoc = model.getObjectPool().getObject(Location.class, link.getLocation());
+            tmpLoc.setPsbTrack(point.getPsbTrack());
+            tmpLoc.setPstTrack(point.getPstTrack());
+
+            for(Bin bin : tmpLoc.getBins())
+              model.getObjectPool().replaceObject(bin);
+
+            model.getObjectPool().replaceObject(tmpLoc);
+            locationPosition[tmpLoc.getPsbTrack()-1][tmpLoc.getPstTrack()-1] = tmpLoc.getName();
+          }
+        }
+        break;
+      default :
+        // 如果PSB轨道是以X轴坐标进行划分
+        psbTrackPool = sortedXPos.stream().distinct().sorted().collect(Collectors.toList());
+        pstTrackPool = sortedYPos.stream().distinct().sorted().collect(Collectors.toList());
         
-        model.getObjectPool().replaceObject(tmpLoc);
-        locationPosition[tmpLoc.getRow()-1][tmpLoc.getColumn()-1] = tmpLoc.getName();
-      }
+        locationPosition = new String[psbTrackPool.size()][pstTrackPool.size()];
+    
+        for (Point point:model.getObjectPool().getObjects(Point.class)){
+          point.setPsbTrack(psbTrackPool.indexOf(point.getPosition().getX()) + 1);
+          point.setPstTrack(pstTrackPool.indexOf(point.getPosition().getY()) + 1);
+          model.getObjectPool().replaceObject(point);
+          Location tmpLoc;
+          for(Location.Link link:point.getAttachedLinks()){
+            tmpLoc = model.getObjectPool().getObject(Location.class, link.getLocation());
+            tmpLoc.setPsbTrack(point.getPsbTrack());
+            tmpLoc.setPstTrack(point.getPstTrack());
+
+            for(Bin bin : tmpLoc.getBins())
+              model.getObjectPool().replaceObject(bin);
+
+            model.getObjectPool().replaceObject(tmpLoc);
+            locationPosition[tmpLoc.getPsbTrack()-1][tmpLoc.getPstTrack()-1] = tmpLoc.getName();
+          }
+        }
+        break;
     }
   }
   
@@ -245,14 +237,13 @@ public class StandardDataBaseService implements DataBaseService {
     return locationPosition;
   }
   
+  @Deprecated
   @Override
-  public List<String> getVacantNeighbours(int locationRow, int locationColumn, int vacancyNum){
-    rwlock.readLock().lock();
+  public List<String> getVacantNeighbours(int psbTrack, int pstTrack, int vacancyNum){
     int offset = 1;
-    int row = locationRow - 1;
-    int column = locationColumn - 1;
+    int row = psbTrack - 1;
+    int column = pstTrack - 1;
     List<String> vacantNeighbours = new ArrayList<>();
-    try {
       while(vacancyNum > 0 
           && (column-offset >= 0 || column+offset < locationPosition[row].length)){
         // A vacant neighbour firstly should be valid.
@@ -279,10 +270,6 @@ public class StandardDataBaseService implements DataBaseService {
         }
         offset++;
       }
-    }
-    finally {
-      rwlock.readLock().unlock();
-    }
     return vacancyNum <= 0 ? vacantNeighbours : null;
   }
   

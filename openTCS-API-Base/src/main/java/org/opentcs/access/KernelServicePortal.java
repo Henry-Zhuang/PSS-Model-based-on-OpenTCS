@@ -14,6 +14,7 @@ import org.opentcs.components.kernel.services.NotificationService;
 import org.opentcs.components.kernel.services.PlantModelService;
 import org.opentcs.components.kernel.services.RouterService;
 import org.opentcs.components.kernel.services.SchedulerService;
+import org.opentcs.components.kernel.services.TimeFactorService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.util.annotations.ScheduledApiChange;
@@ -131,4 +132,8 @@ public interface KernelServicePortal {
    */
   @Nonnull
   SchedulerService getSchedulerService();
+  
+  // created by Henry
+  @Nonnull
+  TimeFactorService getTimeFactorService();
 }

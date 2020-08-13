@@ -28,10 +28,6 @@ public class TransportOrderBin
                Cloneable {
 
   /**
-   * This class's Logger.
-   */
-  private static final Logger LOG = LoggerFactory.getLogger(TransportOrder.class);
-  /**
    * The type of this transport bin order.
    */
   @Nonnull

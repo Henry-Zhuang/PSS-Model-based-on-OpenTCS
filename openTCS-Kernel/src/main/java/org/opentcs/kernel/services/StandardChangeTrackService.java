@@ -30,6 +30,7 @@ import org.opentcs.data.ObjectUnknownException;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Point;
+import org.opentcs.data.model.TrackDefinition;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.DriveOrder;
 import org.opentcs.data.order.OrderConstants;
@@ -115,7 +116,7 @@ public class StandardChangeTrackService
         .stream()
         .filter(veh -> veh.getType().equals(Vehicle.BIN_VEHICLE_TYPE))
         .forEach(PSB -> noVehicleTracks.remove(fetchObject(Point.class,
-                                                           PSB.getCurrentPosition()).getRow()));
+                                                           PSB.getCurrentPosition()).getPsbTrack()));
     vehicleStateChanged = false;
   }
   
@@ -158,7 +159,7 @@ public class StandardChangeTrackService
           .filter(tOrderBin -> tOrderBin.hasState(TransportOrderBin.State.AWAIT_DISPATCH))
           .filter(tOB -> {
               Bin bin = fetchObject(Bin.class,tOB.getBinID());
-              return noVehicleTracks.contains(bin.getLocationRow());
+              return noVehicleTracks.contains(bin.getPsbTrack());
             })
           .sorted(Comparator.comparing(TransportOrderBin::getDeadline))
           .findFirst()
@@ -185,11 +186,11 @@ public class StandardChangeTrackService
       return;
     }
     
-    int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getRow();
+    int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getPsbTrack();
     Bin bin = fetchObject(Bin.class,tOB.getBinID());
     if(bin.getAttachedLocation() == null)
       return;
-    int dstTrack = bin.getLocationRow();
+    int dstTrack = bin.getPsbTrack();
     String dstLocation = bin.getAttachedLocation().getName();
     
     String orderName = nameFor(OrderConstants.TYPE_CHANGE_TRACK);
@@ -256,9 +257,10 @@ public class StandardChangeTrackService
         int currTrack = fetchObject(Point.class,
                                     fetchObject(Vehicle.class,entry.getBinVehicle())
                                     .getCurrentPosition())
-                        .getRow();
+                        .getPsbTrack();
         noVehicleTracks.add(currTrack);
         trackOrderPool.remove(getPrefix(orderRef.getName()));
+        System.out.println(noVehicleTracks);//Test
       }
     }
     else if(fetchObjects(TransportOrder.class,
@@ -276,13 +278,8 @@ public class StandardChangeTrackService
       LOG.warn("Warning track order entry of {} not found when checking isEnteringFirstTrackPoint.",orderName);
       return false;
     }
-    int srcTrack = entry.srcTrack;
-    int srcColumn = fetchObject(Point.class, 
-                                fetchObject(Vehicle.class,
-                                            entry.trackVehicle).getCurrentPosition())
-                    .getColumn();
-    return dstPoint.getRow() == srcTrack
-        && dstPoint.getColumn() == srcColumn;
+    
+    return isFirstTrackPoint(dstPoint, entry);
   }
 
   @Override
@@ -292,13 +289,8 @@ public class StandardChangeTrackService
       LOG.warn("Error track order entry of {} not found when checking isLeavingFirstTrackPoint.",orderName);
       return false;
     }
-    int srcTrack = entry.srcTrack;
-    int srcColumn = fetchObject(Point.class, 
-                                fetchObject(Vehicle.class,
-                                            entry.trackVehicle).getCurrentPosition())
-                    .getColumn();
-    return srcPoint.getRow() == srcTrack
-        && srcPoint.getColumn() == srcColumn;
+    
+    return isFirstTrackPoint(srcPoint, entry);
   }
 
   private String getPrefix(String orderName) {
@@ -334,21 +326,21 @@ public class StandardChangeTrackService
 
   private List<DestinationCreationTO> TrackDestinations(Vehicle trackVehicle, int srcTrack, int dstTrack) {
     List<DestinationCreationTO> result = new ArrayList<>();
+    List<Point> trackPoints;
     Point srcTrackPoint;
     Point dstTrackPoint;
     
-    int trackColumn = fetchObject(Point.class, trackVehicle.getCurrentPosition()).getColumn();
-    List<Point> trackPoints = fetchObjects(Point.class).stream()
-        .filter(p -> p.getColumn() == trackColumn)
-        .filter(point -> point.getRow() == srcTrack || point.getRow() == dstTrack)
+    int pstTrack = fetchObject(Point.class, trackVehicle.getCurrentPosition()).getPstTrack();
+    trackPoints = fetchObjects(Point.class, p -> p.getPstTrack() == pstTrack).stream()
+        .filter(point -> point.getPsbTrack() == srcTrack || point.getPsbTrack() == dstTrack)
         .collect(Collectors.toList());
-    
+
     if(trackPoints.size()!=2){
       LOG.error("Error trackPoints can't be found when change track from Track {} to Track {}",srcTrack,dstTrack);
       throw new ObjectUnknownException("Track points can't be found when creating change-track order.");
     }
     
-    if(trackPoints.get(0).getRow() == srcTrack){
+    if(trackPoints.get(0).getPsbTrack() == srcTrack){
       srcTrackPoint = trackPoints.get(0);
       dstTrackPoint = trackPoints.get(1);
     }
@@ -360,6 +352,14 @@ public class StandardChangeTrackService
     result.add(new DestinationCreationTO(srcTrackPoint.getName(),DriveOrder.Destination.OP_MOVE));
     result.add(new DestinationCreationTO(dstTrackPoint.getName(),DriveOrder.Destination.OP_MOVE));
     return result;
+  }
+
+  private boolean isFirstTrackPoint(Point point, TrackOrderEntry entry) {
+    int psbTrack = entry.srcTrack;
+    int pstTrack = fetchObject(Point.class, 
+                            fetchObject(Vehicle.class,entry.trackVehicle)
+                                .getCurrentPosition()).getPstTrack();
+    return point.getPsbTrack() == psbTrack && point.getPstTrack() == pstTrack;
   }
   
   private static final class TrackOrderEntry{

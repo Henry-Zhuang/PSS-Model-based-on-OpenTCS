@@ -64,5 +64,10 @@ public enum UserPermission {
   /**
    * Indicates the client may publish messages via the kernel.
    */
-  PUBLISH_MESSAGES
+  PUBLISH_MESSAGES,
+  /**
+   * Indicates the client may change simulation time factor via the kernel.
+   * created by Henry
+   */
+  CHANGE_TIME_FACTOR
 }

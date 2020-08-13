@@ -21,7 +21,6 @@ import org.opentcs.access.to.order.DestinationCreationTO;
 import org.opentcs.access.to.order.TransportOrderBinCreationTO;
 import org.opentcs.access.to.order.TransportOrderCreationTO;
 import org.opentcs.components.kernel.services.ChangeTrackService;
-import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
@@ -54,10 +53,6 @@ public class TransportOrderBinPool {
    * The system's global object pool.
    */
   private final TCSObjectPool objectPool;
-  /**
-   * 
-   */
-  private final DataBaseService dataBaseService;
 
   private final TransportOrderService orderService;
   
@@ -66,17 +61,14 @@ public class TransportOrderBinPool {
    * Creates a new instance.
    *
    * @param objectPool The object pool serving as the container for this order pool's data.
-   * @param dataBaseService The kernel's data base service.
    * @param orderService The kernel's transport order service.
    * @param changeTrackService The kernel's change-track service
    */
   @Inject
   public TransportOrderBinPool(TCSObjectPool objectPool,
-                            DataBaseService dataBaseService,
                             TransportOrderService orderService,
                             ChangeTrackService changeTrackService) {
     this.objectPool = requireNonNull(objectPool, "objectPool");
-    this.dataBaseService = requireNonNull(dataBaseService, "dataBaseService");
     this.orderService = requireNonNull(orderService, "orderService");
     this.changeTrackService = requireNonNull(changeTrackService, "changeTrackService");
   }
@@ -108,10 +100,10 @@ public class TransportOrderBinPool {
   }
 
   /**
-   * Adds a new transport order to the pool.
+   * Adds a new transport order bin to the pool.
    * This method implicitly adds the transport order to its wrapping sequence, if any.
    *
-   * @param to The transfer object from which to create the new transport order.
+   * @param to The transfer object from which to create the new transport order bin.
    * @return The newly created transport order.
    * @throws ObjectExistsException If an object with the new object's name already exists.
    * @throws ObjectUnknownException If any object referenced in the TO does not exist.
@@ -274,10 +266,10 @@ public class TransportOrderBinPool {
         return false;
       }
       
-      int binRow = bin.getLocationRow();
-      int vehicleRow = objectPool.getObject(Point.class,
-                                               vehicle.getCurrentPosition()).getRow();
-      return binRow == vehicleRow;
+      int binTrack = bin.getPsbTrack();
+      int vehicleTrack = objectPool.getObject(Point.class,
+                                               vehicle.getCurrentPosition()).getPsbTrack();
+      return binTrack == vehicleTrack;
     };
   }
   
@@ -289,17 +281,17 @@ public class TransportOrderBinPool {
   
   private List<DestinationCreationTO> outboundDestinations(Bin bin, boolean needBack){
     String locationName = bin.getAttachedLocation().getName();
-    int row = bin.getLocationRow();
-    int column = bin.getLocationColumn();
+    int psbTrack = bin.getPsbTrack();
+    int pstTrack = bin.getPstTrack();
     int binPosition = bin.getBinPosition();
     
     List<DestinationCreationTO> result = new ArrayList<>();
-    int stackSize = objectPool.getObject(Location.class, locationName).stackSize();
-    List<String> tmpLocs = dataBaseService.getVacantNeighbours(row, column, stackSize-1-binPosition);
+    int stackSize = getStackSize(locationName);
+    List<String> tmpLocs = getVacantNeighbours(psbTrack, pstTrack, stackSize - 1 - binPosition);
     if(tmpLocs == null)
       return null;
     // 该轨道的分拣台
-    String pickStation = getPickStation(row);
+    String pickStation = getPickStation(psbTrack);
 
     // 倒箱
     for(String tmpLoc:tmpLocs){
@@ -329,8 +321,46 @@ public class TransportOrderBinPool {
     return result;
   }
   
-  private String getPickStation(int row){
-    for(String location:locationPosition[row-1]){
+  private List<String> getVacantNeighbours(int psbTrack, int pstTrack, int vacancyNum){
+    int offset = 1;
+    int row = psbTrack - 1;
+    int column = pstTrack - 1;
+    List<String> vacantNeighbours = new ArrayList<>();
+      while(vacancyNum > 0 
+          && (column-offset >= 0 || column+offset < locationPosition[row].length)){
+        // A vacant neighbour firstly should be valid.
+        // A picking station is not considered as a vacant neighbour.
+        if(column-offset >= 0
+            && locationPosition[row][column-offset] != null
+            && !isPickStation(locationPosition[row][column-offset])){
+          int vacancy = Location.BINS_MAX_NUM - getStackSize(locationPosition[row][column-offset]);
+          vacancy = vacancy > vacancyNum ? vacancyNum : vacancy;
+          for(int i=0;i<vacancy;i++)
+            vacantNeighbours.add(locationPosition[row][column-offset]);
+          vacancyNum -= vacancy;
+        }
+        
+        if(vacancyNum > 0 
+            && column+offset < locationPosition[row].length
+            && locationPosition[row][column+offset] != null
+            && !isPickStation(locationPosition[row][column+offset])){
+          int vacancy = Location.BINS_MAX_NUM - getStackSize(locationPosition[row][column+offset]);
+          vacancy = vacancy > vacancyNum ? vacancyNum : vacancy;
+          for(int i=0;i<vacancy;i++)
+            vacantNeighbours.add(locationPosition[row][column+offset]);
+          vacancyNum -= vacancy;
+        }
+        offset++;
+      }
+    return vacancyNum <= 0 ? vacantNeighbours : null;
+  }
+  
+  private int getStackSize(String locationName){
+    return objectPool.getObject(Location.class, locationName).stackSize();
+  }
+  
+  private String getPickStation(int psbTrack){
+    for(String location:locationPosition[psbTrack-1]){
       if(location != null && isPickStation(location))
         return location;
     }

@@ -38,7 +38,7 @@ public class ModelTest {
    * The object pool backing the test model.
    */
   private TCSObjectPool globalPool;
-
+  
   @Before
   public void setUp() {
     globalPool = new TCSObjectPool(new SimpleEventBus());

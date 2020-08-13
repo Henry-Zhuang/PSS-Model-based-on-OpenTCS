@@ -19,7 +19,6 @@ import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.TransportOrder;
 import org.opentcs.data.order.TransportOrderBin;
-import org.opentcs.kernel.workingset.Model;
 import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.opentcs.kernel.workingset.TransportOrderBinPool;
 
@@ -42,10 +41,6 @@ public class StandardTransportOrderBinService
    * The order facade to the object pool.
    */
   private final TransportOrderBinPool orderBinPool;
-  /**
-   * The model facade to the object pool.
-   */
-  private final Model model;
   
   /**
    * Creates a new instance.
@@ -54,19 +49,16 @@ public class StandardTransportOrderBinService
    * @param globalSyncObject The kernel threads' global synchronization object.
    * @param globalObjectPool The object pool to be used.
    * @param orderBinPool The oder bin pool to be used.
-   * @param model The model to be used.
    */
   @Inject
   public StandardTransportOrderBinService(TCSObjectService objectService,
                                        @GlobalSyncObject Object globalSyncObject,
                                        TCSObjectPool globalObjectPool,
-                                       TransportOrderBinPool orderBinPool,
-                                       Model model) {
+                                       TransportOrderBinPool orderBinPool) {
     super(objectService);
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.globalObjectPool = requireNonNull(globalObjectPool, "globalObjectPool");
     this.orderBinPool = requireNonNull(orderBinPool, "orderPool");
-    this.model = requireNonNull(model, "model");
   }
   
   @Override

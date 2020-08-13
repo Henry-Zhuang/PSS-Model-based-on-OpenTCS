@@ -283,6 +283,7 @@ public class Model {
       shape.setProperties(shapeTO.getProperties());
       newLayout.getLayoutElements().add(shape);
     }
+    // modified by Henry
     objectPool.addObject(newLayout);
     objectPool.emitObjectEvent(newLayout.clone(),
                                null,

@@ -71,13 +71,13 @@ public class Location
    */
   public static final String PICK_STATION_PREFIX = "Pick";
   /**
-   * The row that this location is located based on y position.
+   * The psbTrack that this location is located based on y position.
    */
-  private int row;
+  private int psbTrack;
   /**
-   * The column that this location is located based on x position.
+   * The pstTrack that this location is located based on x position.
    */
-  private int column;
+  private int pstTrack;
   
   ///////////////////////////////////////////
   /**
@@ -141,8 +141,8 @@ public class Location
     this.position = requireNonNull(position, "position");
     this.attachedLinks = new HashSet<>(requireNonNull(attachedLinks, "attachedLinks"));
     this.Bins = requireNonNull(Bins,"Bins");
-    this.row = row;
-    this.column = column;
+    this.psbTrack = row;
+    this.pstTrack = column;
   }
   
   
@@ -155,7 +155,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);
+                        Bins, psbTrack, pstTrack);
   }
 
   @Override
@@ -167,7 +167,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);
+                        Bins, psbTrack, pstTrack);
   }
 
   @Override
@@ -179,7 +179,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);
+                        Bins, psbTrack, pstTrack);
   }
 
   @Override
@@ -191,7 +191,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);
+                        Bins, psbTrack, pstTrack);
   }
 
   /**
@@ -230,7 +230,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);
+                        Bins, psbTrack, pstTrack);
   }
 
   /**
@@ -322,7 +322,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);
+                        Bins, psbTrack, pstTrack);
   }
 
   /**
@@ -341,7 +341,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);//modified by Henry
+                        Bins, psbTrack, pstTrack);//modified by Henry
   }
   
 ///////////////////////////////////////////////////////////////////modified by Henry{
@@ -379,7 +379,7 @@ public class Location
                         type,
                         position,
                         attachedLinks,
-                        Bins, row, column);
+                        Bins, psbTrack, pstTrack);
   }
   
   /**
@@ -433,31 +433,32 @@ public class Location
         return stackSize()==BINS_MAX_NUM;
   }
   
-  public int getRow(){
-    return row;
+  public int getPsbTrack(){
+    return psbTrack;
   }
   
-  public void setRow(int row){
-    this.row = row;
+  public void setPsbTrack(int psbTrack){
+    this.psbTrack = psbTrack;
     List<Bin> newBins = new ArrayList<>();
     for(Bin bin : Bins)
-      newBins.add(bin.withLocationRow(row));
+      newBins.add(bin.withPsbTrack(psbTrack));
 
     Bins = newBins;
   }
   
-  public int getColumn(){
-    return column;
+  public int getPstTrack(){
+    return pstTrack;
   }
   
-  public void setColumn(int column){
-    this.column = column;
+  public void setPstTrack(int pstTrack){
+    this.pstTrack = pstTrack;
     List<Bin> newBins = new ArrayList<>();
     for(Bin bin : Bins)
-      newBins.add(bin.withLocationColumn(column));
+      newBins.add(bin.withPstTrack(pstTrack));
 
     Bins = newBins;
   }
+  
   
  ///////////////////////////////////////////////////////////////////modified end} 
   
@@ -647,128 +648,4 @@ public class Location
       return new Link(location, point, allowedOperations);
     }
   }
-//  /**
-//   * A bin stored in the location, containing SKUs.
-//   * @author Henry
-//   */
-//  public static class Bin
-//      implements Serializable,
-//                 Cloneable {
-//    private String binID;
-//    private Set<SKU> SKUs;
-//    private boolean locked = false;
-//    public Bin(){
-//      binID = "";
-//      SKUs = new HashSet<>();
-//    }
-//    public Bin(String binID, Set<SKU> SKUs, boolean locked){
-//      this.binID = requireNonNull(binID,"binID");
-//      this.SKUs = requireNonNull(SKUs,"SKUs");
-//      this.locked = requireNonNull(locked,"locked");
-//    }
-//    
-//    /**
-//    * Check if the bin is locked.
-//    * @return {@code true} if, and only if the bin is locked
-//    */
-//    public boolean isLocked(){
-//      return locked;
-//    }
-//    public void lock(){
-//      locked = true;
-//    }
-//    public void unlock(){
-//      locked = false;
-//    }
-//
-//    public String getBinID(){
-//      return binID;
-//    }
-//    public Bin withBinID(String binID){
-//      return new Bin(binID, SKUs, locked);
-//    }
-//    
-//    public Set<SKU> getSKUs(){
-//      return SKUs;
-//    }
-//    public Bin withSKUs(Set<SKU> SKUs){
-//      return new Bin(binID, SKUs, locked);
-//    }
-//    
-//    public String getAllSKUString(){
-//      return new ArrayList<>(SKUs).stream().map(SKU -> SKU.toString())
-//                                  .collect(Collectors.joining(org.opentcs.data.model.Bin.SKU_SEPARATOR));
-//    }
-//    
-//    public Bin withAllSKUString(String skuString){
-//      List<SKU> Skus = Arrays.asList(skuString.split(org.opentcs.data.model.Bin.SKU_SEPARATOR))
-//                      .stream().filter(sku -> !sku.isEmpty())
-//                      .map(sku -> {
-//                        String[] tmpSku = sku.split(org.opentcs.data.model.Bin.QUANTITY_SEPARATOR);
-//                        return new SKU(tmpSku[0],Integer.parseInt(tmpSku[1]));
-//                          })
-//                      .collect(Collectors.toList());
-//      return new Bin(binID, new HashSet<>(Skus), locked);
-//    }
-//    
-//    @Override
-//    public Bin clone(){
-//      return new Bin(binID, SKUs, locked);
-//    }
-//    
-//    @Override
-//    public boolean equals(Object obj) {
-//      if(obj instanceof Bin){
-//        Bin tmpObj = (Bin) obj;
-//        return binID.equals(tmpObj.getBinID());
-//      }
-//      return false;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//      return binID.hashCode();
-//    }
-//  }
-//  
-//  public static class SKU
-//      implements Serializable,
-//                 Cloneable {
-//    private final String skuID;
-//    private final int quantity;
-//    public SKU(){
-//      skuID = "";
-//      quantity = 0;
-//    }
-//    public SKU(String skuID, int quantity){
-//      this.skuID = requireNonNull(skuID,"skuID");
-//      this.quantity = requireNonNull(quantity,"quantity");
-//    }
-//    public String getSkuID(){
-//      return skuID;
-//    }
-//    public int getQuantity(){
-//      return quantity;
-//    }
-//    @Override
-//    public SKU clone(){
-//      return new SKU(skuID, quantity);
-//    }
-//    @Override
-//    public String toString(){
-//      return skuID+org.opentcs.data.model.Bin.QUANTITY_SEPARATOR+quantity;
-//    }
-//    @Override
-//    public boolean equals(Object obj) {
-//      if(obj instanceof SKU){
-//        SKU tmpObj = (SKU) obj;
-//        return skuID.equals(tmpObj.getSkuID());
-//      }
-//      return false;
-//    }
-//    @Override
-//    public int hashCode() {
-//      return skuID.hashCode();
-//    }
-//  }
 }

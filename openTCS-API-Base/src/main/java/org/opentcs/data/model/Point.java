@@ -64,13 +64,13 @@ public class Point
    */
   private TCSObjectReference<Vehicle> occupyingVehicle;
   /**
-   * The row of this point which is based on y position.
+   * The psbTrack of this point which is based on y position.
    */
-  private int row = 0;
+  private int psbTrack = 0;
   /**
-   * The column of this point which is based on x position.
+   * The pstTrack of this point which is based on x position.
    */
-  private int column = 0;
+  private int pstTrack = 0;
 
   /**
    * Creates a new point with the given name.
@@ -106,8 +106,8 @@ public class Point
     this.outgoingPaths = new HashSet<>();
     this.attachedLinks = new HashSet<>();
     this.occupyingVehicle = null;
-    this.row = 0;
-    this.column = 0;
+    this.psbTrack = 0;
+    this.pstTrack = 0;
   }
 
   @SuppressWarnings("deprecation")
@@ -136,8 +136,8 @@ public class Point
     this.outgoingPaths = setWithoutNullValues(requireNonNull(outgoingPaths, "outgoingPaths"));
     this.attachedLinks = setWithoutNullValues(requireNonNull(attachedLinks, "attachedLinks"));
     this.occupyingVehicle = occupyingVehicle;
-    this.row = requireNonNull(row, "row");
-    this.column = requireNonNull(column, "column");
+    this.psbTrack = requireNonNull(row, "row");
+    this.pstTrack = requireNonNull(column, "column");
   }
 
   @Override
@@ -152,7 +152,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   @Override
@@ -167,7 +167,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   @Override
@@ -182,7 +182,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   @Override
@@ -197,7 +197,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   /**
@@ -238,7 +238,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   /**
@@ -286,7 +286,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   /**
@@ -327,7 +327,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   /**
@@ -398,7 +398,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   /**
@@ -456,7 +456,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   /**
@@ -514,7 +514,7 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
 
   /**
@@ -585,24 +585,24 @@ public class Point
                      incomingPaths,
                      outgoingPaths,
                      attachedLinks,
-                     occupyingVehicle, row, column);
+                     occupyingVehicle, psbTrack, pstTrack);
   }
   
   ///////////////////////////////////// created by Henry
-  public int getRow() {
-    return row;
+  public int getPsbTrack() {
+    return psbTrack;
   }
 
-  public void setRow(int row) {
-    this.row = row;
+  public void setPsbTrack(int psbTrack) {
+    this.psbTrack = psbTrack;
   }
 
-  public int getColumn() {
-    return column;
+  public int getPstTrack() {
+    return pstTrack;
   }
 
-  public void setColumn(int column) {
-    this.column = column;
+  public void setPstTrack(int pstTrack) {
+    this.pstTrack = pstTrack;
   }
   ///////////////////////////////////// created end
   
@@ -625,7 +625,7 @@ public class Point
               incomingPaths,
               outgoingPaths,
               attachedLinks,
-              occupyingVehicle, row, column);
+              occupyingVehicle, psbTrack, pstTrack);
   }
 
   @SuppressWarnings("deprecation")

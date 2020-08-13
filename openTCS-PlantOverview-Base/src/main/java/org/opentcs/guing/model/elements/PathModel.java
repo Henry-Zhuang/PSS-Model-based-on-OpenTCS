@@ -120,7 +120,7 @@ public class PathModel
     pMaxVelocity.setHelptext(bundle.getString("pathModel.property_maximumVelocity.helptext"));
     setProperty(MAX_VELOCITY, pMaxVelocity);
 
-    SpeedProperty pMaxReverseVelocity = new SpeedProperty(this, 0.0, SpeedProperty.Unit.M_S);
+    SpeedProperty pMaxReverseVelocity = new SpeedProperty(this, 1.0, SpeedProperty.Unit.M_S);
     pMaxReverseVelocity.setDescription(bundle.getString("pathModel.property_maximumReverseVelocity.description"));
     pMaxReverseVelocity.setHelptext(bundle.getString("pathModel.property_maximumReverseVelocity.helptext"));
     setProperty(MAX_REVERSE_VELOCITY, pMaxReverseVelocity);

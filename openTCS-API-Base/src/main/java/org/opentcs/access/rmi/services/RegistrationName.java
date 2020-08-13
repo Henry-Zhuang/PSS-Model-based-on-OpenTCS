@@ -46,4 +46,9 @@ public interface RegistrationName {
    * The name the {@link RemoteSchedulerService} registers itself with a RMI registry.
    */
   String REMOTE_SCHEDULER_SERVICE = RemoteSchedulerService.class.getCanonicalName();
+  /**
+   * The name the {@link RemoteTimeFactorService} registers itself with a RMI registry.
+   * created by Henry
+   */
+  String REMOTE_TIME_FACTOR_SERVICE = RemoteTimeFactorService.class.getCanonicalName();
 }

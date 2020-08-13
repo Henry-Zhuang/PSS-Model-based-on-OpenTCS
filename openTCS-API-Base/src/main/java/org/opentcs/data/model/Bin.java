@@ -48,11 +48,11 @@ public class Bin
   /**
    * The source location's row.
    */
-  private int locationRow;
+  private int psbTrack;
   /**
    * The source location's column.
    */
-  private int locationColumn;
+  private int pstTrack;
   /**
    * The bin's position in the location's bin stack.
    */
@@ -84,8 +84,8 @@ public class Bin
     super(binID, properties, history);
     this.attachedLocation = attachedLocation;
     this.attachedVehicle = attachedVehicle;
-    this.locationRow = locationRow;
-    this.locationColumn = locationColumn;
+    this.psbTrack = locationRow;
+    this.pstTrack = locationColumn;
     this.binPosition = binPosition;
     this.SKUs = requireNonNull(SKUs,"SKUs");
     this.locked = requireNonNull(locked, "locked");
@@ -98,8 +98,8 @@ public class Bin
                   getHistory(),
                   attachedLocation,
                   attachedVehicle,
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -112,8 +112,8 @@ public class Bin
                   getHistory(),
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -126,8 +126,8 @@ public class Bin
                   getHistory().withEntryAppended(entry),
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -140,8 +140,8 @@ public class Bin
                   history,
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -157,8 +157,8 @@ public class Bin
                   getHistory(),
                   attachedLocation,
                   null, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -174,42 +174,42 @@ public class Bin
                   getHistory(),
                   null,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
   }
 
-  public int getLocationRow() {
-    return locationRow;
+  public int getPsbTrack() {
+    return psbTrack;
   }
 
-  public Bin withLocationRow(int locationRow) {
+  public Bin withPsbTrack(int psbTrack) {
     return new Bin(getName(),
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
   }
 
-  public int getLocationColumn() {
-    return locationColumn;
+  public int getPstTrack() {
+    return pstTrack;
   }
 
-  public Bin withLocationColumn(int locationColumn) {
+  public Bin withPstTrack(int pstTrack) {
     return new Bin(getName(),
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -225,8 +225,8 @@ public class Bin
                   getHistory(),
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -242,8 +242,8 @@ public class Bin
                   getHistory(),
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -302,8 +302,8 @@ public class Bin
                   getHistory(),
                   attachedLocation,
                   attachedVehicle, 
-                  locationRow, 
-                  locationColumn, 
+                  psbTrack, 
+                  pstTrack, 
                   binPosition, 
                   SKUs,
                   locked);
@@ -314,8 +314,8 @@ public class Bin
       String[] dataStr = {getName(), 
                         SKUsToString(SKUs), 
                         attachedLocation.getName(), 
-                        String.valueOf(locationRow), 
-                        String.valueOf(locationColumn),
+                        String.valueOf(psbTrack), 
+                        String.valueOf(pstTrack),
                         String.valueOf(binPosition), 
                         String.valueOf(locked)};
     List<String> dataList = Arrays.asList(dataStr);
@@ -325,8 +325,8 @@ public class Bin
       String[] dataStr = {getName(), 
                         SKUsToString(SKUs), 
                         attachedVehicle.getName(), 
-                        String.valueOf(locationRow), 
-                        String.valueOf(locationColumn),
+                        String.valueOf(psbTrack), 
+                        String.valueOf(pstTrack),
                         String.valueOf(binPosition), 
                         String.valueOf(locked)};
     List<String> dataList = Arrays.asList(dataStr);

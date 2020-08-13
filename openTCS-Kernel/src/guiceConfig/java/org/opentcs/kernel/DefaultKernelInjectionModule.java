@@ -32,6 +32,7 @@ import org.opentcs.components.kernel.services.PlantModelService;
 import org.opentcs.components.kernel.services.RouterService;
 import org.opentcs.components.kernel.services.SchedulerService;
 import org.opentcs.components.kernel.services.TCSObjectService;
+import org.opentcs.components.kernel.services.TimeFactorService;
 import org.opentcs.components.kernel.services.TransportOrderBinService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.components.kernel.services.VehicleService;
@@ -53,6 +54,7 @@ import org.opentcs.kernel.services.StandardPlantModelService;
 import org.opentcs.kernel.services.StandardRouterService;
 import org.opentcs.kernel.services.StandardSchedulerService;
 import org.opentcs.kernel.services.StandardTCSObjectService;
+import org.opentcs.kernel.services.StandardTimeFactorService;
 import org.opentcs.kernel.services.StandardTransportOrderBinService;
 import org.opentcs.kernel.services.StandardTransportOrderService;
 import org.opentcs.kernel.services.StandardVehicleService;
@@ -177,6 +179,9 @@ public class DefaultKernelInjectionModule
     
     bind(StandardChangeTrackService.class).in(Singleton.class);
     bind(ChangeTrackService.class).to(StandardChangeTrackService.class);
+    
+    bind(StandardTimeFactorService.class).in(Singleton.class);
+    bind(TimeFactorService.class).to(StandardTimeFactorService.class);
     
     //////////// modified end
   }

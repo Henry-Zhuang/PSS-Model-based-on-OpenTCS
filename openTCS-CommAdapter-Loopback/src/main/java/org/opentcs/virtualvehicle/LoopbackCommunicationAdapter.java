@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 // modified by Henry
 import org.opentcs.data.model.Location;
 import org.opentcs.components.kernel.services.InternalVehicleService;
+import org.opentcs.components.kernel.services.TimeFactorService;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectReference;
 
@@ -118,14 +119,21 @@ public class LoopbackCommunicationAdapter
    */
   private final InternalVehicleService vehicleService;
   /**
+   * The simulation time factor's service.
+   */
+  private final TimeFactorService timeFactorService;
+  /**
    * An error code indicating that the vehicle is ordered to push a bin to a full stack.
    */
   private static final String PUSH_FULL_STACK = "cannotPushToFullStack";
   /**
    * An error code indicating that the vehicle is ordered to pop a bin from a empty stack.
    */
-    private static final String POP_EMPTY_STACK = "cannotPopFromEmptyStack";
-    
+  private static final String POP_EMPTY_STACK = "cannotPopFromEmptyStack";
+  /**
+   * Whether this this comm adapter instance has waited for picking.
+   */
+  private boolean afterPick = false;
   /////////////////////////////////////////////////////////// modified end
   
   /**
@@ -135,14 +143,16 @@ public class LoopbackCommunicationAdapter
    * @param configuration This class's configuration.
    * @param vehicle The vehicle this adapter is associated with.
    * @param kernelExecutor The kernel's executor.
-   * @param vehicleService The vehicle's service
+   * @param vehicleService The vehicle's service.
+   * @param timeFactorService The time factor's service.
    */
   @Inject
   public LoopbackCommunicationAdapter(LoopbackAdapterComponentsFactory componentsFactory,
                                       VirtualVehicleConfiguration configuration,
                                       @Assisted Vehicle vehicle,
                                       @KernelExecutor ExecutorService kernelExecutor,
-                                      InternalVehicleService vehicleService) {
+                                      InternalVehicleService vehicleService,
+                                      TimeFactorService timeFactorService) {
     super(new LoopbackVehicleModel(vehicle),
           configuration.commandQueueCapacity(),
           1,
@@ -152,6 +162,7 @@ public class LoopbackCommunicationAdapter
     this.componentsFactory = requireNonNull(componentsFactory, "componentsFactory");
     this.kernelExecutor = requireNonNull(kernelExecutor, "kernelExecutor");
     this.vehicleService = requireNonNull(vehicleService,"vehicleService");
+    this.timeFactorService = requireNonNull(timeFactorService,"timeFactorService");
   }
 
   @Override
@@ -404,7 +415,7 @@ public class LoopbackCommunicationAdapter
       synchronized (LoopbackCommunicationAdapter.this) {
         curCommand = getSentQueue().peek();
       }
-      simAdvanceTime = (int) (ADVANCE_TIME * configuration.simulationTimeFactor());
+      simAdvanceTime = (int) (ADVANCE_TIME * timeFactorService.getSimulationTimeFactor());
       if (curCommand == null) {
         Uninterruptibles.sleepUninterruptibly(ADVANCE_TIME, TimeUnit.MILLISECONDS);
         getProcessModel().getVelocityController().advanceTime(simAdvanceTime);
@@ -506,8 +517,10 @@ public class LoopbackCommunicationAdapter
 
       LOG.debug("Operating...");
       final int operatingTime;
-      if(operation.equals(getProcessModel().getWaitPickingOperation()))
+      if(operation.equals(getProcessModel().getWaitPickingOperation())){
         operatingTime = getProcessModel().getPickingTime();
+        afterPick = true;
+      }
       else
         operatingTime = getProcessModel().getOperatingTime();
       getProcessModel().setVehicleState(Vehicle.State.EXECUTING);
@@ -519,7 +532,8 @@ public class LoopbackCommunicationAdapter
       if (operation.equals(getProcessModel().getLoadOperation()) && opLocation.stackSize()!=0) {
         //modified by Henry
         // if "Load", pop the top bin of the Location to the Vehicle's workBin
-        vehicleService.popBinFromLocation(vehicle.getReference(),opLocation);
+        vehicleService.popBinFromLocation(vehicle.getReference(),opLocation, afterPick);
+        afterPick = false;
         
         // Update load handling devices as defined by this operation
         getProcessModel().setVehicleLoadHandlingDevices(

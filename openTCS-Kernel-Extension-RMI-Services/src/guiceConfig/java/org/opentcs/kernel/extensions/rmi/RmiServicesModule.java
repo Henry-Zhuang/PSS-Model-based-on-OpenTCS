@@ -68,6 +68,8 @@ public class RmiServicesModule
     remoteServices.addBinding().to(StandardRemoteRouterService.class);
     remoteServices.addBinding().to(StandardRemoteDispatcherService.class);
     remoteServices.addBinding().to(StandardRemoteSchedulerService.class);
+    // modified by Henry
+    remoteServices.addBinding().to(StandardRemoteTimeFactorService.class);
 
     extensionsBinderAllModes().addBinding()
         .to(StandardRemoteKernelClientPortal.class)
