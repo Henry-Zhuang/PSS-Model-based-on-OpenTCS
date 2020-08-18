@@ -8,9 +8,9 @@ package org.opentcs.strategies.basic.dispatching;
 import static java.util.Objects.requireNonNull;
 import javax.inject.Inject;
 import org.opentcs.components.Lifecycle;
-import org.opentcs.components.kernel.services.TransportOrderBinService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.opentcs.components.kernel.services.BinOrderService;
 
 /**
  *
@@ -25,15 +25,15 @@ public class BinDispatchTask
    */
   private static final Logger LOG = LoggerFactory.getLogger(BinDispatchTask.class);
 
-  private final TransportOrderBinService orderBinService;
+  private final BinOrderService binOrderService;
   /**
    * Indicates whether this component is enabled.
    */
   private boolean initialized;
   
   @Inject
-  public BinDispatchTask(TransportOrderBinService orderBinService){
-    this.orderBinService = requireNonNull(orderBinService,"orderBinService");
+  public BinDispatchTask(BinOrderService orderBinService){
+    this.binOrderService = requireNonNull(orderBinService,"orderBinService");
   }
   
   @Override
@@ -60,6 +60,6 @@ public class BinDispatchTask
   @Override
   public final void run() {
     LOG.debug("Starting dispatchBin run...");
-    orderBinService.enableTOrderBinForIdleVehicle();
+    binOrderService.enableBinOrderForIdleVehicle();
   }
 }

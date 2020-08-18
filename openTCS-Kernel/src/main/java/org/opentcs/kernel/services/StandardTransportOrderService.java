@@ -17,7 +17,6 @@ import org.opentcs.access.to.order.TransportOrderCreationTO;
 import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.InternalTransportOrderService;
 import org.opentcs.components.kernel.services.TCSObjectService;
-import org.opentcs.components.kernel.services.TransportOrderBinService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.customizations.kernel.GlobalSyncObject;
 import org.opentcs.data.ObjectExistsException;
@@ -30,10 +29,11 @@ import org.opentcs.data.order.DriveOrder;
 import org.opentcs.data.order.OrderConstants;
 import org.opentcs.data.order.OrderSequence;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.TransportOrderBin;
+import org.opentcs.data.order.BinOrder;
 import org.opentcs.kernel.workingset.Model;
 import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.opentcs.kernel.workingset.TransportOrderPool;
+import org.opentcs.components.kernel.services.BinOrderService;
 
 /**
  * This class is the standard implementation of the {@link TransportOrderService} interface.
@@ -67,7 +67,7 @@ public class StandardTransportOrderService
   /**
    * 
    */
-  private final TransportOrderBinService orderBinService;
+  private final BinOrderService binOrderService;
 
   /**
    * Creates a new instance.
@@ -87,14 +87,14 @@ public class StandardTransportOrderService
                                        TransportOrderPool orderPool,
                                        Model model,
                                        ChangeTrackService trackService,
-                                       TransportOrderBinService orderBinService) {
+                                       BinOrderService orderBinService) {
     super(objectService);
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.globalObjectPool = requireNonNull(globalObjectPool, "globalObjectPool");
     this.orderPool = requireNonNull(orderPool, "orderPool");
     this.model = requireNonNull(model, "model");
     this.trackService = requireNonNull(trackService, "trackService");
-    this.orderBinService = requireNonNull(orderBinService, "orderBinService");
+    this.binOrderService = requireNonNull(orderBinService, "orderBinService");
   }
 
   @Override
@@ -187,19 +187,19 @@ public class StandardTransportOrderService
         if(tOrder.getType().equals(OrderConstants.TYPE_CHANGE_TRACK))
           trackService.updateTrackOrder(ref, state);
         
-        else if(tOrder.getAttachedTOrderBin() != null){
+        else if(tOrder.getAttachedBinOrder() != null){
           switch (state) {
           case FINISHED:
-            orderBinService.updateTransportOrderBinState(tOrder.getAttachedTOrderBin(), 
-                                                         TransportOrderBin.State.FINISHED);
+            binOrderService.updateBinOrderState(tOrder.getAttachedBinOrder(), 
+                                                         BinOrder.State.FINISHED);
             break;
           case FAILED:
-            orderBinService.updateTransportOrderBinState(tOrder.getAttachedTOrderBin(), 
-                                                         TransportOrderBin.State.FAILED);
+            binOrderService.updateBinOrderState(tOrder.getAttachedBinOrder(), 
+                                                         BinOrder.State.FAILED);
             break;
           case UNROUTABLE:
-            orderBinService.updateTransportOrderBinState(tOrder.getAttachedTOrderBin(), 
-                                                         TransportOrderBin.State.FAILED);
+            binOrderService.updateBinOrderState(tOrder.getAttachedBinOrder(), 
+                                                         BinOrder.State.FAILED);
             break;
           }
         }

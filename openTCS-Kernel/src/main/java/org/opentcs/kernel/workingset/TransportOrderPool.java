@@ -39,7 +39,6 @@ import org.opentcs.util.annotations.ScheduledApiChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.opentcs.components.kernel.ObjectNameProvider;
-import org.opentcs.components.kernel.services.ChangeTrackService;
 
 /**
  * A {@code TransportOrderPool} keeps all {@code TransportOrder}s for an openTCS
@@ -167,7 +166,7 @@ public class TransportOrderPool {
         .withWrappingSequence(getWrappingSequence(to))
         .withDependencies(getDependencies(to))
         .withProperties(to.getProperties())
-        .withAttachedTOrderBin(to.getAttachedTOrderBin());// modified by Henry
+        .withAttachedBinOrder(to.getAttachedBinOrder());// modified by Henry
     objectPool.addObject(newOrder);
     objectPool.emitObjectEvent(newOrder.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
 

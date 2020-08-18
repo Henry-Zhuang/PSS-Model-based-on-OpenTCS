@@ -124,10 +124,10 @@ public class TransportOrder
    */
   private boolean dispensable;
   /**
-   * A reference to the transport order bin that this transport order is attached to.
+   * A reference to the bin order that this transport order is attached to.
    * modified by Henry
    */
-  private TCSObjectReference<TransportOrderBin> attachedTOrderBin;
+  private TCSObjectReference<BinOrder> attachedBinOrder;
 
   /**
    * Creates a new TransportOrder.
@@ -233,7 +233,7 @@ public class TransportOrder
                          TCSObjectReference<Vehicle> processingVehicle,
                          State state,
                          Instant finishedTime,
-                         TCSObjectReference<TransportOrderBin> attachedTOrderBin) {
+                         TCSObjectReference<BinOrder> attachedTOrderBin) {
     super(objectID, name, properties, history);
     this.type = requireNonNull(type, "type");
     requireNonNull(driveOrders, "driveOrders");
@@ -253,7 +253,7 @@ public class TransportOrder
     this.processingVehicle = processingVehicle;
     this.state = requireNonNull(state, "state");
     this.finishedTime = requireNonNull(finishedTime, "finishedTime");
-    this.attachedTOrderBin = attachedTOrderBin;
+    this.attachedBinOrder = attachedTOrderBin;
   }
 
   @Override
@@ -274,7 +274,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   @Override
@@ -295,7 +295,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   @Override
@@ -316,7 +316,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   @Override
@@ -337,7 +337,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -381,7 +381,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -416,7 +416,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -484,7 +484,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,  
-                              state == State.FINISHED ? Instant.now() : finishedTime, attachedTOrderBin);
+                              state == State.FINISHED ? Instant.now() : finishedTime, attachedBinOrder);
   }
 
   /**
@@ -533,7 +533,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -597,7 +597,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -650,7 +650,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -702,7 +702,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -755,7 +755,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -823,7 +823,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -877,7 +877,7 @@ public class TransportOrder
                               rejectionsWithAppended(rejection),
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -977,7 +977,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -1067,7 +1067,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -1118,7 +1118,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -1171,7 +1171,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   /**
@@ -1218,15 +1218,15 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   ////////////////////////////////////////modified by Henry
-  public TCSObjectReference<TransportOrderBin> getAttachedTOrderBin() {
-    return attachedTOrderBin;
+  public TCSObjectReference<BinOrder> getAttachedBinOrder() {
+    return attachedBinOrder;
   }
 
-  public TransportOrder withAttachedTOrderBin(TCSObjectReference<TransportOrderBin> attachedTOrderBin) {
+  public TransportOrder withAttachedBinOrder(TCSObjectReference<BinOrder> attachedBinOrder) {
     return new TransportOrder(getIdWithoutDeprecationWarning(),
                               getName(),
                               getProperties(),
@@ -1243,7 +1243,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   ////////////////////////////////////////modified end
@@ -1273,7 +1273,7 @@ public class TransportOrder
                               rejections,
                               processingVehicle,
                               state,
-                              finishedTime, attachedTOrderBin);
+                              finishedTime, attachedBinOrder);
   }
 
   @Override

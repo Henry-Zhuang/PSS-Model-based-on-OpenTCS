@@ -27,6 +27,7 @@ public interface LoopbackAdapterConstants {
    * The key of the vehicle property that specifies the default waiting time.
    * created by Henry
    */
+  @Deprecated
   String PROPKEY_PICKING_TIME = "loopback:pickingTime";
   /**
    * The key of the vehicle property that specifies which operation loads the load handling device.
@@ -53,6 +54,7 @@ public interface LoopbackAdapterConstants {
    * The default value of the wait operation property.
    * created by Henry
    */
+  @Deprecated
   String PROPVAL_WAIT_PICKING_OPERATION_DEFAULT = "Wait Picking";
   /**
    * The key of the vehicle property that specifies the maximum acceleration of a vehicle.

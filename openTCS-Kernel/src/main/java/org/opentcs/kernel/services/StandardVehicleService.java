@@ -48,7 +48,7 @@ import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.model.Bin;
-import org.opentcs.data.order.TransportOrderBin;
+import org.opentcs.data.order.BinOrder;
 
 /**
  * This class is the standard implementation of the {@link VehicleService} interface.
@@ -364,7 +364,7 @@ public class StandardVehicleService
   /////////////////////////////////////////////////////////////////////////////////////////////modified by Henry
   @SuppressWarnings("deprecation")
   @Override
-    public void popBinFromLocation(TCSObjectReference<Vehicle> vehicleRef, Location location, boolean afterPick)
+    public void popBinFromLocation(TCSObjectReference<Vehicle> vehicleRef, Location location)
       throws ObjectUnknownException {
     synchronized (globalSyncObject) {
       Vehicle vehicle = globalObjectPool.getObject(Vehicle.class, vehicleRef);
@@ -377,11 +377,9 @@ public class StandardVehicleService
         return;
       }
       
-      if(afterPick){
-        previousBin = updateBinAfterPick(vehicle, previousBin);
-      }
-      
-      Bin currentBin = globalObjectPool.replaceObject(previousBin.withAttachedVehicle(vehicleRef));
+      Bin currentBin = globalObjectPool.replaceObject(previousBin
+                                                      .withAttachedVehicle(vehicleRef)
+                                                      .withState(Bin.State.Transporting));
       vehicle = globalObjectPool.replaceObject(vehicle.withBin(currentBin));
       location = globalObjectPool.replaceObject(location);
       
@@ -406,7 +404,8 @@ public class StandardVehicleService
                       .withAttachedLocation(location.getReference())
                       .withPsbTrack(location.getPsbTrack())
                       .withPstTrack(location.getPstTrack())
-                      .withBinPosition(location.stackSize());
+                      .withBinPosition(location.stackSize())
+                      .withState(Bin.State.Still);
       
       if(location.push(currentBin)){
         vehicle = globalObjectPool.replaceObject(vehicle.withBin(new Bin("")));
@@ -436,23 +435,6 @@ public class StandardVehicleService
     return destinations;
   }
     
-  private Bin updateBinAfterPick(Vehicle vehicle, Bin previousBin) {
-    TransportOrderBin currTOB = globalObjectPool
-        .getObject(TransportOrderBin.class,
-                   globalObjectPool.getObject(TransportOrder.class,
-                                              vehicle.getTransportOrder()).getAttachedTOrderBin());
-    Map<String,Integer> requiredSkus = currTOB.getRequiredSku();
-    
-    Set<Bin.SKU> updatedSkus = new HashSet<>();
-    previousBin.getSKUs().forEach(p -> {
-      Integer quantity = requiredSkus.get(p.getSkuID());
-      if(quantity != null)
-        p = new Bin.SKU(p.getSkuID(), p.getQuantity() - quantity);
-      if(p.getQuantity() > 0)
-        updatedSkus.add(p);
-    });
-    return previousBin.withSKUs(updatedSkus).unlock();
-  }
   /////////////////////////////////////////////////////////////////////////////////////////////modified end
 
 }

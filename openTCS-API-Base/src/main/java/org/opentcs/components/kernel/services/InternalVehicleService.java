@@ -161,10 +161,9 @@ public interface InternalVehicleService
    * Pop a bin from the location bin stack to the vehicle (Catch Bin).
    * @param vehicleRef A reference to the vehicle to catch the bin.
    * @param location A source location where the bin is placed.
-   * @param afterPick Whether this pop operation is after a wait for picking.
    * @throws ObjectUnknownException 
    */
-  void popBinFromLocation(TCSObjectReference<Vehicle> vehicleRef, Location location, boolean afterPick)
+  void popBinFromLocation(TCSObjectReference<Vehicle> vehicleRef, Location location)
       throws ObjectUnknownException;
   /**
    * Push a bin from the vehicle to the location bin stack (Drop Bin).

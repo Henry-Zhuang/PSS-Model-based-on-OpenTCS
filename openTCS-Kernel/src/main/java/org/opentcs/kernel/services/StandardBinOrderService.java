@@ -9,26 +9,26 @@ import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import javax.inject.Inject;
 import org.opentcs.access.KernelRuntimeException;
-import org.opentcs.access.to.order.TransportOrderBinCreationTO;
+import org.opentcs.access.to.order.BinOrderCreationTO;
 import org.opentcs.components.kernel.services.TCSObjectService;
-import org.opentcs.components.kernel.services.TransportOrderBinService;
 import org.opentcs.customizations.kernel.GlobalSyncObject;
 import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.TransportOrderBin;
+import org.opentcs.data.order.BinOrder;
 import org.opentcs.kernel.workingset.TCSObjectPool;
-import org.opentcs.kernel.workingset.TransportOrderBinPool;
+import org.opentcs.kernel.workingset.BinOrderPool;
+import org.opentcs.components.kernel.services.BinOrderService;
 
 /**
  *
  * @author Henry
  */
-public class StandardTransportOrderBinService 
+public class StandardBinOrderService 
     extends AbstractTCSObjectService
-    implements TransportOrderBinService{
+    implements BinOrderService{
   /**
    * A global object to be used for synchronization within the kernel.
    */
@@ -40,7 +40,7 @@ public class StandardTransportOrderBinService
   /**
    * The order facade to the object pool.
    */
-  private final TransportOrderBinPool orderBinPool;
+  private final BinOrderPool binOrderPool;
   
   /**
    * Creates a new instance.
@@ -51,56 +51,56 @@ public class StandardTransportOrderBinService
    * @param orderBinPool The oder bin pool to be used.
    */
   @Inject
-  public StandardTransportOrderBinService(TCSObjectService objectService,
+  public StandardBinOrderService(TCSObjectService objectService,
                                        @GlobalSyncObject Object globalSyncObject,
                                        TCSObjectPool globalObjectPool,
-                                       TransportOrderBinPool orderBinPool) {
+                                       BinOrderPool orderBinPool) {
     super(objectService);
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.globalObjectPool = requireNonNull(globalObjectPool, "globalObjectPool");
-    this.orderBinPool = requireNonNull(orderBinPool, "orderPool");
+    this.binOrderPool = requireNonNull(orderBinPool, "orderPool");
   }
   
   @Override
-  public TransportOrderBin createTransportOrderBin(TransportOrderBinCreationTO to)
+  public BinOrder createBinOrder(BinOrderCreationTO to)
       throws ObjectUnknownException, ObjectExistsException, KernelRuntimeException{
     synchronized (globalSyncObject) {
-      return orderBinPool.createTransportOrderBin(to).clone();
+      return binOrderPool.createBinOrder(to).clone();
     }
   }
   
   @Override
-  public TransportOrderBin removeTransportOrderBin(TCSObjectReference<TransportOrderBin> ref)
+  public BinOrder removeBinOrder(TCSObjectReference<BinOrder> ref)
       throws ObjectUnknownException{
     synchronized (globalSyncObject) {
-      return orderBinPool.removeTransportOrderBin(ref).clone();
+      return binOrderPool.removeBinOrder(ref).clone();
     }
   }
   
   @Override
-  public void updateTransportOrderBinAttachedTOrder(TCSObjectReference<TransportOrderBin> tOrderBinRef,
+  public void updateBinOrderAttachedTOrder(TCSObjectReference<BinOrder> tOrderBinRef,
                                             TCSObjectReference<TransportOrder> tOrderRef)
       throws ObjectUnknownException{
     synchronized (globalSyncObject) {
-      orderBinPool.setTransportOrderBinAttachedTOrder(tOrderBinRef, tOrderRef);
+      binOrderPool.setBinOrderAttachedTOrder(tOrderBinRef, tOrderRef);
     }
   }
   
   @Override
-  public void updateTransportOrderBinState(TCSObjectReference<TransportOrderBin> tOrderBinRef,
-                                            TransportOrderBin.State state)
+  public void updateBinOrderState(TCSObjectReference<BinOrder> tOrderBinRef,
+                                            BinOrder.State state)
       throws ObjectUnknownException{
     synchronized (globalSyncObject) {
-      orderBinPool.setTransportOrderBinState(tOrderBinRef, state);
+      binOrderPool.setBinOrderState(tOrderBinRef, state);
     }
   }
   
   @Override
-  public void enableTOrderBinForIdleVehicle(){
+  public void enableBinOrderForIdleVehicle(){
     synchronized (globalSyncObject) {
       Set<Vehicle> idleVehicles = fetchObjects(Vehicle.class, this::couldProcessTransportOrder);
       for(Vehicle vehicle : idleVehicles)
-        orderBinPool.enableTOrderBinForIdleVehicle(vehicle);
+        binOrderPool.enableBinOrderForIdleVehicle(vehicle);
     }
   }
   

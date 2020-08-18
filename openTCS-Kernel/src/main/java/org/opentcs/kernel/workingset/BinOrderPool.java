@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import org.opentcs.access.KernelRuntimeException;
 import org.opentcs.access.to.order.DestinationCreationTO;
-import org.opentcs.access.to.order.TransportOrderBinCreationTO;
+import org.opentcs.access.to.order.BinOrderCreationTO;
 import org.opentcs.access.to.order.TransportOrderCreationTO;
 import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.TransportOrderService;
@@ -33,7 +33,7 @@ import org.opentcs.data.model.Point;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.OrderBinConstants;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.TransportOrderBin;
+import org.opentcs.data.order.BinOrder;
 import static org.opentcs.kernel.services.StandardDataBaseService.locationPosition;
 import static org.opentcs.util.Assertions.checkArgument;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Henry
  */
-public class TransportOrderBinPool {
+public class BinOrderPool {
   
   /**
    * This class's Logger.
@@ -65,7 +65,7 @@ public class TransportOrderBinPool {
    * @param changeTrackService The kernel's change-track service
    */
   @Inject
-  public TransportOrderBinPool(TCSObjectPool objectPool,
+  public BinOrderPool(TCSObjectPool objectPool,
                             TransportOrderService orderService,
                             ChangeTrackService changeTrackService) {
     this.objectPool = requireNonNull(objectPool, "objectPool");
@@ -92,7 +92,7 @@ public class TransportOrderBinPool {
     Set<TCSObject<?>> objects = objectPool.getObjects((Pattern) null);
     Set<String> removableNames = new HashSet<>();
     for (TCSObject<?> curObject : objects) {
-      if (curObject instanceof TransportOrderBin) {
+      if (curObject instanceof BinOrder) {
         removableNames.add(curObject.getName());
       }
     }
@@ -100,7 +100,7 @@ public class TransportOrderBinPool {
   }
 
   /**
-   * Adds a new transport order bin to the pool.
+   * Adds a new bin order to the pool.
    * This method implicitly adds the transport order to its wrapping sequence, if any.
    *
    * @param to The transfer object from which to create the new transport order bin.
@@ -112,17 +112,19 @@ public class TransportOrderBinPool {
    * the two differ.
    */
   @SuppressWarnings("deprecation")
-  public TransportOrderBin createTransportOrderBin(TransportOrderBinCreationTO to)
+  public BinOrder createBinOrder(BinOrderCreationTO to)
       throws ObjectUnknownException, ObjectExistsException, IllegalArgumentException {
     LOG.debug("method entry");
-    TransportOrderBin newOrder = new TransportOrderBin(to.getName(),to.getType())
+    BinOrder newOrder = new BinOrder(to.getName(),to.getType())
         .withCreationTime(Instant.now())
         .withDeadline(to.getDeadline())
         .withBinID(to.getBinID())
         .withCustomerOrderName(to.getCustomerOrderName())
         .withRequiredSku(to.getRequiredSku())
-        .withState(TransportOrderBin.State.AWAIT_DISPATCH)
+        .withState(BinOrder.State.AWAIT_DISPATCH)
         .withProperties(to.getProperties());
+    Bin bin = objectPool.getObject(Bin.class, newOrder.getBinID());
+    objectPool.replaceObject(bin.withAssignedBinOrder(newOrder.getReference()));
     objectPool.addObject(newOrder);
     objectPool.emitObjectEvent(newOrder.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
     // Return the newly created transport order.
@@ -130,21 +132,21 @@ public class TransportOrderBinPool {
   }
   
   /**
-   * Sets a transport order bin's state.
+   * Sets a bin Order's state.
    *
-   * @param ref A reference to the transport order to be modified.
-   * @param newState The transport order's new state.
-   * @return The modified transport order.
-   * @throws ObjectUnknownException If the referenced transport order is not
+   * @param ref A reference to the bin order to be modified.
+   * @param newState The bin order's new state.
+   * @return The modified bin order.
+   * @throws ObjectUnknownException If the referenced bin order is not
    * in this pool.
    */
   @SuppressWarnings("deprecation")
-  public TransportOrderBin setTransportOrderBinState(TCSObjectReference<TransportOrderBin> ref,
-                                               TransportOrderBin.State newState)
+  public BinOrder setBinOrderState(TCSObjectReference<BinOrder> ref,
+                                               BinOrder.State newState)
       throws ObjectUnknownException {
     LOG.debug("method entry");
-    TransportOrderBin order = objectPool.getObject(TransportOrderBin.class, ref);
-    TransportOrderBin previousState = order.clone();
+    BinOrder order = objectPool.getObject(BinOrder.class, ref);
+    BinOrder previousState = order.clone();
     order = objectPool.replaceObject(order.withState(newState));
     objectPool.emitObjectEvent(order.clone(),
                                previousState,
@@ -153,39 +155,39 @@ public class TransportOrderBinPool {
   }
 
   /**
-   * Set a transport order bin's attached transport order.
+   * Set a bin order's attached transport order.
    *
-   * @param tOrderBinRef A reference to the transport order bin to be modified.
-   * @param tOrderRef 
-   * @return The modified transport order bin.
-   * @throws ObjectUnknownException If the referenced transport order is not in this pool.
+   * @param binOrderRef A reference to the bin order to be modified.
+   * @param tOrderRef A reference to the transport order to be attached.
+   * @return The modified bin order.
+   * @throws ObjectUnknownException If the referenced transport order and bin order are not in this pool.
    */
   @SuppressWarnings("deprecation")
-  public TransportOrderBin setTransportOrderBinAttachedTOrder(TCSObjectReference<TransportOrderBin> tOrderBinRef,
+  public BinOrder setBinOrderAttachedTOrder(TCSObjectReference<BinOrder> binOrderRef,
                                                      TCSObjectReference<TransportOrder> tOrderRef)
       throws ObjectUnknownException{
     LOG.debug("method entry");
-    TransportOrderBin tOrderBin = objectPool.getObject(TransportOrderBin.class, tOrderBinRef);
-    TransportOrderBin previousState = tOrderBin.clone();
-    tOrderBin = objectPool.replaceObject(tOrderBin.withAttachedTransportOrder(tOrderRef));
-    objectPool.emitObjectEvent(tOrderBin.clone(),
+    BinOrder binOrder = objectPool.getObject(BinOrder.class, binOrderRef);
+    BinOrder previousState = binOrder.clone();
+    binOrder = objectPool.replaceObject(binOrder.withAttachedTransportOrder(tOrderRef));
+    objectPool.emitObjectEvent(binOrder.clone(),
                                previousState,
                                TCSObjectEvent.Type.OBJECT_MODIFIED);
-    return tOrderBin;
+    return binOrder;
   }
 
   /**
-   * Removes the referenced transport order bin from this pool.
+   * Removes the referenced bin order from this pool.
    *
-   * @param ref A reference to the transport order bin to be removed.
-   * @return The removed transport order bin.
-   * @throws ObjectUnknownException If the referenced transport order bin is not in this pool.
+   * @param ref A reference to the bin order to be removed.
+   * @return The removed bin order.
+   * @throws ObjectUnknownException If the referenced bin order is not in this pool.
    */
   @SuppressWarnings("deprecation")
-  public TransportOrderBin removeTransportOrderBin(TCSObjectReference<TransportOrderBin> ref)
+  public BinOrder removeBinOrder(TCSObjectReference<BinOrder> ref)
       throws ObjectUnknownException {
     LOG.debug("method entry");
-    TransportOrderBin order = objectPool.getObject(TransportOrderBin.class, ref);
+    BinOrder order = objectPool.getObject(BinOrder.class, ref);
     // Make sure orders currently being processed are not removed.
     if(order.getAttachedTransportOrder()!=null){
       TransportOrder tOrder 
@@ -206,49 +208,46 @@ public class TransportOrderBinPool {
     return order;
   }
 
-  public void enableTOrderBinForIdleVehicle(Vehicle vehicle){
+  public void enableBinOrderForIdleVehicle(Vehicle vehicle){
     LOG.debug("method entry");
-    TransportOrderBin tOB 
-        =  objectPool.getObjects(TransportOrderBin.class).stream()
-                .filter(tOrderBin -> tOrderBin.hasState(TransportOrderBin.State.AWAIT_DISPATCH))
+    BinOrder binOrder 
+        =  objectPool.getObjects(BinOrder.class).stream()
+                .filter(bOrder -> bOrder.hasState(BinOrder.State.AWAIT_DISPATCH))
                 .filter(inTheSameTrackWith(vehicle))
-                .sorted(Comparator.comparing(TransportOrderBin::getDeadline))
+                .sorted(Comparator.comparing(BinOrder::getDeadline))
                 .findFirst()
                 .orElse(null);
     
-    if(tOB == null){
+    if(binOrder == null){
       if(vehicle != null)
         changeTrackService.createChangeTrackOrder(vehicle.getName());
       return;
     }
     
-    Bin bin = objectPool.getObject(Bin.class, tOB.getBinID());
+    Bin bin = objectPool.getObject(Bin.class, binOrder.getBinID());
     
-    TransportOrderCreationTO to = new TransportOrderCreationTO(tOB.getName()
+    TransportOrderCreationTO to = new TransportOrderCreationTO(binOrder.getName()
                                                               +"["
                                                               +bin.getAttachedLocation().getName()
                                                               +":"
                                                               +bin.getBinPosition()
                                                               +"]");
-    if (tOB.hasType(OrderBinConstants.TYPE_OUTBOUND)){
-      // 判断指定料箱在出库后是否需要回库
-      // 如果在分拣后，料箱为空，则不需要回库，否则需要回库
-      boolean needBack = !isBinEmptyAfterPick(bin, tOB.getRequiredSku());
+    if (binOrder.hasType(OrderBinConstants.TYPE_OUTBOUND)){
       
-      to = to.withDestinations(outboundDestinations(bin, needBack))
+      to = to.withDestinations(outboundDestinations(bin))
           .withIntendedVehicleName(vehicle.getName())
           //.withDependencyNames(new HashSet<>(order.getDependencies()))
-          .withDeadline(tOB.getDeadline())
-          .withProperties(tOB.getProperties())
-          .withAttachedTOrderBin(tOB.getReference());
+          .withDeadline(binOrder.getDeadline())
+          .withProperties(binOrder.getProperties())
+          .withAttachedBinOrder(binOrder.getReference());
     }
-    else if(tOB.hasType(OrderBinConstants.TYPE_INBOUND)){
+    else if(binOrder.hasType(OrderBinConstants.TYPE_INBOUND)){
       
     }
     try{
-      setTransportOrderBinAttachedTOrder(tOB.getReference()
+      setBinOrderAttachedTOrder(binOrder.getReference()
                                     ,orderService.createTransportOrder(to).getReference());
-      setTransportOrderBinState(tOB.getReference(), TransportOrderBin.State.DISPATCHED);
+      setBinOrderState(binOrder.getReference(), BinOrder.State.DISPATCHED);
     }
     catch (ObjectUnknownException | ObjectExistsException exc) {
       throw new IllegalStateException("Unexpectedly interrupted",exc);
@@ -258,9 +257,9 @@ public class TransportOrderBinPool {
     }
   }
 
-  private Predicate<TransportOrderBin> inTheSameTrackWith(Vehicle vehicle) {
-    return tOrderBin -> {
-      Bin bin = objectPool.getObject(Bin.class,tOrderBin.getBinID());
+  private Predicate<BinOrder> inTheSameTrackWith(Vehicle vehicle) {
+    return binOrder -> {
+      Bin bin = objectPool.getObject(Bin.class,binOrder.getBinID());
       if(bin.getAttachedLocation() == null){
         LOG.error("A bin {} which has been attached to a TransportOrder, has unknown location.",bin.getName());
         return false;
@@ -273,13 +272,7 @@ public class TransportOrderBinPool {
     };
   }
   
-  private boolean isBinEmptyAfterPick(Bin bin, Map<String, Integer> requiredSku) {
-    int reqTotalQuantity = requiredSku.values().stream().reduce(Integer::sum).orElse(0);
-    int binTotalQuantity = bin.getSKUs().stream().mapToInt(Bin.SKU::getQuantity).sum();
-    return reqTotalQuantity == binTotalQuantity;
-  }
-  
-  private List<DestinationCreationTO> outboundDestinations(Bin bin, boolean needBack){
+  private List<DestinationCreationTO> outboundDestinations(Bin bin){
     String locationName = bin.getAttachedLocation().getName();
     int psbTrack = bin.getPsbTrack();
     int pstTrack = bin.getPstTrack();
@@ -291,7 +284,7 @@ public class TransportOrderBinPool {
     if(tmpLocs == null)
       return null;
     // 该轨道的分拣台
-    String pickStation = getPickStation(psbTrack);
+    String pickStation = getOutBoundStation(psbTrack);
 
     // 倒箱
     for(String tmpLoc:tmpLocs){
@@ -302,22 +295,7 @@ public class TransportOrderBinPool {
     // 指定料箱出库
     result.add(new DestinationCreationTO(locationName, OrderBinConstants.OPERATION_LOAD));
     result.add(new DestinationCreationTO(pickStation, OrderBinConstants.OPERATION_UNLOAD));
-    
-    // 如果需要将指定料箱回库
-    if(needBack){
-      // 等待分拣
-      result.add(new DestinationCreationTO(pickStation, OrderBinConstants.OPERATION_WAIT_PICKING));
 
-      // 分拣完成后，指定料箱回库
-      result.add(new DestinationCreationTO(pickStation, OrderBinConstants.OPERATION_LOAD));
-      result.add(new DestinationCreationTO(locationName, OrderBinConstants.OPERATION_UNLOAD));
-    }
-    
-    // 将之前倒箱的料箱放回原处
-    for(int i=tmpLocs.size()-1;i>=0;i--){
-      result.add(new DestinationCreationTO(tmpLocs.get(i),OrderBinConstants.OPERATION_LOAD));
-      result.add(new DestinationCreationTO(locationName, OrderBinConstants.OPERATION_UNLOAD));
-    }
     return result;
   }
   
@@ -332,7 +310,7 @@ public class TransportOrderBinPool {
         // A picking station is not considered as a vacant neighbour.
         if(column-offset >= 0
             && locationPosition[row][column-offset] != null
-            && !isPickStation(locationPosition[row][column-offset])){
+            && !isOutBoundStation(locationPosition[row][column-offset])){
           int vacancy = Location.BINS_MAX_NUM - getStackSize(locationPosition[row][column-offset]);
           vacancy = vacancy > vacancyNum ? vacancyNum : vacancy;
           for(int i=0;i<vacancy;i++)
@@ -343,7 +321,7 @@ public class TransportOrderBinPool {
         if(vacancyNum > 0 
             && column+offset < locationPosition[row].length
             && locationPosition[row][column+offset] != null
-            && !isPickStation(locationPosition[row][column+offset])){
+            && !isOutBoundStation(locationPosition[row][column+offset])){
           int vacancy = Location.BINS_MAX_NUM - getStackSize(locationPosition[row][column+offset]);
           vacancy = vacancy > vacancyNum ? vacancyNum : vacancy;
           for(int i=0;i<vacancy;i++)
@@ -359,17 +337,17 @@ public class TransportOrderBinPool {
     return objectPool.getObject(Location.class, locationName).stackSize();
   }
   
-  private String getPickStation(int psbTrack){
+  private String getOutBoundStation(int psbTrack){
     for(String location:locationPosition[psbTrack-1]){
-      if(location != null && isPickStation(location))
+      if(location != null && isOutBoundStation(location))
         return location;
     }
     return null;
   }
   
-  private boolean isPickStation(String locationName) {
+  private boolean isOutBoundStation(String locationName) {
     return objectPool.getObject(Location.class,locationName)
-              .getType().getName().startsWith(Location.PICK_STATION_PREFIX);
+              .getType().getName().equals(Location.OUT_BOUND_STATION_TYPE);
   }
 }
 

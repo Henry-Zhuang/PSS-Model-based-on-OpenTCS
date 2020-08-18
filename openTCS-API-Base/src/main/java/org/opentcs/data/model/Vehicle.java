@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Objects;
 import static java.util.Objects.requireNonNull;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.opentcs.data.ObjectHistory;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectReference;
@@ -159,6 +161,11 @@ public class Vehicle
    * The vehicle's type.
    */
   private String type = "";
+  /**
+   * The track vehicle's allowed tracks.
+   * Track vehicle means PST.
+   */
+  private Set<Integer> allowedTracks = null;
   ///////////////////////////////////////////modified end
   
   /**
@@ -320,7 +327,8 @@ public class Vehicle
                   int energyLevel, 
                   List<LoadHandlingDevice> loadHandlingDevices, 
                   Bin bin,
-                  String type){    
+                  String type,
+                  Set<Integer> allowedTracks){
     super(objectID, name, properties, history);
     this.length = checkInRange(length, 1, Integer.MAX_VALUE, "length");
     this.energyLevelGood = checkInRange(energyLevelGood, 0, 100, "energyLevelGood");
@@ -360,6 +368,7 @@ public class Vehicle
                                                                     "loadHandlingDevices"));
     this.bin = requireNonNull(bin,"bin");
     this.type = requireNonNull(type,"type");
+    this.allowedTracks = allowedTracks;
   }
   
   @Override
@@ -390,7 +399,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   @Override
@@ -421,7 +430,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   @Override
@@ -452,7 +461,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   @Override
@@ -483,7 +492,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -545,7 +554,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -662,7 +671,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -728,7 +737,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -773,7 +782,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -819,7 +828,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -880,7 +889,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -938,7 +947,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -998,7 +1007,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1058,7 +1067,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1126,7 +1135,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1180,7 +1189,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1240,7 +1249,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1305,7 +1314,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1367,7 +1376,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1429,7 +1438,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1491,7 +1500,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1542,7 +1551,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1587,7 +1596,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1647,7 +1656,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1706,7 +1715,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1765,7 +1774,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1827,7 +1836,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1894,7 +1903,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 
   /**
@@ -1953,7 +1962,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
 /////////////////////////////////////////////////////modified by Henry
   /**
@@ -1997,7 +2006,7 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
   
   /**
@@ -2041,8 +2050,36 @@ public class Vehicle
                        orientationAngle,
                        energyLevel,
                        loadHandlingDevices,
-    bin, type);
+    bin, type, allowedTracks);
   }
+
+  public Set<Integer> getAllowedTracks() {
+    return allowedTracks;
+  }
+
+  public Vehicle updateAllowedTracks() {
+    // 根据属性"allowedTracks"设定该换轨车的运行区域，该属性的格式为"区域最小轨序号-区域最大轨序号"
+    if(!type.equals(TRACK_VEHICLE_TYPE)){
+      return this;
+    }
+    String property = getProperty("allowedTracks");
+    if(property == null){
+      this.allowedTracks = new HashSet<>();
+      return this;
+    }
+    
+    String[] split = property.split("-");
+    if(split.length < 2){
+      this.allowedTracks = new HashSet<>();
+      return this;
+    }
+    int minTrack = Integer.parseInt(split[0]);
+    int maxTrack = Integer.parseInt(split[1]);
+    this.allowedTracks = IntStream.range(minTrack, maxTrack + 1).boxed().collect(Collectors.toSet());
+    return this;
+  }
+  
+  
 /////////////////////////////////////////////////////modified end
   
   @Override

@@ -17,7 +17,6 @@ import org.opentcs.access.KernelRuntimeException;
 import org.opentcs.access.LocalKernel;
 import org.opentcs.access.ModelTransitionEvent;
 import org.opentcs.access.to.model.PlantModelCreationTO;
-import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.InternalPlantModelService;
 import org.opentcs.components.kernel.services.NotificationService;
@@ -78,7 +77,8 @@ public class StandardPlantModelService
    * modified by Henry
    */
   private final DataBaseService dataBaseService;
-
+  
+  private final CreateGDSModel createGDSModel;
   /**
    * Creates a new instance.
    *
@@ -90,7 +90,6 @@ public class StandardPlantModelService
    * @param eventHandler Where this instance sends events to.
    * @param notificationService The notification service.
    * @param dataBaseService The data base service.
-   * @param changeTrackService The change-track service.
    */
   @Inject
   public StandardPlantModelService(LocalKernel kernel,
@@ -100,7 +99,8 @@ public class StandardPlantModelService
                                    ModelPersister modelPersister,
                                    @ApplicationEventBus EventHandler eventHandler,
                                    NotificationService notificationService,
-                                   DataBaseService dataBaseService) {
+                                   DataBaseService dataBaseService,
+                                   CreateGDSModel createGDSModel) {
     super(objectService);
     this.kernel = requireNonNull(kernel, "kernel");
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
@@ -109,6 +109,7 @@ public class StandardPlantModelService
     this.eventHandler = requireNonNull(eventHandler, "eventHandler");
     this.notificationService = requireNonNull(notificationService, "notificationService");
     this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
+    this.createGDSModel = createGDSModel;
   }
 
   @Override
@@ -124,6 +125,7 @@ public class StandardPlantModelService
       throws IllegalStateException {
     synchronized (globalSyncObject) {
       if (!modelPersister.hasSavedModel()) {
+//          createPlantModel();//TEST
         createPlantModel(new PlantModelCreationTO(Kernel.DEFAULT_MODEL_NAME));
         return;
       }
@@ -187,6 +189,40 @@ public class StandardPlantModelService
                              UserNotification.Level.INFORMATIONAL));
   }
 
+  // 利用代码创建高德斯地图模型
+  private void createPlantModel()
+      throws ObjectUnknownException, ObjectExistsException, IllegalStateException {
+
+    boolean kernelInOperating = kernel.getState() == Kernel.State.OPERATING;
+    // If we are in state operating, change the kernel state before creating the plant model
+    if (kernelInOperating) {
+      kernel.setState(Kernel.State.MODELLING);
+    }
+
+    String oldModelName = getLoadedModelName();
+    emitModelEvent(oldModelName, "GDS", true, false);
+
+    // Create the plant model
+    synchronized (globalSyncObject) {
+      createGDSModel.createPlantModelObjects();
+      // modified by Henry
+      dataBaseService.updateRowAndColumn();
+      dataBaseService.updateDataBase();
+    }
+
+    savePlantModel();
+
+    // If we were in state operating before, change the kernel state back to operating
+    if (kernelInOperating) {
+      kernel.setState(Kernel.State.OPERATING);
+    }
+
+    emitModelEvent(oldModelName, "GDS", true, true);
+    notificationService.publishUserNotification(
+        new UserNotification("Kernel created model " + "GDS",
+                             UserNotification.Level.INFORMATIONAL));
+  }
+  
   @Override
   @Deprecated
   public String getLoadedModelName() {

@@ -33,7 +33,6 @@ import org.opentcs.components.kernel.services.RouterService;
 import org.opentcs.components.kernel.services.SchedulerService;
 import org.opentcs.components.kernel.services.TCSObjectService;
 import org.opentcs.components.kernel.services.TimeFactorService;
-import org.opentcs.components.kernel.services.TransportOrderBinService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.customizations.ApplicationEventBus;
@@ -46,6 +45,7 @@ import org.opentcs.kernel.extensions.controlcenter.vehicles.AttachmentManager;
 import org.opentcs.kernel.extensions.controlcenter.vehicles.VehicleEntryPool;
 import org.opentcs.kernel.persistence.ModelPersister;
 import org.opentcs.kernel.persistence.XMLFileModelPersister;
+import org.opentcs.kernel.services.CreateGDSModel;
 import org.opentcs.kernel.services.StandardChangeTrackService;
 import org.opentcs.kernel.services.StandardDataBaseService;
 import org.opentcs.kernel.services.StandardDispatcherService;
@@ -55,7 +55,7 @@ import org.opentcs.kernel.services.StandardRouterService;
 import org.opentcs.kernel.services.StandardSchedulerService;
 import org.opentcs.kernel.services.StandardTCSObjectService;
 import org.opentcs.kernel.services.StandardTimeFactorService;
-import org.opentcs.kernel.services.StandardTransportOrderBinService;
+import org.opentcs.kernel.services.StandardBinOrderService;
 import org.opentcs.kernel.services.StandardTransportOrderService;
 import org.opentcs.kernel.services.StandardVehicleService;
 import org.opentcs.kernel.vehicles.DefaultVehicleControllerPool;
@@ -66,12 +66,13 @@ import org.opentcs.kernel.workingset.Model;
 import org.opentcs.kernel.workingset.NotificationBuffer;
 import org.opentcs.kernel.workingset.PrefixedUlidObjectNameProvider;
 import org.opentcs.kernel.workingset.TCSObjectPool;
-import org.opentcs.kernel.workingset.TransportOrderBinPool;
+import org.opentcs.kernel.workingset.BinOrderPool;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.util.event.EventBus;
 import org.opentcs.util.event.EventHandler;
 import org.opentcs.util.event.SimpleEventBus;
 import org.opentcs.util.logging.UncaughtExceptionLogger;
+import org.opentcs.components.kernel.services.BinOrderService;
 
 /**
  * A Guice module for the openTCS kernel application.
@@ -106,7 +107,7 @@ public class DefaultKernelInjectionModule
     bind(TCSObjectPool.class).in(Singleton.class);
     bind(Model.class).in(Singleton.class);
     bind(TransportOrderPool.class).in(Singleton.class);
-    bind(TransportOrderBinPool.class).in(Singleton.class);
+    bind(BinOrderPool.class).in(Singleton.class);
     bind(NotificationBuffer.class).in(Singleton.class);
 
     bind(ObjectNameProvider.class)
@@ -174,8 +175,8 @@ public class DefaultKernelInjectionModule
     bind(StandardDataBaseService.class).in(Singleton.class);
     bind(DataBaseService.class).to(StandardDataBaseService.class);
     
-    bind(StandardTransportOrderBinService.class).in(Singleton.class);
-    bind(TransportOrderBinService.class).to(StandardTransportOrderBinService.class);
+    bind(StandardBinOrderService.class).in(Singleton.class);
+    bind(BinOrderService.class).to(StandardBinOrderService.class);
     
     bind(StandardChangeTrackService.class).in(Singleton.class);
     bind(ChangeTrackService.class).to(StandardChangeTrackService.class);
@@ -183,6 +184,8 @@ public class DefaultKernelInjectionModule
     bind(StandardTimeFactorService.class).in(Singleton.class);
     bind(TimeFactorService.class).to(StandardTimeFactorService.class);
     
+    // TEST
+    bind(CreateGDSModel.class).in(Singleton.class);
     //////////// modified end
   }
 

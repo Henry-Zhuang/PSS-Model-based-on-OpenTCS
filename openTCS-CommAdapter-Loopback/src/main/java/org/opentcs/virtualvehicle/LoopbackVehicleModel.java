@@ -37,6 +37,7 @@ public class LoopbackVehicleModel
   /**
    * Indicates which operation is a waiting for picking operation.
    */
+  @Deprecated
   private final String waitPickingOperation;
   /**
    * The time needed for executing operations.
@@ -45,6 +46,7 @@ public class LoopbackVehicleModel
   /**
    * The time needed for picking.
    */
+  @Deprecated
   private final int pickingTime;
   /**
    * The velocity controller for calculating the simulated vehicle's velocity and current position.
@@ -77,6 +79,7 @@ public class LoopbackVehicleModel
   }
   
   // created by Henry
+  @Deprecated
   public String getWaitPickingOperation(){
     return this.waitPickingOperation;
   }
@@ -120,6 +123,7 @@ public class LoopbackVehicleModel
    * created by Henry
    * @return The default picking time
    */
+  @Deprecated
   public int getPickingTime(){
     return pickingTime;
   }
@@ -289,6 +293,7 @@ public class LoopbackVehicleModel
     return Math.max(Parsers.tryParseString(opTime, 5000), 1);
   }
   
+  @Deprecated
   private int parsePickingTime(Vehicle vehicle) {
     String pickTime = vehicle.getProperty(LoopbackAdapterConstants.PROPKEY_PICKING_TIME);
     // Ensure it's a positive value.
@@ -335,6 +340,7 @@ public class LoopbackVehicleModel
     return result;
   }
   
+  @Deprecated
   private static String extractWaitOperation(Vehicle attachedVehicle) {
     String result = attachedVehicle.getProperty(LoopbackAdapterConstants.PROPKEY_WAIT_PICKING_OPERATION);
     if (result == null) {

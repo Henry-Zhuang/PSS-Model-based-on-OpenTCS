@@ -44,7 +44,33 @@ public class Location
     extends TCSResource<Location>
     implements Serializable,
                Cloneable {
-
+  ///////////////////////////////////////////modified by Henry
+  /**
+   * The stack's maximum number.
+   */
+  public static final int BINS_MAX_NUM = 8;
+  /**
+   * The type of out-bound station.
+   */
+  public static final String OUT_BOUND_STATION_TYPE = "OutBound";
+  /**
+   * The type of in-bound station.
+   */
+  public static final String IN_BOUND_STATION_TYPE = "InBound";
+  /**
+   * The bins(including bin ID and SKUs) stored in the stack of this location.
+   */
+  private List<Bin> Bins = new ArrayList<>();
+  /**
+   * The psbTrack that this location is located.
+   */
+  private int psbTrack;
+  /**
+   * The pstTrack that this location is located.
+   */
+  private int pstTrack;
+  
+  ///////////////////////////////////////////
   /**
    * This location's position in mm.
    */
@@ -57,29 +83,7 @@ public class Location
    * A set of links attached to this location.
    */
   private final Set<Link> attachedLinks;
-  ///////////////////////////////////////////modified by Henry
-  /**
-   * The bins(including bin ID and SKUs) stored in the stack of this location.
-   */
-  private List<Bin> Bins = new ArrayList<>();
-  /**
-   * The stack's maximum number.
-   */
-  public static final int BINS_MAX_NUM = 7;
-  /**
-   * 
-   */
-  public static final String PICK_STATION_PREFIX = "Pick";
-  /**
-   * The psbTrack that this location is located based on y position.
-   */
-  private int psbTrack;
-  /**
-   * The pstTrack that this location is located based on x position.
-   */
-  private int pstTrack;
   
-  ///////////////////////////////////////////
   /**
    * Creates a new Location.
    *

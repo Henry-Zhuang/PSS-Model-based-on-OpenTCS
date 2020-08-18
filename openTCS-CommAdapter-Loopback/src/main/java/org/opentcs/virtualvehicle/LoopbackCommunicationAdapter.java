@@ -130,10 +130,6 @@ public class LoopbackCommunicationAdapter
    * An error code indicating that the vehicle is ordered to pop a bin from a empty stack.
    */
   private static final String POP_EMPTY_STACK = "cannotPopFromEmptyStack";
-  /**
-   * Whether this this comm adapter instance has waited for picking.
-   */
-  private boolean afterPick = false;
   /////////////////////////////////////////////////////////// modified end
   
   /**
@@ -517,12 +513,12 @@ public class LoopbackCommunicationAdapter
 
       LOG.debug("Operating...");
       final int operatingTime;
-      if(operation.equals(getProcessModel().getWaitPickingOperation())){
-        operatingTime = getProcessModel().getPickingTime();
-        afterPick = true;
-      }
-      else
-        operatingTime = getProcessModel().getOperatingTime();
+//      if(operation.equals(getProcessModel().getWaitPickingOperation())){
+//        operatingTime = getProcessModel().getPickingTime();
+//        afterPick = true;
+//      }
+//      else
+      operatingTime = getProcessModel().getOperatingTime();
       getProcessModel().setVehicleState(Vehicle.State.EXECUTING);
       for (int timePassed = 0; timePassed < operatingTime && !isTerminated();
            timePassed += simAdvanceTime) {
@@ -532,8 +528,7 @@ public class LoopbackCommunicationAdapter
       if (operation.equals(getProcessModel().getLoadOperation()) && opLocation.stackSize()!=0) {
         //modified by Henry
         // if "Load", pop the top bin of the Location to the Vehicle's workBin
-        vehicleService.popBinFromLocation(vehicle.getReference(),opLocation, afterPick);
-        afterPick = false;
+        vehicleService.popBinFromLocation(vehicle.getReference(),opLocation);
         
         // Update load handling devices as defined by this operation
         getProcessModel().setVehicleLoadHandlingDevices(

@@ -20,11 +20,10 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.opentcs.access.KernelRuntimeException;
 import org.opentcs.access.to.order.DestinationCreationTO;
-import org.opentcs.access.to.order.TransportOrderBinCreationTO;
+import org.opentcs.access.to.order.BinOrderCreationTO;
 import org.opentcs.access.to.order.TransportOrderCreationTO;
 import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.DispatcherService;
-import org.opentcs.components.kernel.services.TransportOrderBinService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.customizations.kernel.KernelExecutor;
@@ -38,6 +37,7 @@ import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Property;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Sku;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Transport;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.TransportWithSku;
+import org.opentcs.components.kernel.services.BinOrderService;
 
 /**
  * Handles requests for creating or withdrawing transport orders.
@@ -67,7 +67,7 @@ public class OrderHandler {
    */
   private final DataBaseService dataBaseService;
   
-  private final TransportOrderBinService orderBinService;
+  private final BinOrderService binOrderService;
   /**
    * 用零长度的byte数组作为同步锁.
    */
@@ -89,13 +89,13 @@ public class OrderHandler {
                       DispatcherService dispatcherService,
                       @KernelExecutor ExecutorService kernelExecutor,
                       DataBaseService dataBaseService,
-                      TransportOrderBinService orderBinService) {
+                      BinOrderService orderBinService) {
     this.orderService = requireNonNull(orderService, "orderService");
     this.vehicleService = requireNonNull(vehicleService, "vehicleService");
     this.dispatcherService = requireNonNull(dispatcherService, "dispatcherService");
     this.kernelExecutor = requireNonNull(kernelExecutor, "kernelExecutor");
     this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
-    this.orderBinService = requireNonNull(orderBinService,"orderBinService");
+    this.binOrderService = requireNonNull(orderBinService,"orderBinService");
   }
 
   public void createOrder(String name, Transport order)
@@ -151,13 +151,13 @@ public class OrderHandler {
     
     try{
       for(Map.Entry<String, Map<String,Integer>> binEntry : binRequirements.entrySet()){
-        TransportOrderBinCreationTO to
-            = new TransportOrderBinCreationTO(nameFor(name, binEntry.getKey()) ,binEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
+        BinOrderCreationTO to
+            = new BinOrderCreationTO(nameFor(name, binEntry.getKey()) ,binEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
                 .withCustomerOrderName(name)
                 .withDeadline(deadline(order))
                 .withProperties(properties(order.getProperties()))
                 .withRequiredSku(binEntry.getValue());
-        orderBinService.createTransportOrderBin(to);
+        binOrderService.createBinOrder(to);
       }
       kernelExecutor.submit(() -> {
         dispatcherService.dispatchBin();

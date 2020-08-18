@@ -29,13 +29,13 @@ import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.model.Bin;
+import org.opentcs.data.model.Location;
 import org.opentcs.data.model.Point;
-import org.opentcs.data.model.TrackDefinition;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.DriveOrder;
 import org.opentcs.data.order.OrderConstants;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.TransportOrderBin;
+import org.opentcs.data.order.BinOrder;
 import org.opentcs.drivers.vehicle.VehicleControllerPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,29 +155,42 @@ public class StandardChangeTrackService
           return;
       }
       
-      TransportOrderBin noVehicleTOB = fetchObjects(TransportOrderBin.class).stream()
-          .filter(tOrderBin -> tOrderBin.hasState(TransportOrderBin.State.AWAIT_DISPATCH))
-          .filter(tOB -> {
-              Bin bin = fetchObject(Bin.class,tOB.getBinID());
+      BinOrder noVehicleBinOrder = fetchObjects(BinOrder.class).stream()
+          .filter(order -> order.hasState(BinOrder.State.AWAIT_DISPATCH))
+          .filter(order -> {
+              Bin bin = fetchObject(Bin.class,order.getBinID());
               return noVehicleTracks.contains(bin.getPsbTrack());
             })
-          .sorted(Comparator.comparing(TransportOrderBin::getDeadline))
+          .sorted(Comparator.comparing(BinOrder::getDeadline))
           .findFirst()
           .orElse(null);
-      if(noVehicleTOB == null)
+      if(noVehicleBinOrder == null)
         return;
       
       LOG.debug("method entry");
       Vehicle vehicle = fetchObject(Vehicle.class, binVehicle);
 
-      createChangeTrackOrder(vehicle, noVehicleTOB);
+      createChangeTrackOrder(vehicle, noVehicleBinOrder);
     }
   }
   
-  private void createChangeTrackOrder(Vehicle binVehicle, TransportOrderBin tOB) {
+  private void createChangeTrackOrder(Vehicle binVehicle, BinOrder binOrder) {
+    // 换轨起始轨
+    int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getPsbTrack();
+    // 换轨后，第一个抓箱任务的目标箱
+    Bin bin = fetchObject(Bin.class,binOrder.getBinID());
+    if(bin.getAttachedLocation() == null)
+      return;
+    // 换轨终点轨
+    int dstTrack = bin.getPsbTrack();
+    // 目标箱所在库位
+    String dstLocation = bin.getAttachedLocation().getName();
+    // 需要执行该换轨任务的PST
     Vehicle trackVehicle = 
         fetchObjects(Vehicle.class,this::canBeUtilized).stream()
-            .sorted((Vehicle PST1, Vehicle PST2) -> compareDistance(binVehicle, PST1, PST2))
+            .filter(pst -> pst.getAllowedTracks().contains(srcTrack)
+                        && pst.getAllowedTracks().contains(dstTrack))
+            .sorted((Vehicle PST1, Vehicle PST2) -> compareDistance(PST1, PST2, binVehicle, dstLocation))
             .findFirst()
             .orElse(null);
          
@@ -185,13 +198,6 @@ public class StandardChangeTrackService
       LOG.warn("No change-track vehicles can be utilized at the moment.");
       return;
     }
-    
-    int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getPsbTrack();
-    Bin bin = fetchObject(Bin.class,tOB.getBinID());
-    if(bin.getAttachedLocation() == null)
-      return;
-    int dstTrack = bin.getPsbTrack();
-    String dstLocation = bin.getAttachedLocation().getName();
     
     String orderName = nameFor(OrderConstants.TYPE_CHANGE_TRACK);
     TransportOrderCreationTO psbTO = new TransportOrderCreationTO(orderName+BIN_ORDER_SUFFIX)
@@ -306,16 +312,16 @@ public class StandardChangeTrackService
         && trackVehicle.getIntegrationLevel().equals(Vehicle.IntegrationLevel.TO_BE_UTILIZED);
   }
   
-  private int compareDistance(Vehicle binVehicle, Vehicle trackVehicle1, Vehicle trackVehicle2){
-    Point point1 = fetchObject(Point.class, trackVehicle1.getCurrentPosition());
-    Point point2 = fetchObject(Point.class, trackVehicle2.getCurrentPosition());
-    Point sourcePoint = fetchObject(Point.class, binVehicle.getCurrentPosition());
-    int distance1 = (int)Math.abs(point1.getPosition().getX()-sourcePoint.getPosition().getX());
-    int distance2 = (int)Math.abs(point2.getPosition().getX()-sourcePoint.getPosition().getX());
-    if (distance1 == distance2)
-      return 0;
-    else
-      return distance1 > distance2 ? 1 : -1;
+  private int compareDistance(Vehicle PST1, Vehicle PST2, Vehicle binVehicle, String locationName){
+    Point point1 = fetchObject(Point.class, PST1.getCurrentPosition());
+    Point point2 = fetchObject(Point.class, PST2.getCurrentPosition());
+    Point srcPoint = fetchObject(Point.class, binVehicle.getCurrentPosition());
+    Location dstLocation = fetchObject(Location.class, locationName);
+    Integer distance1 = Math.abs(point1.getPstTrack()-srcPoint.getPstTrack())
+        + Math.abs(point1.getPstTrack()-dstLocation.getPstTrack());
+    Integer distance2 = Math.abs(point2.getPstTrack()-srcPoint.getPstTrack())
+        + Math.abs(point2.getPstTrack()-dstLocation.getPstTrack());
+    return distance1.compareTo(distance2);
   }
 
   private List<DestinationCreationTO> BinDestinations(Vehicle trackVehicle, int srcTrack, int dstTrack, String dstLocation) {

@@ -283,7 +283,6 @@ public class Model {
       shape.setProperties(shapeTO.getProperties());
       newLayout.getLayoutElements().add(shape);
     }
-    // modified by Henry
     objectPool.addObject(newLayout);
     objectPool.emitObjectEvent(newLayout.clone(),
                                null,
@@ -1297,7 +1296,9 @@ public class Model {
     List<Bin> newBins = new ArrayList<>();
     int i = 0;
     for(Bin bin : to.getBins()){
-      Bin newBin = bin.withAttachedLocation(newLocation.getReference()).withBinPosition(i++);
+      Bin newBin = bin.withAttachedLocation(newLocation.getReference())
+          .withBinPosition(i++)
+          .withState(Bin.State.Still);
       newBins.add(newBin);
       objectPool.addObject(newBin);
       objectPool.emitObjectEvent(newBin.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
@@ -1728,12 +1729,12 @@ public class Model {
     ////////// modified by Henry
     Bin newBin = to.getBin();
     if(!newBin.getName().equals("")){
-      newBin = newBin.withAttachedVehicle(newVehicle.getReference());
+      newBin = newBin.withAttachedVehicle(newVehicle.getReference()).withState(Bin.State.Transporting);
       objectPool.addObject(newBin);
       objectPool.emitObjectEvent(newBin.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
     }
     
-    newVehicle = newVehicle.withBin(newBin).withType(to.getType());
+    newVehicle = newVehicle.withBin(newBin).withType(to.getType()).updateAllowedTracks();
     //////////modified end
     objectPool.addObject(newVehicle);
     objectPool.emitObjectEvent(newVehicle.clone(),

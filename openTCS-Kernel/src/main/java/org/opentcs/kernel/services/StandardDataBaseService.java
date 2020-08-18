@@ -303,7 +303,7 @@ public class StandardDataBaseService implements DataBaseService {
 
   private boolean isPickStation(String locationName) {
     return model.getObjectPool().getObject(Location.class,locationName)
-              .getType().getName().startsWith(Location.PICK_STATION_PREFIX);
+              .getType().getName().equals(Location.OUT_BOUND_STATION_TYPE);
   }
   
   private static Predicate<String> isQuantityPositive(Map<String, Integer> Skus) {

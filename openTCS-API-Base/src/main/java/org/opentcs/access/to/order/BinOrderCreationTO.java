@@ -13,14 +13,13 @@ import static java.util.Objects.requireNonNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.opentcs.access.to.CreationTO;
-import org.opentcs.data.model.Bin;
 import org.opentcs.data.order.OrderBinConstants;
 
 /**
  *
  * @author Henry
  */
-public class TransportOrderBinCreationTO 
+public class BinOrderCreationTO 
     extends CreationTO
     implements Serializable {
   
@@ -53,7 +52,7 @@ public class TransportOrderBinCreationTO
    * @param binID The specific binID of this transport order bin.
    * @param type The destinations that need to be travelled to.
    */
-  public TransportOrderBinCreationTO(@Nonnull String name,
+  public BinOrderCreationTO(@Nonnull String name,
                                         @Nonnull String binID, 
                                         @Nonnull String type) {
     super(name);
@@ -61,7 +60,7 @@ public class TransportOrderBinCreationTO
     this.type = requireNonNull(type, "type");
   }
 
-  private TransportOrderBinCreationTO(@Nonnull String name, 
+  private BinOrderCreationTO(@Nonnull String name, 
                                         @Nonnull String binID, 
                                         @Nonnull Map<String, String> properties, 
                                         @Nonnull String type, 
@@ -85,8 +84,8 @@ public class TransportOrderBinCreationTO
    * @return A copy of this object, differing in the given value.
    */
   @Override
-  public TransportOrderBinCreationTO withProperties(@Nonnull Map<String, String> properties) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withProperties(@Nonnull Map<String, String> properties) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         properties,
                                         type, 
@@ -107,8 +106,8 @@ public class TransportOrderBinCreationTO
    * excludes the entry otherwise.
    */
   @Override
-  public TransportOrderBinCreationTO withProperty(@Nonnull String key, @Nonnull String value) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withProperty(@Nonnull String key, @Nonnull String value) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         propertiesWith(key, value),
                                         type, 
@@ -122,8 +121,8 @@ public class TransportOrderBinCreationTO
     return binID;
   }
  
-  public TransportOrderBinCreationTO withBinID(@Nonnull String binID) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withBinID(@Nonnull String binID) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         getModifiableProperties(),
                                         type, 
@@ -149,8 +148,8 @@ public class TransportOrderBinCreationTO
    * @param type The type.
    * @return A copy of this object, differing in the given type.
    */
-  public TransportOrderBinCreationTO withType(@Nonnull String type) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withType(@Nonnull String type) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         getModifiableProperties(),
                                         type, 
@@ -164,8 +163,8 @@ public class TransportOrderBinCreationTO
     return requiredSku;
   }
 
-  public TransportOrderBinCreationTO withRequiredSku(Map<String,Integer> requiredSku) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withRequiredSku(Map<String,Integer> requiredSku) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         getModifiableProperties(),
                                         type, 
@@ -179,8 +178,8 @@ public class TransportOrderBinCreationTO
     return quantityPerBin;
   }
 
-  public TransportOrderBinCreationTO withQuantityPerBin(int quantityPerBin) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withQuantityPerBin(int quantityPerBin) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         getModifiableProperties(),
                                         type, 
@@ -194,8 +193,8 @@ public class TransportOrderBinCreationTO
     return customerOrderName;
   }
 
-  public TransportOrderBinCreationTO withCustomerOrderName(String customerOrderName) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withCustomerOrderName(String customerOrderName) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         getModifiableProperties(),
                                         type, 
@@ -217,8 +216,8 @@ public class TransportOrderBinCreationTO
    * @param deadline The deadline.
    * @return A copy of this object, differing in the given deadline.
    */
-  public TransportOrderBinCreationTO withDeadline(@Nonnull Instant deadline) {
-    return new TransportOrderBinCreationTO(getName(), 
+  public BinOrderCreationTO withDeadline(@Nonnull Instant deadline) {
+    return new BinOrderCreationTO(getName(), 
                                         binID,
                                         getModifiableProperties(),
                                         type, 

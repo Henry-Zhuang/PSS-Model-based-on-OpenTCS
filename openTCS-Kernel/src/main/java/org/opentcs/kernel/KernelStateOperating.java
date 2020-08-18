@@ -54,7 +54,8 @@ import org.opentcs.kernel.vehicles.LocalVehicleControllerPool;
 import org.opentcs.kernel.workingset.Model;
 import org.opentcs.kernel.workingset.NotificationBuffer;
 import org.opentcs.kernel.workingset.TCSObjectPool;
-import org.opentcs.kernel.workingset.TransportOrderBinPool;
+import org.opentcs.kernel.workingset.BinOrderPool;
+import org.opentcs.kernel.workingset.OutBoundConveyor;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.util.Comparators;
 import org.slf4j.Logger;
@@ -84,7 +85,7 @@ class KernelStateOperating
    * The order facade to the object bin pool.
    * created by Henry
    */
-  private final TransportOrderBinPool orderBinPool;
+  private final BinOrderPool binOrderPool;
   /**
    * This kernel's router.
    */
@@ -116,8 +117,13 @@ class KernelStateOperating
   private final ScheduledExecutorService kernelExecutor;
   /**
    * A task for periodically getting rid of old orders.
+   * modified by Henry
    */
   private final OrderCleanerTask orderCleanerTask;
+  /**
+   * A task for simulating the outbound conveyor.
+   */
+  private final OutBoundConveyor outBoundConveyor;
   /**
    * This kernel state's local extensions.
    */
@@ -134,6 +140,11 @@ class KernelStateOperating
    * A handle for the cleaner task.
    */
   private ScheduledFuture<?> cleanerTaskFuture;
+  /**
+   * A handle for the outbound conveyor.
+   * modified by Henry
+   */
+  private ScheduledFuture<?> outBoundConveyorFuture;
   /**
    * The change-track service.
    * modified by Henry
@@ -173,8 +184,9 @@ class KernelStateOperating
                        @ActiveInOperatingMode Set<KernelExtension> extensions,
                        AttachmentManager attachmentManager,
                        VehicleService vehicleService,
-                       TransportOrderBinPool orderBinPool,
-                       ChangeTrackService changeTrackService) {
+                       BinOrderPool binOrderPool,
+                       ChangeTrackService changeTrackService,
+                       OutBoundConveyor outBoundConveyor) {
     super(globalSyncObject,
           objectPool,
           model,
@@ -194,8 +206,9 @@ class KernelStateOperating
     this.extensions = requireNonNull(extensions, "extensions");
     this.attachmentManager = requireNonNull(attachmentManager, "attachmentManager");
     this.vehicleService = requireNonNull(vehicleService, "vehicleService");
-    this.orderBinPool = requireNonNull(orderBinPool, "orderBinPool");
+    this.binOrderPool = requireNonNull(binOrderPool, "binOrderPool");
     this.changeTrackService = requireNonNull(changeTrackService, "changeTrackService");
+    this.outBoundConveyor = requireNonNull(outBoundConveyor, "outBoundConveyor");
   }
 
   // Implementation of interface Kernel starts here.
@@ -238,6 +251,12 @@ class KernelStateOperating
                                                            orderCleanerTask.getSweepInterval(),
                                                            orderCleanerTask.getSweepInterval(),
                                                            TimeUnit.MILLISECONDS);
+    
+    // 开启出库传送带
+    outBoundConveyorFuture = kernelExecutor.scheduleAtFixedRate(outBoundConveyor,
+                                                                outBoundConveyor.getIntervalTime(),
+                                                                0,
+                                                                TimeUnit.MILLISECONDS);
 
     // Start kernel extensions.
     for (KernelExtension extension : extensions) {
@@ -276,8 +295,12 @@ class KernelStateOperating
     // No need to clean up any more - it's all going to be cleaned up very soon.
     cleanerTaskFuture.cancel(false);
     cleanerTaskFuture = null;
-
+    
     //// modified by Henry
+    outBoundConveyorFuture.cancel(false);
+    outBoundConveyorFuture = null;
+    outBoundConveyor.clear();
+    
     LOG.debug("Terminating change track service ...");
     changeTrackService.clear();
     //// modified end
@@ -312,7 +335,7 @@ class KernelStateOperating
     orderPool.clear();
     
     ////// modified by Henry
-    orderBinPool.clear();
+    binOrderPool.clear();
     ////// modified end
 
     initialized = false;

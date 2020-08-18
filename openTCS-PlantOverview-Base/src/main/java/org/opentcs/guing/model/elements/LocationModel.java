@@ -44,11 +44,11 @@ public class LocationModel
   /** 
    * The property key for the location's Bins.
    */
-  public static final String[] BINIDs = {"BinID0","BinID1","BinID2","BinID3","BinID4","BinID5","BinID6"};
+  public static final String[] BINIDs = {"BinID0","BinID1","BinID2","BinID3","BinID4","BinID5","BinID6","BinID7"};
   /** 
    * The property key for the SKUs stored in location's Bins.
    */
-  public static final String[] BINSKUs = {"BinSKU0","BinSKU1","BinSKU2","BinSKU3","BinSKU4","BinSKU5","BinSKU6"};
+  public static final String[] BINSKUs = {"BinSKU0","BinSKU1","BinSKU2","BinSKU3","BinSKU4","BinSKU5","BinSKU6","BinSKU7"};
   /** 
    * The property key for the number of bins.
    */
@@ -313,6 +313,18 @@ public class LocationModel
     pBinSKU6.setHelptext(bundle.getString("locationModel.property_SKU.helptext"));
     pBinSKU6.setModellingEditable(binModellingEditable);
     setProperty(BINSKUs[6], pBinSKU6);
+    
+    StringProperty pBinID7 = new StringProperty(this);
+    pBinID7.setDescription(bundle.getString("locationModel.property_Bin7.description"));
+    pBinID7.setHelptext(bundle.getString("locationModel.property_Bin7.helptext"));
+    pBinID7.setModellingEditable(binModellingEditable);
+    setProperty(BINIDs[7], pBinID7);
+    
+    StringProperty pBinSKU7 = new StringProperty(this);
+    pBinSKU7.setDescription(bundle.getString("locationModel.property_SKU.description"));
+    pBinSKU7.setHelptext(bundle.getString("locationModel.property_SKU.helptext"));
+    pBinSKU7.setModellingEditable(binModellingEditable);
+    setProperty(BINSKUs[7], pBinSKU7);
    
     ////////////////////////////////////////////////////////////////////////Modified end }
 

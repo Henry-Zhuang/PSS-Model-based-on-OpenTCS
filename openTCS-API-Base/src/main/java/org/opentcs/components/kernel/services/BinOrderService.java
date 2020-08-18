@@ -6,34 +6,34 @@
 package org.opentcs.components.kernel.services;
 
 import org.opentcs.access.KernelRuntimeException;
-import org.opentcs.access.to.order.TransportOrderBinCreationTO;
+import org.opentcs.access.to.order.BinOrderCreationTO;
 import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.TransportOrderBin;
+import org.opentcs.data.order.BinOrder;
 
 /**
  *
  * @author Henry
  */
-public interface TransportOrderBinService 
+public interface BinOrderService 
     extends TCSObjectService {
   
-  TransportOrderBin createTransportOrderBin(TransportOrderBinCreationTO to)
+  BinOrder createBinOrder(BinOrderCreationTO to)
       throws ObjectUnknownException, ObjectExistsException, KernelRuntimeException;
   
-  public TransportOrderBin removeTransportOrderBin(TCSObjectReference<TransportOrderBin> ref)
+  public BinOrder removeBinOrder(TCSObjectReference<BinOrder> ref)
       throws ObjectUnknownException;
   
-  void updateTransportOrderBinAttachedTOrder(TCSObjectReference<TransportOrderBin> tOrderBinRef,
+  void updateBinOrderAttachedTOrder(TCSObjectReference<BinOrder> binOrderRef,
                                             TCSObjectReference<TransportOrder> tOrderRef)
       throws ObjectUnknownException;
   
-  void updateTransportOrderBinState(TCSObjectReference<TransportOrderBin> tOrderBinRef,
-                                            TransportOrderBin.State state)
+  void updateBinOrderState(TCSObjectReference<BinOrder> binOrderRef,
+                                            BinOrder.State state)
       throws ObjectUnknownException;
   
-  void enableTOrderBinForIdleVehicle();
+  void enableBinOrderForIdleVehicle();
 
 }

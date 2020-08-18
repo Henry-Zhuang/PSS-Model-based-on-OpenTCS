@@ -8,7 +8,6 @@
 package org.opentcs.kernel;
 
 import com.google.common.collect.Iterables;
-import java.util.ArrayList;
 import java.util.List;
 import static java.util.Objects.requireNonNull;
 import java.util.Set;
@@ -18,13 +17,11 @@ import javax.inject.Inject;
 import org.opentcs.components.kernel.OrderSequenceCleanupApproval;
 import org.opentcs.components.kernel.TransportOrderCleanupApproval;
 import org.opentcs.customizations.kernel.GlobalSyncObject;
-import org.opentcs.data.TCSObjectEvent;
 import org.opentcs.data.TCSObjectReference;
-import org.opentcs.data.model.Location;
 import org.opentcs.data.order.OrderSequence;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.TransportOrderBin;
-import org.opentcs.kernel.workingset.TransportOrderBinPool;
+import org.opentcs.data.order.BinOrder;
+import org.opentcs.kernel.workingset.BinOrderPool;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +50,7 @@ class OrderCleanerTask
    * Keeps all the transport bin orders.
    * created by Henry
    */
-  private final TransportOrderBinPool orderBinPool;
+  private final BinOrderPool binOrderPool;
   /**
    * Check whether transport orders may be removed.
    */
@@ -79,14 +76,14 @@ class OrderCleanerTask
                           Set<TransportOrderCleanupApproval> orderCleanupApprovals,
                           Set<OrderSequenceCleanupApproval> sequenceCleanupApprovals,
                           OrderPoolConfiguration configuration,
-                          TransportOrderBinPool orderBinPool) {
+                          BinOrderPool orderBinPool) {
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.orderPool = requireNonNull(orderPool, "orderPool");
     this.orderCleanupApprovals = requireNonNull(orderCleanupApprovals, "orderCleanupApprovals");
     this.sequenceCleanupApprovals = requireNonNull(sequenceCleanupApprovals,
                                                    "sequenceCleanupApprovals");
     this.configuration = requireNonNull(configuration, "configuration");
-    this.orderBinPool = requireNonNull(orderBinPool,"orderBinPool");
+    this.binOrderPool = requireNonNull(orderBinPool,"orderBinPool");
   }
 
   public long getSweepInterval() {
@@ -118,28 +115,13 @@ class OrderCleanerTask
       }
       
       //////// modified by Henry
-      for(TransportOrderBin tOrderBin
-              : orderBinPool.getObjectPool().getObjects(TransportOrderBin.class)
+      for(BinOrder binOrder
+              : binOrderPool.getObjectPool().getObjects(BinOrder.class)
                   .stream()
-                  .filter(tOrderBin -> tOrderBin.getState().isFinalState())
-                  .filter(orderB -> orderB.getCreationTime().toEpochMilli()<creationTimeThreshold)
+                  .filter(order -> order.getState().isFinalState())
+                  .filter(Border -> Border.getCreationTime().toEpochMilli()<creationTimeThreshold)
                   .collect(Collectors.toSet()))
-        orderBinPool.removeTransportOrderBin(tOrderBin.getReference());
-      
-      // Çå¿Õ¼ð»õÌ¨ TEST
-//      for(Location pickStation 
-//          : orderBinPool.getObjectPool().getObjects(Location.class, 
-//                                                    p->p.getType()
-//                                                        .getName()
-//                                                        .startsWith(Location.PICK_TYPE_PREFIX))){
-//        Location previous = pickStation.clone();
-//        pickStation = orderBinPool.getObjectPool()
-//                                  .replaceObject(pickStation.withBins(new ArrayList<>()));
-//        orderBinPool.getObjectPool().emitObjectEvent(pickStation.clone(), 
-//                                                     previous,
-//                                                     TCSObjectEvent.Type.OBJECT_MODIFIED);
-//      }
-      //////// modified end
+        binOrderPool.removeBinOrder(binOrder.getReference());
     }
   }
 

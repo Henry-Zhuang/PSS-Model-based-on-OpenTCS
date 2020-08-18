@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.opentcs.data.ObjectHistory;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectReference;
+import org.opentcs.data.order.BinOrder;
 
 /**
  * A bin stored in the location, containing SKUs.
@@ -37,14 +38,18 @@ public class Bin
   public static final String SKU_SEPARATOR = " ; ";
   /**
    * A refercence to a {@link Location} where the bin is located.
-   * <p>It can be {@code null} if the bin is attached to a {@link Vehicle}.</p>
+   * <p>It can be {@code null} if the bin is transported by a {@link Vehicle}.</p>
    */
   private TCSObjectReference<Location> attachedLocation;
   /**
-   * A refercence to a {@link Vehicle} which the bin is attached to.
+   * A refercence to a {@link Vehicle} which the bin is transported by.
    * <p>It can be {@code null} if the bin is located in a {@link Location}.</p>
    */
   private TCSObjectReference<Vehicle> attachedVehicle;
+  /**
+   * A refercence to a {@link BinOrder} which the bin is assigned to.
+   */
+  private TCSObjectReference<BinOrder> assignedBinOrder;
   /**
    * The source location's row.
    */
@@ -62,6 +67,10 @@ public class Bin
    */
   private Set<SKU> SKUs = new HashSet<>();
   /**
+   * The bin's state.
+   */
+  private State state;
+  /**
    * Whether the bin is locked or not.
    */
   private volatile boolean locked;
@@ -76,18 +85,22 @@ public class Bin
              ObjectHistory history, 
              TCSObjectReference<Location> attachedLocation,
              TCSObjectReference<Vehicle> attachedVehicle,
+             TCSObjectReference<BinOrder> assignedBinOrder,
              int locationRow, 
              int locationColumn,
              int binPosition,
              Set<SKU> SKUs,
+             State state,
              boolean locked) {
     super(binID, properties, history);
     this.attachedLocation = attachedLocation;
     this.attachedVehicle = attachedVehicle;
+    this.assignedBinOrder = assignedBinOrder;
     this.psbTrack = locationRow;
     this.pstTrack = locationColumn;
     this.binPosition = binPosition;
     this.SKUs = requireNonNull(SKUs,"SKUs");
+    this.state = state;
     this.locked = requireNonNull(locked, "locked");
   }
 
@@ -97,11 +110,11 @@ public class Bin
                   propertiesWith(key, value), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle,
+                  attachedVehicle, assignedBinOrder,
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -111,11 +124,11 @@ public class Bin
                   properties, 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -125,11 +138,11 @@ public class Bin
                   getProperties(), 
                   getHistory().withEntryAppended(entry),
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -139,11 +152,11 @@ public class Bin
                   getProperties(), 
                   history,
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -156,11 +169,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  null, 
+                  null, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -173,14 +186,32 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   null,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
+  public TCSObjectReference<BinOrder> getAssignedBinOrder() {
+    return assignedBinOrder;
+  }
+
+  public Bin withAssignedBinOrder(TCSObjectReference<BinOrder> assignedBinOrder) {
+    return new Bin(getName(),
+                  getProperties(), 
+                  getHistory(),
+                  null,
+                  attachedVehicle, 
+                  assignedBinOrder, 
+                  psbTrack, 
+                  pstTrack, 
+                  binPosition, 
+                  SKUs, state,
+                  locked);
+  }
+  
   public int getPsbTrack() {
     return psbTrack;
   }
@@ -190,11 +221,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -207,11 +238,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -224,11 +255,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
 
@@ -241,11 +272,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
   
@@ -276,6 +307,15 @@ public class Bin
     }
     return 0;
   }
+
+  public State getState() {
+    return state;
+  }
+
+  public Bin withState(State state) {
+    this.state = state;
+    return this;
+  }
   
   /**
   * Check if the bin is locked.
@@ -301,11 +341,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, 
+                  attachedVehicle, assignedBinOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs,
+                  SKUs, state,
                   locked);
   }
   
@@ -387,5 +427,25 @@ public class Bin
     public int hashCode() {
       return skuID.hashCode();
     }
+  }
+  
+  public static enum State{
+    /**
+     * A state indicates that the bin is being transported by a bin vehicle(PSB) 
+     * or an outbound conveyor.
+     */
+    Transporting,
+    /**
+     * A state indicates that the bin is still (stored in a {@link Location}).
+     */
+    Still,
+    /**
+     * A state indicates that the bin has been picked.
+     */
+    Picked,
+    /**
+     * A state indicates that the bin is returning to the repository.
+     */
+    Returning
   }
 }
