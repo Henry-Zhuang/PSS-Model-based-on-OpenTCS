@@ -42,13 +42,10 @@ import org.slf4j.LoggerFactory;
 //modified by Henry
 import org.opentcs.data.model.Location;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
 import org.opentcs.components.kernel.services.ChangeTrackService;
-import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.model.Bin;
-import org.opentcs.data.order.BinOrder;
+import org.opentcs.components.kernel.services.CsvFileService;
 
 /**
  * This class is the standard implementation of the {@link VehicleService} interface.
@@ -92,10 +89,10 @@ public class StandardVehicleService
    */
   private final Model model;
   /**
-   * The data base service.
+   * The csv file service.
    * modified by Henry
    */
-  private final DataBaseService dataBaseService;
+  private final CsvFileService csvFileService;
   /**
    * The change track service.
    * modified by Henry
@@ -124,7 +121,7 @@ public class StandardVehicleService
                                 AttachmentManager attachmentManager,
                                 VehicleCommAdapterRegistry commAdapterRegistry,
                                 Model model,
-                                DataBaseService dataBaseService,
+                                CsvFileService dataBaseService,
                                 ChangeTrackService changeTrackService) {
     super(objectService);
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
@@ -134,7 +131,7 @@ public class StandardVehicleService
     this.attachmentManager = requireNonNull(attachmentManager, "attachmentManager");
     this.commAdapterRegistry = requireNonNull(commAdapterRegistry, "commAdapterRegistry");
     this.model = requireNonNull(model, "model");
-    this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
+    this.csvFileService = requireNonNull(dataBaseService,"dataBaseService");
     this.changeTrackService = requireNonNull(changeTrackService,"changeTrackService");
   }
 
@@ -367,7 +364,7 @@ public class StandardVehicleService
     public void popBinFromLocation(TCSObjectReference<Vehicle> vehicleRef, Location location)
       throws ObjectUnknownException {
     synchronized (globalSyncObject) {
-      Vehicle vehicle = globalObjectPool.getObject(Vehicle.class, vehicleRef);
+      Vehicle vehicle = fetchObject(Vehicle.class, vehicleRef);
       Vehicle previousVehicle = vehicle.clone();
       Location previousLocation = location.clone();
       Bin previousBin = location.pop();
@@ -376,6 +373,8 @@ public class StandardVehicleService
         LOG.error("{} is catching bin from a empty stack {}",vehicleRef.getName(),location.getName());
         return;
       }
+      // 更新从库位站里取出来的料箱，保持其与数据池中的料箱同步
+      previousBin = fetchObject(Bin.class, previousBin.getName());
       
       Bin currentBin = globalObjectPool.replaceObject(previousBin
                                                       .withAttachedVehicle(vehicleRef)
@@ -387,7 +386,7 @@ public class StandardVehicleService
       globalObjectPool.emitObjectEvent(vehicle.clone(), previousVehicle, TCSObjectEvent.Type.OBJECT_MODIFIED);
       globalObjectPool.emitObjectEvent(currentBin, previousBin, TCSObjectEvent.Type.OBJECT_MODIFIED);
       
-      dataBaseService.updateDataBase();
+      csvFileService.outputStockInfo();
     }
   }
 
@@ -400,12 +399,18 @@ public class StandardVehicleService
       Vehicle previousVehicle = vehicle.clone();
       Location previousLocation = location.clone();
       Bin previousBin = vehicle.getBin();
-      Bin currentBin = previousBin
-                      .withAttachedLocation(location.getReference())
-                      .withPsbTrack(location.getPsbTrack())
-                      .withPstTrack(location.getPstTrack())
-                      .withBinPosition(location.stackSize())
-                      .withState(Bin.State.Still);
+      Bin currentBin = previousBin;
+      
+      if(!previousBin.getName().equals("")){
+        // 更新车辆抓取的料箱，保持其与数据池中的料箱同步
+        previousBin = fetchObject(Bin.class, previousBin.getName());
+        currentBin = previousBin
+                    .withAttachedLocation(location.getReference())
+                    .withPsbTrack(location.getPsbTrack())
+                    .withPstTrack(location.getPstTrack())
+                    .withBinPosition(location.stackSize())
+                    .withState(Bin.State.Still);
+      }
       
       if(location.push(currentBin)){
         vehicle = globalObjectPool.replaceObject(vehicle.withBin(new Bin("")));
@@ -415,7 +420,7 @@ public class StandardVehicleService
         globalObjectPool.emitObjectEvent(location.clone(), previousLocation, TCSObjectEvent.Type.OBJECT_MODIFIED);
         globalObjectPool.emitObjectEvent(vehicle.clone(), previousVehicle, TCSObjectEvent.Type.OBJECT_MODIFIED);
         globalObjectPool.emitObjectEvent(currentBin, previousBin, TCSObjectEvent.Type.OBJECT_MODIFIED);
-        dataBaseService.updateDataBase();
+        csvFileService.outputStockInfo();
       }
       else{
         LOG.error("ERROR {} droping bin to {} failed",vehicleRef.getName(),location.getName());

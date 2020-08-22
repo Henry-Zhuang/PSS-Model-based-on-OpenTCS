@@ -41,20 +41,20 @@ public class BinOrder
 
   private TCSObjectReference<TransportOrder> attachedTransportOrder;
   /**
-   * This transport bin order's current state.
+   * This bin order's current state.
    */
   @Nonnull
   private State state = State.AWAIT_DISPATCH;
   /**
-   * The point of time at which this transport order was created.
+   * The point of time at which this bin order was created.
    */
   private final Instant creationTime;
   /**
-   * The point of time at which processing of this transport order must be finished.
+   * The point of time at which processing of this bin order must be finished.
    */
   private Instant deadline = Instant.ofEpochMilli(Long.MAX_VALUE);
   /**
-   * The point of time at which processing of this transport order was finished.
+   * The point of time at which processing of this bin order was finished.
    */
   private Instant finishedTime = Instant.ofEpochMilli(Long.MAX_VALUE);
 

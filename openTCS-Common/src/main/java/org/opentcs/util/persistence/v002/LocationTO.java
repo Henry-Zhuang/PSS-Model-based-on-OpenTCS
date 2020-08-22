@@ -137,7 +137,7 @@ public class LocationTO
     @XmlType(propOrder = {"skuID", "quantity"})
     public static class SkuTO{
       private String skuID = "";
-      private Integer quantity = 0;
+      private Double quantity = 0.0;
       
       @XmlAttribute(required = true)
       public String getSkuID(){
@@ -150,10 +150,10 @@ public class LocationTO
       }
 
       @XmlAttribute(required = true)
-      public Integer getQuantity(){
+      public Double getQuantity(){
         return quantity;
       }
-      public SkuTO setQuantity(@Nonnull Integer quantity){
+      public SkuTO setQuantity(@Nonnull Double quantity){
         requireNonNull(quantity,"quantity");
         this.quantity = quantity;
         return this;

@@ -84,4 +84,14 @@ public interface OrderConstants {
    * created by Henry
    */
   String TYPE_CHANGE_TRACK = "ChangeTrack";
+  /**
+   * A type for inbound orders.
+   * created by Henry
+   */
+  String TYPE_IN_BOUND = "InBound";
+  /**
+   * A type for outbound orders.
+   * created by Henry
+   */
+  String TYPE_OUT_BOUND = "OutBound";
 }

@@ -8,6 +8,8 @@ package org.opentcs.data.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 import org.opentcs.data.ObjectHistory;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.TCSObjectReference;
-import org.opentcs.data.order.BinOrder;
+import org.opentcs.data.order.TransportOrder;
 
 /**
  * A bin stored in the location, containing SKUs.
@@ -47,9 +49,9 @@ public class Bin
    */
   private TCSObjectReference<Vehicle> attachedVehicle;
   /**
-   * A refercence to a {@link BinOrder} which the bin is assigned to.
+   * A refercence to a {@link TransportOrder} which the bin is assigned to.
    */
-  private TCSObjectReference<BinOrder> assignedBinOrder;
+  private TCSObjectReference<TransportOrder> assignedTransportOrder;
   /**
    * The source location's row.
    */
@@ -66,6 +68,12 @@ public class Bin
    * A set of SKUs which are stored in the bin.
    */
   private Set<SKU> SKUs = new HashSet<>();
+  /**
+   * 该料箱的SKU预订表.
+   * 每一个键值对的Key表示发起这个预订的出库订单ID.
+   * 每一个键值对的Value表示对应出库订单所发起的预订内容（SKU的ID和数量）.
+   */
+  private Map<String,Set<SKU>> reservations = new HashMap<>();
   /**
    * The bin's state.
    */
@@ -85,21 +93,23 @@ public class Bin
              ObjectHistory history, 
              TCSObjectReference<Location> attachedLocation,
              TCSObjectReference<Vehicle> attachedVehicle,
-             TCSObjectReference<BinOrder> assignedBinOrder,
+             TCSObjectReference<TransportOrder> assignedTransportOrder,
              int locationRow, 
              int locationColumn,
              int binPosition,
              Set<SKU> SKUs,
+             Map<String, Set<SKU>> reservedSKUs,
              State state,
              boolean locked) {
     super(binID, properties, history);
     this.attachedLocation = attachedLocation;
     this.attachedVehicle = attachedVehicle;
-    this.assignedBinOrder = assignedBinOrder;
+    this.assignedTransportOrder = assignedTransportOrder;
     this.psbTrack = locationRow;
     this.pstTrack = locationColumn;
     this.binPosition = binPosition;
     this.SKUs = requireNonNull(SKUs,"SKUs");
+    this.reservations = requireNonNull(reservedSKUs,"reservedSKUs");
     this.state = state;
     this.locked = requireNonNull(locked, "locked");
   }
@@ -110,11 +120,11 @@ public class Bin
                   propertiesWith(key, value), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder,
+                  attachedVehicle, assignedTransportOrder,
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -124,11 +134,11 @@ public class Bin
                   properties, 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -138,11 +148,11 @@ public class Bin
                   getProperties(), 
                   getHistory().withEntryAppended(entry),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -152,11 +162,11 @@ public class Bin
                   getProperties(), 
                   history,
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -169,11 +179,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  null, assignedBinOrder, 
+                  null, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -186,29 +196,29 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   null,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
-  public TCSObjectReference<BinOrder> getAssignedBinOrder() {
-    return assignedBinOrder;
+  public TCSObjectReference<TransportOrder> getAssignedTransportOrder() {
+    return assignedTransportOrder;
   }
 
-  public Bin withAssignedBinOrder(TCSObjectReference<BinOrder> assignedBinOrder) {
+  public Bin withAssignedTransportOrder(TCSObjectReference<TransportOrder> assignedTransportOrder) {
     return new Bin(getName(),
                   getProperties(), 
                   getHistory(),
-                  null,
+                  attachedLocation,
                   attachedVehicle, 
-                  assignedBinOrder, 
+                  assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
   
@@ -221,11 +231,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -238,11 +248,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -255,11 +265,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
 
@@ -272,11 +282,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
   
@@ -294,13 +304,13 @@ public class Bin
                     .stream().filter(sku -> !sku.isEmpty())
                     .map(sku -> {
                       String[] tmpSku = sku.split(org.opentcs.data.model.Bin.QUANTITY_SEPARATOR);
-                      return new SKU(tmpSku[0],Integer.parseInt(tmpSku[1]));
+                      return new SKU(tmpSku[0],Double.parseDouble(tmpSku[1]));
                         })
                     .collect(Collectors.toSet());
     return this.withSKUs(Skus);
   }
   
-  public int getQuantity(String skuID){
+  public double getQuantity(String skuID){
     for(SKU sku:SKUs){
       if(sku.getSkuID().equals(skuID))
         return sku.getQuantity();
@@ -308,10 +318,47 @@ public class Bin
     return 0;
   }
 
+  public Map<String, Set<SKU>> getReservations() {
+    return reservations;
+  }
+
+  public Bin withReservations(Map<String, Set<SKU>> reservations) {
+    return new Bin(getName(),
+                  getProperties(), 
+                  getHistory(),
+                  attachedLocation,
+                  attachedVehicle, assignedTransportOrder, 
+                  psbTrack, 
+                  pstTrack, 
+                  binPosition, 
+                  SKUs, reservations, state,
+                  locked);
+  }
+  
+  public Set<SKU> getNotReservedSKUs(){
+    Map<String,Double> notReservedMap = SKUs.stream().collect(Collectors.toMap(SKU::getSkuID,SKU::getQuantity));
+    Collection<Set<SKU>> reservedSKUs = reservations.values();
+    reservedSKUs.forEach(skus -> skus.forEach(sku -> {
+      Double leftQuantity = notReservedMap.get(sku.getSkuID()) - sku.getQuantity();
+      notReservedMap.put(sku.getSkuID(), leftQuantity);
+    }));
+    
+    Set<SKU> notReservedSKUs = new HashSet<>();
+    for(Map.Entry<String,Double> skuEntry : notReservedMap.entrySet()){
+      if(skuEntry.getValue() > 0)
+        notReservedSKUs.add(new SKU(skuEntry.getKey(),skuEntry.getValue()));
+    }
+    return notReservedSKUs;
+  }
+  
   public State getState() {
     return state;
   }
 
+  public boolean hasState(State state){
+    return this.state == state;
+  }
+  
   public Bin withState(State state) {
     this.state = state;
     return this;
@@ -341,11 +388,11 @@ public class Bin
                   getProperties(), 
                   getHistory(),
                   attachedLocation,
-                  attachedVehicle, assignedBinOrder, 
+                  attachedVehicle, assignedTransportOrder, 
                   psbTrack, 
                   pstTrack, 
                   binPosition, 
-                  SKUs, state,
+                  SKUs, reservations, state,
                   locked);
   }
   
@@ -383,14 +430,14 @@ public class Bin
       implements Serializable,
                  Cloneable {
     private final String skuID;
-    private final int quantity;
+    private final Double quantity;
     
     public SKU(){
       skuID = "";
-      quantity = 0;
+      quantity = 0.0;
     }
     
-    public SKU(String skuID, int quantity){
+    public SKU(String skuID, Double quantity){
       this.skuID = requireNonNull(skuID,"skuID");
       this.quantity = requireNonNull(quantity,"quantity");
     }
@@ -399,7 +446,7 @@ public class Bin
       return skuID;
     }
     
-    public int getQuantity(){
+    public Double getQuantity(){
       return quantity;
     }
     

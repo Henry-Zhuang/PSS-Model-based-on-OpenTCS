@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.opentcs.kernel.workingset;
+package org.opentcs.kernel.outbound;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,13 +11,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
+import org.opentcs.components.kernel.services.OutboundOrderService;
 import org.opentcs.components.kernel.services.TimeFactorService;
 import org.opentcs.customizations.kernel.GlobalSyncObject;
 import org.opentcs.data.TCSObjectEvent;
+import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.model.Bin;
+import org.opentcs.data.model.Bin.SKU;
 import org.opentcs.data.model.Location;
-import org.opentcs.data.order.BinOrder;
+import org.opentcs.data.order.OutboundOrder;
+import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +30,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Henry
  */
-public class OutBoundConveyor 
+public class OutboundConveyor 
     implements Runnable{
   
   private static final int ENTRANCE_TRACK = 3;
@@ -35,7 +40,7 @@ public class OutBoundConveyor
   /**
    * This class's Logger.
    */
-  private static final Logger LOG = LoggerFactory.getLogger(OutBoundConveyor.class);
+  private static final Logger LOG = LoggerFactory.getLogger(OutboundConveyor.class);
   /**
    * A global object to be used for synchronization within the kernel.
    */
@@ -44,6 +49,14 @@ public class OutBoundConveyor
    * The openTCS object pool.
    */
   private final TCSObjectPool objectPool;
+  /**
+   * The outbound working set.
+   */
+  private final OutboundWorkingSet outboundWorkingSet;
+  /**
+   * The outbound order service
+   */
+  private final OutboundOrderService outOrderService;
   /**
    * The simulation time factor service.
    */
@@ -55,11 +68,15 @@ public class OutBoundConveyor
   private final List<BinEntry> binsOnConveyor = new ArrayList<>();
 
   @Inject
-  public OutBoundConveyor(@GlobalSyncObject Object globalSyncObject, 
+  public OutboundConveyor(@GlobalSyncObject Object globalSyncObject, 
                           TCSObjectPool objectPool,
+                          OutboundWorkingSet outboundWorkingSet,
+                          OutboundOrderService outOrderService,
                           TimeFactorService timeFactorService) {
     this.globalSyncObject = globalSyncObject;
     this.objectPool = objectPool;
+    this.outboundWorkingSet = outboundWorkingSet;
+    this.outOrderService = outOrderService;
     this.timeFactorService = timeFactorService;
   }
 
@@ -72,7 +89,7 @@ public class OutBoundConveyor
     // 检查阶段
     checkOutBoundStation();
     // 拣选阶段
-    pickingForCustomerOrder();
+    pickingForOutBoundOrder();
   }
   
   private void checkOutBoundStation() {
@@ -104,10 +121,10 @@ public class OutBoundConveyor
     }
   }
   
-  private void pickingForCustomerOrder() {
+  private void pickingForOutBoundOrder() {
     // 拣选阶段：
     // 按前后顺序，遍历传送带上的每个料箱，仅对已经运行了足够距离的料箱进行分拣操作
-    // 分拣时，更新料箱所含SKU以及客户订单的当前完成进度，分拣完成后根据料箱是否为空选择是否回库
+    // 分拣时，更新料箱所含SKU以及出库订单的拣选进度，分拣完成后根据料箱是否为空选择是否回库
     binsOnConveyor.stream().filter(this::hasMovedEnoughDistance).forEach(entry -> {
       synchronized(globalSyncObject){
         LOG.info("method called");
@@ -119,31 +136,44 @@ public class OutBoundConveyor
   }
   
   private void updateBinAndCustomerOrder(Bin bin) {
-    // 根据客户订单要求的SKU进行拣选，更新料箱所含SKU，然后将其状态设为已拣选，
-    // 并更新相应的客户订单完成进度
-    BinOrder currBinOrder = objectPool
-        .getObject(BinOrder.class,bin.getAssignedBinOrder());
+    // 根据料箱的预订表进行拣选，更新料箱所含SKU，然后将其状态设为已拣选，
+    // 并更新相应的出库订单的拣选进度
     
-    Map<String,Integer> requiredSkus = currBinOrder.getRequiredSku();
-    Set<Bin.SKU> updatedSkus = new HashSet<>();
-    
-    bin.getSKUs().forEach(sku -> {
-      Integer quantity = requiredSkus.get(sku.getSkuID());
-      if(quantity != null)
-        sku = new Bin.SKU(sku.getSkuID(), sku.getQuantity() - quantity);
-      if(sku.getQuantity() > 0)
-        updatedSkus.add(sku);
-    });
-    
-    if(updatedSkus.isEmpty())
-      objectPool.removeObject(bin.getReference());
-    else{
-      objectPool.replaceObject(bin.withSKUs(updatedSkus).withState(Bin.State.Picked).withAssignedBinOrder(null));
-      // 将料箱回库
+    for(TCSObjectReference<OutboundOrder> outOrderRef : outboundWorkingSet.getWorkingSets()){
+      
+      Set<SKU> requiredSkus = bin.getReservations().get(outOrderRef.getName());
+      if(requiredSkus == null)
+        continue;
+      Map<String,Double> requiredSkuMap 
+          = requiredSkus.stream().collect(Collectors.toMap(SKU::getSkuID,SKU::getQuantity));
+      Set<SKU> updatedSkus = new HashSet<>();
+
+      bin.getSKUs().forEach(sku -> {
+        Double quantity = requiredSkuMap.get(sku.getSkuID());
+        if(quantity != null)
+          sku = new SKU(sku.getSkuID(), sku.getQuantity() - quantity);
+        if(sku.getQuantity() > 0.0)
+          updatedSkus.add(sku);
+      });
+
+      // 根据料箱是否为空选择是否回库
+      if(updatedSkus.isEmpty())
+        objectPool.removeObject(bin.getReference());
+      else{
+        objectPool.replaceObject(bin.withSKUs(updatedSkus)
+            .withState(Bin.State.Picked)
+            .withAssignedTransportOrder(null));
+        // 将料箱回库
+        // inBoundConveyor
+      }
+      
+      // 更新出库订单的拣选进度
+      // 若订单完成，将其从工作台移除，选择新订单进行工作
+      if(outOrderService.pickSKUs(outOrderRef, requiredSkus).getPickedCompletion() >= 1.0){
+        outboundWorkingSet.removePickingOrder(outOrderRef);
+        outboundWorkingSet.enableOutboundOrder();
+      }
     }
-    
-    // 更新客户订单完成进度 （待完成）
-    
   }
 
   private boolean hasMovedEnoughDistance(BinEntry entry) {

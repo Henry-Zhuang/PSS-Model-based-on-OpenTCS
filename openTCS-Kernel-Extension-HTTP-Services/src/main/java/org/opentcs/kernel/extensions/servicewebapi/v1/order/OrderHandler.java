@@ -14,15 +14,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import static java.util.Objects.requireNonNull;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.opentcs.access.KernelRuntimeException;
 import org.opentcs.access.to.order.DestinationCreationTO;
-import org.opentcs.access.to.order.BinOrderCreationTO;
+import org.opentcs.access.to.order.OutboundOrderCreationTO;
 import org.opentcs.access.to.order.TransportOrderCreationTO;
-import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.DispatcherService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.components.kernel.services.VehicleService;
@@ -30,14 +29,13 @@ import org.opentcs.customizations.kernel.KernelExecutor;
 import org.opentcs.data.ObjectExistsException;
 import org.opentcs.data.ObjectUnknownException;
 import org.opentcs.data.model.Vehicle;
-import org.opentcs.data.order.OrderBinConstants;
 import org.opentcs.data.order.TransportOrder;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Destination;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Property;
-import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Sku;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Transport;
-import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.TransportWithSku;
-import org.opentcs.components.kernel.services.BinOrderService;
+import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.CustomerOrder;
+import org.opentcs.data.model.Bin;
+import org.opentcs.components.kernel.services.OutboundOrderService;
 
 /**
  * Handles requests for creating or withdrawing transport orders.
@@ -62,12 +60,8 @@ public class OrderHandler {
    * Executes tasks modifying kernel data.
    */
   private final ExecutorService kernelExecutor;
-  /**
-   * The service we use to get bins with the given SKU in the data base.
-   */
-  private final DataBaseService dataBaseService;
-  
-  private final BinOrderService binOrderService;
+
+  private final OutboundOrderService outboundOrderService;
   /**
    * 用零长度的byte数组作为同步锁.
    */
@@ -80,22 +74,19 @@ public class OrderHandler {
    * @param vehicleService Used to update vehicle state.
    * @param dispatcherService Used to withdraw transport orders.
    * @param kernelExecutor Executes tasks modifying kernel data.
-   * @param dataBaseService Used to find bins with the given SKU.
-   * @param orderBinService
+   * @param outboundService
    */
   @Inject
   public OrderHandler(TransportOrderService orderService,
                       VehicleService vehicleService,
                       DispatcherService dispatcherService,
                       @KernelExecutor ExecutorService kernelExecutor,
-                      DataBaseService dataBaseService,
-                      BinOrderService orderBinService) {
+                      OutboundOrderService outboundService) {
     this.orderService = requireNonNull(orderService, "orderService");
     this.vehicleService = requireNonNull(vehicleService, "vehicleService");
     this.dispatcherService = requireNonNull(dispatcherService, "dispatcherService");
     this.kernelExecutor = requireNonNull(kernelExecutor, "kernelExecutor");
-    this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
-    this.binOrderService = requireNonNull(orderBinService,"orderBinService");
+    this.outboundOrderService = requireNonNull(outboundService,"outboundService");
   }
 
   public void createOrder(String name, Transport order)
@@ -131,48 +122,48 @@ public class OrderHandler {
   }
   
   //////////////////////////////////////////////////////////////// created by Henry
-  public void createOutboundOrder(String name, TransportWithSku order)
+  public void createOutboundOrder(String name, CustomerOrder order)
       throws ObjectUnknownException,
              ObjectExistsException,
              KernelRuntimeException,
              IllegalStateException {
     requireNonNull(name, "name");
     requireNonNull(order, "order");
-    Map<String, Map<String,Integer>> binRequirements = new HashMap<>();
-    synchronized(lock){
-      try{
-        binRequirements = dataBaseService.getBinsViaSkus(order.getSkus().stream()
-                                                .collect(Collectors.toMap(Sku::getSkuID,Sku::getQuantity)));
-      }
-      catch (InterruptedException exc){
-        throw new IllegalStateException(exc);
-      }
-    }
     
-    try{
-      for(Map.Entry<String, Map<String,Integer>> binEntry : binRequirements.entrySet()){
-        BinOrderCreationTO to
-            = new BinOrderCreationTO(nameFor(name, binEntry.getKey()) ,binEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
-                .withCustomerOrderName(name)
-                .withDeadline(deadline(order))
-                .withProperties(properties(order.getProperties()))
-                .withRequiredSku(binEntry.getValue());
-        binOrderService.createBinOrder(to);
-      }
-      kernelExecutor.submit(() -> {
-        dispatcherService.dispatchBin();
-        dispatcherService.dispatch();            
-      }).get();
-    }
-    catch (InterruptedException exc) {
-      throw new IllegalStateException("Unexpectedly interrupted",exc);
-    }
-    catch (ExecutionException exc) {
-      if (exc.getCause() instanceof RuntimeException) {
-        throw (RuntimeException) exc.getCause();
-      }
-      throw new KernelRuntimeException(exc.getCause());
-    }
+//    try{
+      Set<Bin.SKU> requiredSKUs = new HashSet<>();
+      order.getSkus().stream().forEach(sku -> {
+        requiredSKUs.add(new Bin.SKU(sku.getSkuID(), sku.getQuantity()));
+      });
+      OutboundOrderCreationTO to
+          = new OutboundOrderCreationTO(name)
+              .withRequiredSKUs(requiredSKUs)
+              .withDeadline(order.getDeadline())
+              .withProperties(properties(order.getProperties()));
+      outboundOrderService.createOutboundOrder(to);
+//      for(Map.Entry<String, Map<String,Integer>> binEntry : binRequirements.entrySet()){
+//        BinOrderCreationTO to
+//            = new BinOrderCreationTO(nameFor(name, binEntry.getKey()) ,binEntry.getKey(), OrderBinConstants.TYPE_OUTBOUND)
+//                .withCustomerOrderName(name)
+//                .withDeadline(deadline(order))
+//                .withProperties(properties(order.getProperties()))
+//                .withRequiredSku(binEntry.getValue());
+//        binOrderService.createBinOrder(to);
+//      }
+//      kernelExecutor.submit(() -> {
+//        dispatcherService.dispatchBin();
+//        dispatcherService.dispatch();            
+//      }).get();
+//    }
+//    catch (InterruptedException exc) {
+//      throw new IllegalStateException("Unexpectedly interrupted",exc);
+//    }
+//    catch (ExecutionException exc) {
+//      if (exc.getCause() instanceof RuntimeException) {
+//        throw (RuntimeException) exc.getCause();
+//      }
+//      throw new KernelRuntimeException(exc.getCause());
+//    }
   }
   //////////////////////////////////////////////////////////////// created end
 
@@ -232,7 +223,7 @@ public class OrderHandler {
   }
   
 ////////////////////////////////////////////// created by Henry
-  private Instant deadline(TransportWithSku order) {
+  private Instant deadline(CustomerOrder order) {
     return order.getDeadline() == null ? Instant.MAX : order.getDeadline();
   }
   

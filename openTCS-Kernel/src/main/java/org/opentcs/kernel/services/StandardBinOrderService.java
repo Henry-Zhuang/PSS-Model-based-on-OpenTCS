@@ -21,6 +21,7 @@ import org.opentcs.data.order.BinOrder;
 import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.opentcs.kernel.workingset.BinOrderPool;
 import org.opentcs.components.kernel.services.BinOrderService;
+import org.opentcs.components.kernel.services.OrderDecompositionService;
 
 /**
  *
@@ -41,6 +42,10 @@ public class StandardBinOrderService
    * The order facade to the object pool.
    */
   private final BinOrderPool binOrderPool;
+  /**
+   * The order decomposition service.
+   */
+  private final OrderDecompositionService orderDecomService;
   
   /**
    * Creates a new instance.
@@ -49,16 +54,19 @@ public class StandardBinOrderService
    * @param globalSyncObject The kernel threads' global synchronization object.
    * @param globalObjectPool The object pool to be used.
    * @param orderBinPool The oder bin pool to be used.
+   * @param orderDecomService The order decomposition service.
    */
   @Inject
   public StandardBinOrderService(TCSObjectService objectService,
                                        @GlobalSyncObject Object globalSyncObject,
                                        TCSObjectPool globalObjectPool,
-                                       BinOrderPool orderBinPool) {
+                                       BinOrderPool orderBinPool,
+                                       OrderDecompositionService orderDecomService) {
     super(objectService);
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.globalObjectPool = requireNonNull(globalObjectPool, "globalObjectPool");
     this.binOrderPool = requireNonNull(orderBinPool, "orderPool");
+    this.orderDecomService = requireNonNull(orderDecomService,"orderDecomService");
   }
   
   @Override
@@ -66,6 +74,23 @@ public class StandardBinOrderService
       throws ObjectUnknownException, ObjectExistsException, KernelRuntimeException{
     synchronized (globalSyncObject) {
       return binOrderPool.createBinOrder(to).clone();
+    }
+  }
+
+  @Override
+  public BinOrder setBinOrderState(TCSObjectReference<BinOrder> ref, BinOrder.State newState)
+      throws ObjectUnknownException {
+    synchronized (globalSyncObject) {
+      return binOrderPool.setBinOrderState(ref, newState).clone();
+    }
+  }
+
+  @Override
+  public BinOrder setBinOrderAttachedTOrder(TCSObjectReference<BinOrder> binOrderRef,
+                                            TCSObjectReference<TransportOrder> tOrderRef)
+      throws ObjectUnknownException {
+    synchronized (globalSyncObject) {
+      return binOrderPool.setBinOrderAttachedTOrder(binOrderRef, tOrderRef).clone();
     }
   }
   
@@ -93,35 +118,5 @@ public class StandardBinOrderService
     synchronized (globalSyncObject) {
       binOrderPool.setBinOrderState(tOrderBinRef, state);
     }
-  }
-  
-  @Override
-  public void enableBinOrderForIdleVehicle(){
-    synchronized (globalSyncObject) {
-      Set<Vehicle> idleVehicles = fetchObjects(Vehicle.class, this::couldProcessTransportOrder);
-      for(Vehicle vehicle : idleVehicles)
-        binOrderPool.enableBinOrderForIdleVehicle(vehicle);
-    }
-  }
-  
-  private boolean couldProcessTransportOrder(Vehicle vehicle) {
-    return vehicle.getIntegrationLevel() == Vehicle.IntegrationLevel.TO_BE_UTILIZED
-        && vehicle.getType().equals(Vehicle.BIN_VEHICLE_TYPE)
-        && vehicle.getCurrentPosition() != null
-        && !vehicle.isEnergyLevelCritical()
-        && (processesNoOrder(vehicle)
-            || processesDispensableOrder(vehicle));
-  }
-  
-  private boolean processesNoOrder(Vehicle vehicle) {
-    return vehicle.hasProcState(Vehicle.ProcState.IDLE)
-        && (vehicle.hasState(Vehicle.State.IDLE)
-            || vehicle.hasState(Vehicle.State.CHARGING));
-  }
-
-  private boolean processesDispensableOrder(Vehicle vehicle) {
-    return vehicle.hasProcState(Vehicle.ProcState.PROCESSING_ORDER)
-        && fetchObject(TransportOrder.class, vehicle.getTransportOrder())
-            .isDispensable();
   }
 }

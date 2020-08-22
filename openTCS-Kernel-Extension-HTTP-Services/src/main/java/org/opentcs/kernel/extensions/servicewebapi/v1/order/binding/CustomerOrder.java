@@ -16,11 +16,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 /**
- * A sku transport order to be processed by the kernel.
+ * A customer order to be processed by the kernel.
  *
  * @author Henry
  */
-public class TransportWithSku {
+public class CustomerOrder {
 
   @JsonPropertyDescription("The (optional) deadline of the transport order")
   private Instant deadline;
@@ -42,7 +42,7 @@ public class TransportWithSku {
   /**
    * Creates a new instance.
    */
-  public TransportWithSku() {
+  public CustomerOrder() {
   }
 
   public Instant getDeadline() {

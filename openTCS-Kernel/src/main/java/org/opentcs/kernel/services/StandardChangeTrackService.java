@@ -22,7 +22,6 @@ import org.opentcs.access.to.order.DestinationCreationTO;
 import org.opentcs.access.to.order.TransportOrderCreationTO;
 import org.opentcs.components.kernel.ObjectNameProvider;
 import org.opentcs.components.kernel.services.ChangeTrackService;
-import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.TCSObjectService;
 import org.opentcs.components.kernel.services.TransportOrderService;
 import org.opentcs.data.ObjectExistsException;
@@ -39,6 +38,7 @@ import org.opentcs.data.order.BinOrder;
 import org.opentcs.drivers.vehicle.VehicleControllerPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.opentcs.components.kernel.services.OrderDecompositionService;
 
 /**
  *
@@ -65,7 +65,7 @@ public class StandardChangeTrackService
   /**
    * The data base service.
    */
-  private final DataBaseService dataBaseService;
+  private final OrderDecompositionService orderDecomService;
   /**
    * The vehicle controller pool.
    */
@@ -91,12 +91,12 @@ public class StandardChangeTrackService
   public StandardChangeTrackService(TCSObjectService objectService,
                                     TransportOrderService orderService,
                                     ObjectNameProvider orderNameProvider,
-                                    DataBaseService dataBaseService,
+                                    OrderDecompositionService orderDecomService,
                                     VehicleControllerPool controllerPool) {
     super(objectService);
     this.orderService = requireNonNull(orderService, "orderService");
     this.objectNameProvider = requireNonNull(orderNameProvider, "orderNameProvider");
-    this.dataBaseService = requireNonNull(dataBaseService, "dataBaseService");
+    this.orderDecomService = requireNonNull(orderDecomService, "orderDecomService");
     this.controllerPool = requireNonNull(controllerPool, "controllerPool");
   }
 
@@ -105,10 +105,10 @@ public class StandardChangeTrackService
     if (!isVehicleStateChanged())
       return;
     
-    if(dataBaseService.getLocPosition() == null)
+    if(orderDecomService.getLocPosition() == null)
       return;
     
-    noVehicleTracks = IntStream.range(1, dataBaseService.getLocPosition().length + 1)
+    noVehicleTracks = IntStream.range(1, orderDecomService.getLocPosition().length + 1)
         .boxed().collect(Collectors.toSet());
     
     fetchObjects(Vehicle.class,
@@ -139,50 +139,31 @@ public class StandardChangeTrackService
   }
   
   @Override
-  public void createChangeTrackOrder(String binVehicle) {
+  public String createChangeTrackOrder(Bin bin, Vehicle binVehicle) {
     synchronized(this){
       
       updateTrackList();
       
-      if(binVehicle == null){
-        LOG.error("Error %s is not existed",binVehicle);
-        return;
-      }
-      
+      if(bin.getAttachedLocation() == null)
+        return null;
       // 该PSB已被分配了换轨任务，不可再分配新的换轨任务
       for(Map.Entry<String, TrackOrderEntry> entry : trackOrderPool.entrySet()){
-        if(binVehicle.equals(entry.getValue().getBinVehicle()))
-          return;
+        if(binVehicle.getName().equals(entry.getValue().getBinVehicle()))
+          return null;
       }
       
-      BinOrder noVehicleBinOrder = fetchObjects(BinOrder.class).stream()
-          .filter(order -> order.hasState(BinOrder.State.AWAIT_DISPATCH))
-          .filter(order -> {
-              Bin bin = fetchObject(Bin.class,order.getBinID());
-              return noVehicleTracks.contains(bin.getPsbTrack());
-            })
-          .sorted(Comparator.comparing(BinOrder::getDeadline))
-          .findFirst()
-          .orElse(null);
-      if(noVehicleBinOrder == null)
-        return;
-      
       LOG.debug("method entry");
-      Vehicle vehicle = fetchObject(Vehicle.class, binVehicle);
 
-      createChangeTrackOrder(vehicle, noVehicleBinOrder);
     }
   }
   
-  private void createChangeTrackOrder(Vehicle binVehicle, BinOrder binOrder) {
+  private String createChangeTrackOrder(Vehicle binVehicle, Bin bin) {
     // 换轨起始轨
     int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getPsbTrack();
-    // 换轨后，第一个抓箱任务的目标箱
-    Bin bin = fetchObject(Bin.class,binOrder.getBinID());
-    if(bin.getAttachedLocation() == null)
-      return;
+
     // 换轨终点轨
     int dstTrack = bin.getPsbTrack();
+    
     // 目标箱所在库位
     String dstLocation = bin.getAttachedLocation().getName();
     // 需要执行该换轨任务的PST
@@ -196,30 +177,31 @@ public class StandardChangeTrackService
          
     if(trackVehicle == null){
       LOG.warn("No change-track vehicles can be utilized at the moment.");
-      return;
+      return null;
     }
     
-    String orderName = nameFor(OrderConstants.TYPE_CHANGE_TRACK);
-    TransportOrderCreationTO psbTO = new TransportOrderCreationTO(orderName+BIN_ORDER_SUFFIX)
+    String trackOrderPrefix = namePrefixFor(OrderConstants.TYPE_CHANGE_TRACK);
+    TransportOrderCreationTO psbTO = new TransportOrderCreationTO(trackOrderPrefix+BIN_ORDER_SUFFIX)
         .withDestinations(BinDestinations(trackVehicle, srcTrack, dstTrack, dstLocation))
         .withIntendedVehicleName(binVehicle.getName())
         .withType(OrderConstants.TYPE_CHANGE_TRACK);
     
-    TransportOrderCreationTO pstTO = new TransportOrderCreationTO(orderName+TRACK_ORDER_SUFFIX)
+    TransportOrderCreationTO pstTO = new TransportOrderCreationTO(trackOrderPrefix+TRACK_ORDER_SUFFIX)
         .withDestinations(TrackDestinations(trackVehicle, srcTrack, dstTrack))
         .withIntendedVehicleName(trackVehicle.getName())
         .withType(OrderConstants.TYPE_CHANGE_TRACK);
     
     try{
-      orderService.createTransportOrder(psbTO);
+      TransportOrder psbOrder = orderService.createTransportOrder(psbTO);
       orderService.createTransportOrder(pstTO);
-      trackOrderPool.put(orderName, 
+      trackOrderPool.put(trackOrderPrefix, 
                          new TrackOrderEntry(binVehicle.getName(),
                                             trackVehicle.getName(),
                                             srcTrack, 
                                             dstTrack));
       noVehicleTracks.add(srcTrack);
       noVehicleTracks.remove(dstTrack);
+      return psbOrder.getName();
     }
     catch (ObjectUnknownException | ObjectExistsException exc) {
       throw new IllegalStateException("Unexpectedly interrupted",exc);
@@ -303,7 +285,7 @@ public class StandardChangeTrackService
     return orderName.substring(0, orderName.length()-BIN_ORDER_SUFFIX.length());
   }
   
-  private String nameFor(@Nonnull String prefix) {
+  private String namePrefixFor(@Nonnull String prefix) {
     return objectNameProvider.getUniqueName(prefix);
   }
   
@@ -366,6 +348,11 @@ public class StandardChangeTrackService
                             fetchObject(Vehicle.class,entry.trackVehicle)
                                 .getCurrentPosition()).getPstTrack();
     return point.getPsbTrack() == psbTrack && point.getPstTrack() == pstTrack;
+  }
+
+  @Override
+  public boolean isNoVehicleTrack(int psbTrack) {
+    return noVehicleTracks.contains(psbTrack);
   }
   
   private static final class TrackOrderEntry{

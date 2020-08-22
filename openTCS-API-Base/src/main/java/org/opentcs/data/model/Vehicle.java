@@ -163,7 +163,7 @@ public class Vehicle
   private String type = "";
   /**
    * The track vehicle's allowed tracks.
-   * Track vehicle means PST.
+   * Track vehicle (PST).
    */
   private Set<Integer> allowedTracks = null;
   ///////////////////////////////////////////modified end

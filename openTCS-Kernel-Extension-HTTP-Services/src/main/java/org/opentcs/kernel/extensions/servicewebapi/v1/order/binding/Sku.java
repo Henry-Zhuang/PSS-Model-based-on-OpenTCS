@@ -23,7 +23,7 @@ public class Sku {
   private String skuID;
 
   @JsonPropertyDescription("The (optional) quantity of the given SKU (inbound or outbound)")
-  private int quantity;
+  private double quantity;
 
   @JsonPropertyDescription("The (optional) quantity of the inbound SKU per bin")
   private int quantityPerBin;
@@ -61,7 +61,7 @@ public class Sku {
    *
    * @return The quantity
    */
-  public int getQuantity() {
+  public double getQuantity() {
     return quantity;
   }
 

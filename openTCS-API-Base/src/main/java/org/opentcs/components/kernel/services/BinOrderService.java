@@ -23,17 +23,23 @@ public interface BinOrderService
   BinOrder createBinOrder(BinOrderCreationTO to)
       throws ObjectUnknownException, ObjectExistsException, KernelRuntimeException;
   
+  BinOrder setBinOrderState(TCSObjectReference<BinOrder> ref,
+                            BinOrder.State newState)
+      throws ObjectUnknownException;
+  
+  BinOrder setBinOrderAttachedTOrder(TCSObjectReference<BinOrder> binOrderRef,
+                                     TCSObjectReference<TransportOrder> tOrderRef)
+      throws ObjectUnknownException;
+  
   public BinOrder removeBinOrder(TCSObjectReference<BinOrder> ref)
       throws ObjectUnknownException;
   
   void updateBinOrderAttachedTOrder(TCSObjectReference<BinOrder> binOrderRef,
-                                            TCSObjectReference<TransportOrder> tOrderRef)
+                                    TCSObjectReference<TransportOrder> tOrderRef)
       throws ObjectUnknownException;
   
   void updateBinOrderState(TCSObjectReference<BinOrder> binOrderRef,
-                                            BinOrder.State state)
+                           BinOrder.State state)
       throws ObjectUnknownException;
-  
-  void enableBinOrderForIdleVehicle();
 
 }

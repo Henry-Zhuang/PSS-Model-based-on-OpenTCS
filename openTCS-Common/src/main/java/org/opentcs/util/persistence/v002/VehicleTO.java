@@ -19,8 +19,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import org.opentcs.data.model.Bin;
-import org.opentcs.data.model.Location;
-
 import org.opentcs.util.persistence.v002.LocationTO.BinTO;
 /**
  *

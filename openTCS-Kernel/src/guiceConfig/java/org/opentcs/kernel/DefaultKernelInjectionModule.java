@@ -27,7 +27,6 @@ import org.opentcs.components.kernel.services.InternalPlantModelService;
 import org.opentcs.components.kernel.services.InternalTransportOrderService;
 import org.opentcs.components.kernel.services.InternalVehicleService;
 import org.opentcs.components.kernel.services.NotificationService;
-import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.PlantModelService;
 import org.opentcs.components.kernel.services.RouterService;
 import org.opentcs.components.kernel.services.SchedulerService;
@@ -47,7 +46,7 @@ import org.opentcs.kernel.persistence.ModelPersister;
 import org.opentcs.kernel.persistence.XMLFileModelPersister;
 import org.opentcs.kernel.services.CreateGDSModel;
 import org.opentcs.kernel.services.StandardChangeTrackService;
-import org.opentcs.kernel.services.StandardDataBaseService;
+import org.opentcs.kernel.services.StandardCsvFileService;
 import org.opentcs.kernel.services.StandardDispatcherService;
 import org.opentcs.kernel.services.StandardNotificationService;
 import org.opentcs.kernel.services.StandardPlantModelService;
@@ -73,6 +72,10 @@ import org.opentcs.util.event.EventHandler;
 import org.opentcs.util.event.SimpleEventBus;
 import org.opentcs.util.logging.UncaughtExceptionLogger;
 import org.opentcs.components.kernel.services.BinOrderService;
+import org.opentcs.kernel.outbound.OutboundWorkingSet;
+import org.opentcs.kernel.services.StandardOutboundOrderService;
+import org.opentcs.components.kernel.services.CsvFileService;
+import org.opentcs.components.kernel.services.OutboundOrderService;
 
 /**
  * A Guice module for the openTCS kernel application.
@@ -107,8 +110,11 @@ public class DefaultKernelInjectionModule
     bind(TCSObjectPool.class).in(Singleton.class);
     bind(Model.class).in(Singleton.class);
     bind(TransportOrderPool.class).in(Singleton.class);
-    bind(BinOrderPool.class).in(Singleton.class);
     bind(NotificationBuffer.class).in(Singleton.class);
+    //// modified by Henry
+    bind(BinOrderPool.class).in(Singleton.class);
+    bind(OutboundWorkingSet.class).in(Singleton.class);
+    ////
 
     bind(ObjectNameProvider.class)
         .to(PrefixedUlidObjectNameProvider.class)
@@ -172,8 +178,8 @@ public class DefaultKernelInjectionModule
     bind(SchedulerService.class).to(StandardSchedulerService.class);
     
     //////////// modified by Henry
-    bind(StandardDataBaseService.class).in(Singleton.class);
-    bind(DataBaseService.class).to(StandardDataBaseService.class);
+    bind(StandardCsvFileService.class).in(Singleton.class);
+    bind(CsvFileService.class).to(StandardCsvFileService.class);
     
     bind(StandardBinOrderService.class).in(Singleton.class);
     bind(BinOrderService.class).to(StandardBinOrderService.class);
@@ -183,6 +189,9 @@ public class DefaultKernelInjectionModule
     
     bind(StandardTimeFactorService.class).in(Singleton.class);
     bind(TimeFactorService.class).to(StandardTimeFactorService.class);
+    
+    bind(StandardOutboundOrderService.class).in(Singleton.class);
+    bind(OutboundOrderService.class).to(StandardOutboundOrderService.class);
     
     // TEST
     bind(CreateGDSModel.class).in(Singleton.class);

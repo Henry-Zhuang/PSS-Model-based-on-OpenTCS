@@ -127,6 +127,7 @@ public class TransportOrder
    * A reference to the bin order that this transport order is attached to.
    * modified by Henry
    */
+  @Deprecated
   private TCSObjectReference<BinOrder> attachedBinOrder;
 
   /**
@@ -1222,10 +1223,11 @@ public class TransportOrder
   }
 
   ////////////////////////////////////////modified by Henry
+  @Deprecated
   public TCSObjectReference<BinOrder> getAttachedBinOrder() {
     return attachedBinOrder;
   }
-
+  @Deprecated
   public TransportOrder withAttachedBinOrder(TCSObjectReference<BinOrder> attachedBinOrder) {
     return new TransportOrder(getIdWithoutDeprecationWarning(),
                               getName(),

@@ -17,7 +17,6 @@ import org.opentcs.access.KernelRuntimeException;
 import org.opentcs.access.LocalKernel;
 import org.opentcs.access.ModelTransitionEvent;
 import org.opentcs.access.to.model.PlantModelCreationTO;
-import org.opentcs.components.kernel.services.DataBaseService;
 import org.opentcs.components.kernel.services.InternalPlantModelService;
 import org.opentcs.components.kernel.services.NotificationService;
 import org.opentcs.components.kernel.services.PlantModelService;
@@ -34,6 +33,8 @@ import org.opentcs.kernel.workingset.Model;
 import org.opentcs.util.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.opentcs.components.kernel.services.CsvFileService;
+import org.opentcs.components.kernel.services.OrderDecompositionService;
 
 /**
  * This class is the standard implementation of the {@link PlantModelService} interface.
@@ -76,7 +77,9 @@ public class StandardPlantModelService
    * The data base service.
    * modified by Henry
    */
-  private final DataBaseService dataBaseService;
+  private final CsvFileService csvFileService;
+  
+  private final OrderDecompositionService orderDecomService;
   
   private final CreateGDSModel createGDSModel;
   /**
@@ -89,7 +92,8 @@ public class StandardPlantModelService
    * @param modelPersister The model persister to be used.
    * @param eventHandler Where this instance sends events to.
    * @param notificationService The notification service.
-   * @param dataBaseService The data base service.
+   * @param csvFileService The data base service.
+   * @param orderDecomService
    */
   @Inject
   public StandardPlantModelService(LocalKernel kernel,
@@ -99,7 +103,8 @@ public class StandardPlantModelService
                                    ModelPersister modelPersister,
                                    @ApplicationEventBus EventHandler eventHandler,
                                    NotificationService notificationService,
-                                   DataBaseService dataBaseService,
+                                   CsvFileService csvFileService,
+                                   OrderDecompositionService orderDecomService,
                                    CreateGDSModel createGDSModel) {
     super(objectService);
     this.kernel = requireNonNull(kernel, "kernel");
@@ -108,7 +113,8 @@ public class StandardPlantModelService
     this.modelPersister = requireNonNull(modelPersister, "modelPersister");
     this.eventHandler = requireNonNull(eventHandler, "eventHandler");
     this.notificationService = requireNonNull(notificationService, "notificationService");
-    this.dataBaseService = requireNonNull(dataBaseService,"dataBaseService");
+    this.csvFileService = requireNonNull(csvFileService,"csvFileService");
+    this.orderDecomService = requireNonNull(orderDecomService,"orderDecomService");
     this.createGDSModel = createGDSModel;
   }
 
@@ -172,8 +178,8 @@ public class StandardPlantModelService
     synchronized (globalSyncObject) {
       model.createPlantModelObjects(to);
       // modified by Henry
-      dataBaseService.updateRowAndColumn();
-      dataBaseService.updateDataBase();
+      orderDecomService.updateTrackInfo();
+      csvFileService.outputStockInfo();
     }
 
     savePlantModel();
@@ -190,6 +196,7 @@ public class StandardPlantModelService
   }
 
   // 利用代码创建高德斯地图模型
+  @Deprecated
   private void createPlantModel()
       throws ObjectUnknownException, ObjectExistsException, IllegalStateException {
 
@@ -206,8 +213,8 @@ public class StandardPlantModelService
     synchronized (globalSyncObject) {
       createGDSModel.createPlantModelObjects();
       // modified by Henry
-      dataBaseService.updateRowAndColumn();
-      dataBaseService.updateDataBase();
+      orderDecomService.updateTrackInfo();
+      csvFileService.outputStockInfo();
     }
 
     savePlantModel();

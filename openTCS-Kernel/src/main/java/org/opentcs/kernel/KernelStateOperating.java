@@ -55,7 +55,7 @@ import org.opentcs.kernel.workingset.Model;
 import org.opentcs.kernel.workingset.NotificationBuffer;
 import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.opentcs.kernel.workingset.BinOrderPool;
-import org.opentcs.kernel.workingset.OutBoundConveyor;
+import org.opentcs.kernel.outbound.OutboundConveyor;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.util.Comparators;
 import org.slf4j.Logger;
@@ -123,7 +123,7 @@ class KernelStateOperating
   /**
    * A task for simulating the outbound conveyor.
    */
-  private final OutBoundConveyor outBoundConveyor;
+  private final OutboundConveyor outBoundConveyor;
   /**
    * This kernel state's local extensions.
    */
@@ -186,7 +186,7 @@ class KernelStateOperating
                        VehicleService vehicleService,
                        BinOrderPool binOrderPool,
                        ChangeTrackService changeTrackService,
-                       OutBoundConveyor outBoundConveyor) {
+                       OutboundConveyor outBoundConveyor) {
     super(globalSyncObject,
           objectPool,
           model,

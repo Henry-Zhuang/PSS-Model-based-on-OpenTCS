@@ -53,8 +53,8 @@ public class BinOrderCreationTO
    * @param type The destinations that need to be travelled to.
    */
   public BinOrderCreationTO(@Nonnull String name,
-                                        @Nonnull String binID, 
-                                        @Nonnull String type) {
+                            @Nonnull String binID, 
+                            @Nonnull String type) {
     super(name);
     this.binID = requireNonNull(binID, "binID");
     this.type = requireNonNull(type, "type");

@@ -20,7 +20,7 @@ import org.opentcs.kernel.extensions.servicewebapi.HttpConstants;
 import org.opentcs.kernel.extensions.servicewebapi.RequestHandler;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.OrderHandler;
 import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.Transport;
-import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.TransportWithSku;
+import org.opentcs.kernel.extensions.servicewebapi.v1.order.binding.CustomerOrder;
 import org.opentcs.kernel.extensions.servicewebapi.v1.status.RequestStatusHandler;
 import org.opentcs.kernel.extensions.servicewebapi.v1.status.StatusEventDispatcher;
 import spark.QueryParamsMap;
@@ -148,7 +148,7 @@ public class V1RequestHandler
              IllegalStateException {
 //    orderHandler.createInBoundOrder(request.params(":NAME"), fromJson(request.body(), TransportSKU.class));
     response.type(HttpConstants.CONTENT_TYPE_TEXT_PLAIN_UTF8);
-    return toJson(fromJson(request.body(), TransportWithSku.class));
+    return toJson(fromJson(request.body(), CustomerOrder.class));
   }
   
   private Object handlePostOutBound(Request request, Response response)
@@ -156,7 +156,7 @@ public class V1RequestHandler
              ObjectExistsException,
              IllegalArgumentException,
              IllegalStateException {
-    orderHandler.createOutboundOrder(request.params(":NAME"), fromJson(request.body(), TransportWithSku.class));
+    orderHandler.createOutboundOrder(request.params(":NAME"), fromJson(request.body(), CustomerOrder.class));
     response.type(HttpConstants.CONTENT_TYPE_TEXT_PLAIN_UTF8);
     return "";
   }

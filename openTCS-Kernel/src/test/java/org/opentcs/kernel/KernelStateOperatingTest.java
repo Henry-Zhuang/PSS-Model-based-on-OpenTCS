@@ -38,7 +38,7 @@ import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.kernel.workingset.PrefixedUlidObjectNameProvider;
 import org.opentcs.kernel.workingset.BinOrderPool;
-import org.opentcs.kernel.workingset.OutBoundConveyor;
+import org.opentcs.kernel.outbound.OutboundConveyor;
 import org.opentcs.util.event.SimpleEventBus;
 
 /**
@@ -71,7 +71,7 @@ public class KernelStateOperatingTest {
   
   private ChangeTrackService changeTrackService;
 
-  private OutBoundConveyor outBoundConveyor;
+  private OutboundConveyor outBoundConveyor;
   @Before
   public void setUp() {
     objectID = 0;

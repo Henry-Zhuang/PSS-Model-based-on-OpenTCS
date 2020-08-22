@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import org.opentcs.components.Lifecycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.opentcs.components.kernel.services.BinOrderService;
+import org.opentcs.components.kernel.services.OrderDecompositionService;
 
 /**
  *
@@ -25,15 +25,15 @@ public class BinDispatchTask
    */
   private static final Logger LOG = LoggerFactory.getLogger(BinDispatchTask.class);
 
-  private final BinOrderService binOrderService;
+  private final OrderDecompositionService orderDecomService;
   /**
    * Indicates whether this component is enabled.
    */
   private boolean initialized;
   
   @Inject
-  public BinDispatchTask(BinOrderService orderBinService){
-    this.binOrderService = requireNonNull(orderBinService,"orderBinService");
+  public BinDispatchTask(OrderDecompositionService orderDecomService){
+    this.orderDecomService = requireNonNull(orderDecomService,"orderDecomService");
   }
   
   @Override
@@ -60,6 +60,6 @@ public class BinDispatchTask
   @Override
   public final void run() {
     LOG.debug("Starting dispatchBin run...");
-    binOrderService.enableBinOrderForIdleVehicle();
+    orderDecomService.decomposeOutboundOrder();
   }
 }
