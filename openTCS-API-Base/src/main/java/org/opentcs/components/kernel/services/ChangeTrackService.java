@@ -39,7 +39,7 @@ public interface ChangeTrackService
    * @param vehicleName 指定车辆ID
    * @return 生成的指定车辆（PSB）的换轨任务ID.
    */
-  String createChangeTrackOrder(Bin bin, Vehicle vehicleName);
+  String createChangeTrackOrder(Bin bin, Vehicle vehicleName) throws Exception;
   
   /**
    * 提醒PSB，PST已就位.

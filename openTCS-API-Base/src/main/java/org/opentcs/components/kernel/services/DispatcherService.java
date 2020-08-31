@@ -36,7 +36,7 @@ public interface DispatcherService {
    *
    * @throws KernelRuntimeException In case there is an exception executing this method.
    */
-  default void dispatchBin()
+  default void enableOrder()
       throws KernelRuntimeException{}
   
   /**

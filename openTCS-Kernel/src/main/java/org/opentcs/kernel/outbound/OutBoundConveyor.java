@@ -22,6 +22,7 @@ import org.opentcs.data.model.Bin;
 import org.opentcs.data.model.Bin.SKU;
 import org.opentcs.data.model.Location;
 import org.opentcs.data.order.OutboundOrder;
+import org.opentcs.kernel.inbound.InboundConveyor;
 import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +35,10 @@ public class OutboundConveyor
     implements Runnable{
   
   private static final int ENTRANCE_TRACK = 3;
-  private static final int MOVING_TIME_UNIT = 1000;
   
-  public static final long INTERVAL_TIME = 5000;
+  private static final int TRACK_INTERVAL = 10000;
+  
+  public static final long RUN_INTERVAL = 10000;
   /**
    * This class's Logger.
    */
@@ -54,6 +56,10 @@ public class OutboundConveyor
    */
   private final OutboundWorkingSet outboundWorkingSet;
   /**
+   * The inbound conveyor.
+   */
+  private final InboundConveyor inboundConveyor;
+  /**
    * The outbound order service
    */
   private final OutboundOrderService outOrderService;
@@ -63,7 +69,7 @@ public class OutboundConveyor
   private final TimeFactorService timeFactorService;
   /**
    * A list represents all the bins on the conveyor.
-   * PickEntry 记录了该料箱实例及其放上传送带的时间
+   * BinEntry 记录了该料箱实例及其放上传送带的时间
    */
   private final List<BinEntry> binsOnConveyor = new ArrayList<>();
 
@@ -71,11 +77,13 @@ public class OutboundConveyor
   public OutboundConveyor(@GlobalSyncObject Object globalSyncObject, 
                           TCSObjectPool objectPool,
                           OutboundWorkingSet outboundWorkingSet,
+                          InboundConveyor inboundConveyor,
                           OutboundOrderService outOrderService,
                           TimeFactorService timeFactorService) {
     this.globalSyncObject = globalSyncObject;
     this.objectPool = objectPool;
     this.outboundWorkingSet = outboundWorkingSet;
+    this.inboundConveyor = inboundConveyor;
     this.outOrderService = outOrderService;
     this.timeFactorService = timeFactorService;
   }
@@ -129,13 +137,13 @@ public class OutboundConveyor
       synchronized(globalSyncObject){
         LOG.info("method called");
         Bin updatedBin = objectPool.getObject(Bin.class, entry.bin.getName());
-        updateBinAndCustomerOrder(updatedBin);
+        updateBinAndOutboundOrder(updatedBin);
         binsOnConveyor.remove(entry);
       }
     });
   }
   
-  private void updateBinAndCustomerOrder(Bin bin) {
+  private void updateBinAndOutboundOrder(Bin bin) {
     // 根据料箱的预订表进行拣选，更新料箱所含SKU，然后将其状态设为已拣选，
     // 并更新相应的出库订单的拣选进度
     
@@ -156,20 +164,20 @@ public class OutboundConveyor
           updatedSkus.add(sku);
       });
 
+      objectPool.removeObject(bin.getReference());
       // 根据料箱是否为空选择是否回库
-      if(updatedSkus.isEmpty())
-        objectPool.removeObject(bin.getReference());
-      else{
-        objectPool.replaceObject(bin.withSKUs(updatedSkus)
-            .withState(Bin.State.Picked)
-            .withAssignedTransportOrder(null));
+      if(!updatedSkus.isEmpty()){
+        bin = bin.withSKUs(updatedSkus)
+            .withState(Bin.State.Inbounding)
+            .withAssignedTransportOrder(null);
         // 将料箱回库
-        // inBoundConveyor
+        inboundConveyor.onConveyor(bin);
       }
       
       // 更新出库订单的拣选进度
       // 若订单完成，将其从工作台移除，选择新订单进行工作
       if(outOrderService.pickSKUs(outOrderRef, requiredSkus).getPickedCompletion() >= 1.0){
+        outOrderService.updateOutboundOrderState(outOrderRef, OutboundOrder.State.FINISHED);
         outboundWorkingSet.removePickingOrder(outOrderRef);
         outboundWorkingSet.enableOutboundOrder();
       }
@@ -181,11 +189,11 @@ public class OutboundConveyor
     // 足够的距离是由料箱原本的出库站所在轨与传送带入口的距离来定义的
     return Instant.now().toEpochMilli() - entry.enterTime.toEpochMilli()
         >= Math.abs(entry.bin.getPsbTrack() - ENTRANCE_TRACK) 
-        * MOVING_TIME_UNIT / timeFactorService.getSimulationTimeFactor();
+        * TRACK_INTERVAL / timeFactorService.getSimulationTimeFactor();
   }
   
-  public long getIntervalTime(){
-    return INTERVAL_TIME / (long)timeFactorService.getSimulationTimeFactor();
+  public long getRunInterval(){
+    return RUN_INTERVAL / (long)timeFactorService.getSimulationTimeFactor();
   }
   
   private static final class BinEntry{

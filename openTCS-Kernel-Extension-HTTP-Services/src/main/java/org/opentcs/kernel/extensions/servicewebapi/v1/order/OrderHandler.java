@@ -151,7 +151,7 @@ public class OrderHandler {
 //        binOrderService.createBinOrder(to);
 //      }
 //      kernelExecutor.submit(() -> {
-//        dispatcherService.dispatchBin();
+//        dispatcherService.enableOrder();
 //        dispatcherService.dispatch();            
 //      }).get();
 //    }

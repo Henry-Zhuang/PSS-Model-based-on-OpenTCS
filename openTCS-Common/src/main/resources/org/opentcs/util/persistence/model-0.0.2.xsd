@@ -367,7 +367,7 @@
                    type="xsd:string"
                    use="required"/>
     <xsd:attribute name="quantity"
-                   type="xsd:int"
+                   type="xsd:double"
                    use="required"/>
   </xsd:complexType>
   <!-- modified end -->

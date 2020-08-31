@@ -1,28 +1,26 @@
-[20200806-11:00:02-102] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-08-06 10:58:11), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
-[20200806-11:00:02-352] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-baseline.properties...
-[20200806-11:00:02-399] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-custom.properties not found, skipped.
-[20200806-11:00:02-399] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview.properties...
-[20200806-11:00:02-415] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
-[20200806-11:00:02-430] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
-[20200806-11:00:02-493] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.loadgenerator.LoadGeneratorPanelModule
-[20200806-11:00:02-508] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.allocation.AllocationPanelModule
-[20200806-11:00:02-508] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.statistics.StatisticsPanelModule
-[20200806-11:00:02-524] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.DefaultImportersExportersModule
-[20200806-11:00:02-524] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.PropertySuggestionsModule
-[20200806-11:00:02-524] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.transport.OrderTypeSuggestionsModule
-[20200806-11:00:04-166] WARNING main                 o.o.guing.DefaultPlantOverviewInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
-[20200806-11:00:30-853] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.loadgenerator.ContinuousLoadPanelFactory
-[20200806-11:00:30-853] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.allocation.ResourceAllocationPanelFactory
-[20200806-11:00:30-853] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.statistics.StatisticsPanelFactory
-[20200806-11:00:31-231] INFO    main                 o.o.g.exchange.KernelEventFetcher.initialize()         : Initializing...
-[20200806-11:01:33-107] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully persisted.
-[20200806-11:01:38-130] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully loaded from kernel.
-[20200806-11:42:31-984] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully persisted.
-[20200806-11:42:36-732] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully loaded from kernel.
-[20200806-13:51:31-929] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+[20200828-15:30:46-994] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-08-28 15:14:37), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
+[20200828-15:30:47-248] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-baseline.properties...
+[20200828-15:30:47-279] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-custom.properties not found, skipped.
+[20200828-15:30:47-279] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview.properties...
+[20200828-15:30:47-311] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
+[20200828-15:30:47-328] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
+[20200828-15:30:47-399] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.loadgenerator.LoadGeneratorPanelModule
+[20200828-15:30:47-399] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.allocation.AllocationPanelModule
+[20200828-15:30:47-399] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.statistics.StatisticsPanelModule
+[20200828-15:30:47-415] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.DefaultImportersExportersModule
+[20200828-15:30:47-415] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.PropertySuggestionsModule
+[20200828-15:30:47-415] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.transport.OrderTypeSuggestionsModule
+[20200828-15:30:48-605] WARNING main                 o.o.guing.DefaultPlantOverviewInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
+[20200828-15:30:57-804] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.loadgenerator.ContinuousLoadPanelFactory
+[20200828-15:30:57-804] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.allocation.ResourceAllocationPanelFactory
+[20200828-15:30:57-804] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.statistics.StatisticsPanelFactory
+[20200828-15:30:57-945] INFO    main                 o.o.g.exchange.KernelEventFetcher.initialize()         : Initializing...
+[20200828-15:32:32-716] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-15:32:39-426] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-15:34:32-098] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:206)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
 	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
 	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
 	at java.lang.Thread.run(Thread.java:748)
@@ -33,7 +31,7 @@ Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested
 	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
 	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
 	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:203)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
 	... 3 more
 Caused by: java.net.SocketException: Connection reset
 	at java.net.SocketInputStream.read(SocketInputStream.java:210)
@@ -44,7 +42,7 @@ Caused by: java.net.SocketException: Connection reset
 	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
 	... 8 more
 
-[20200806-13:51:32-048] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+[20200828-15:34:32-190] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
 	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
@@ -68,7 +66,7 @@ org.opentcs.components.kernel.services.ServiceUnavailableException: Remote servi
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-[20200806-13:51:32-048] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+[20200828-15:34:32-190] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
 	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
@@ -92,33 +90,13 @@ org.opentcs.components.kernel.services.ServiceUnavailableException: Remote servi
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-[20200806-13:51:32-048] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
-[20200806-14:04:02-270] INFO    AWT-EventQueue-0     o.o.g.application.OpenTCSView.stop()                   : GUI terminating...
-[20200806-15:33:36-704] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-08-06 10:58:11), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
-[20200806-15:33:36-939] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-baseline.properties...
-[20200806-15:33:36-985] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-custom.properties not found, skipped.
-[20200806-15:33:36-985] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview.properties...
-[20200806-15:33:37-017] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
-[20200806-15:33:37-032] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
-[20200806-15:33:37-095] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.loadgenerator.LoadGeneratorPanelModule
-[20200806-15:33:37-095] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.allocation.AllocationPanelModule
-[20200806-15:33:37-110] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.statistics.StatisticsPanelModule
-[20200806-15:33:37-110] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.DefaultImportersExportersModule
-[20200806-15:33:37-126] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.PropertySuggestionsModule
-[20200806-15:33:37-126] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.transport.OrderTypeSuggestionsModule
-[20200806-15:33:38-724] WARNING main                 o.o.guing.DefaultPlantOverviewInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
-[20200806-15:34:00-221] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.loadgenerator.ContinuousLoadPanelFactory
-[20200806-15:34:00-221] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.allocation.ResourceAllocationPanelFactory
-[20200806-15:34:00-237] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.statistics.StatisticsPanelFactory
-[20200806-15:34:00-534] INFO    main                 o.o.g.exchange.KernelEventFetcher.initialize()         : Initializing...
-[20200806-15:34:25-157] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully persisted.
-[20200806-15:34:28-401] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully loaded from kernel.
-[20200806-15:40:32-886] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully persisted.
-[20200806-15:40:38-288] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully loaded from kernel.
-[20200806-15:48:47-188] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+[20200828-15:34:32-190] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-15:52:27-497] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-15:52:31-626] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-15:54:18-936] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:206)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
 	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
 	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
 	at java.lang.Thread.run(Thread.java:748)
@@ -129,7 +107,7 @@ Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested
 	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
 	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
 	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:203)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
 	... 3 more
 Caused by: java.net.SocketException: Connection reset
 	at java.net.SocketInputStream.read(SocketInputStream.java:210)
@@ -140,7 +118,7 @@ Caused by: java.net.SocketException: Connection reset
 	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
 	... 8 more
 
-[20200806-15:48:47-251] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+[20200828-15:54:19-010] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
 	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
@@ -164,7 +142,7 @@ org.opentcs.components.kernel.services.ServiceUnavailableException: Remote servi
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-[20200806-15:48:47-251] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+[20200828-15:54:19-012] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
 	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
@@ -188,14 +166,13 @@ org.opentcs.components.kernel.services.ServiceUnavailableException: Remote servi
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-[20200806-15:48:47-407] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
-[20200806-15:49:23-683] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully persisted.
-[20200806-15:49:26-477] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully loaded from kernel.
-[20200806-15:49:35-776] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully loaded from kernel.
-[20200806-15:58:06-287] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+[20200828-15:54:19-022] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-16:08:46-819] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-16:08:50-797] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-16:13:36-718] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:206)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
 	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
 	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
 	at java.lang.Thread.run(Thread.java:748)
@@ -206,7 +183,7 @@ Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested
 	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
 	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
 	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:203)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
 	... 3 more
 Caused by: java.net.SocketException: Connection reset
 	at java.net.SocketInputStream.read(SocketInputStream.java:210)
@@ -217,7 +194,7 @@ Caused by: java.net.SocketException: Connection reset
 	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
 	... 8 more
 
-[20200806-15:58:06-334] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+[20200828-16:13:36-796] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
 	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
@@ -241,7 +218,7 @@ org.opentcs.components.kernel.services.ServiceUnavailableException: Remote servi
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-[20200806-15:58:06-350] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+[20200828-16:13:36-796] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
 org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
 	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
 	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
@@ -265,7 +242,1999 @@ org.opentcs.components.kernel.services.ServiceUnavailableException: Remote servi
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
 
-[20200806-15:58:06-350] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
-[20200806-15:59:04-769] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully persisted.
-[20200806-15:59:06-133] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "Test5" successfully loaded from kernel.
-[20200806-16:08:56-995] INFO    AWT-EventQueue-0     o.o.g.application.OpenTCSView.stop()                   : GUI terminating...
+[20200828-16:13:36-828] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-16:22:17-267] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-16:22:20-927] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-16:23:49-679] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-16:23:49-729] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-16:23:49-729] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-16:23:49-729] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-16:36:52-404] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-16:37:03-244] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-16:37:29-580] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.ConnectException: Connection refused to host: 10.30.20.213; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+	at sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:623)
+	at sun.rmi.transport.tcp.TCPChannel.createConnection(TCPChannel.java:216)
+	at sun.rmi.transport.tcp.TCPChannel.newConnection(TCPChannel.java:202)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:131)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at java.net.Socket.connect(Socket.java:555)
+	at java.net.Socket.<init>(Socket.java:451)
+	at java.net.Socket.<init>(Socket.java:228)
+	at sun.rmi.transport.proxy.RMIDirectSocketFactory.createSocket(RMIDirectSocketFactory.java:40)
+	at sun.rmi.transport.proxy.RMIMasterSocketFactory.createSocket(RMIMasterSocketFactory.java:148)
+	at sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:617)
+	... 10 more
+
+[20200828-16:37:29-630] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-16:37:29-630] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-16:37:29-630] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-16:38:04-138] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-16:38:08-699] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-16:40:50-305] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-16:40:50-414] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-16:40:50-430] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-16:40:50-430] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-17:09:05-378] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-17:09:20-457] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-17:09:31-537] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-17:09:31-780] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:09:31-780] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:09:31-780] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-17:12:39-261] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-17:12:44-103] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-17:19:08-118] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:40)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.ConnectException: Connection refused to host: 10.30.20.213; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+	at sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:623)
+	at sun.rmi.transport.tcp.TCPChannel.createConnection(TCPChannel.java:216)
+	at sun.rmi.transport.tcp.TCPChannel.newConnection(TCPChannel.java:202)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:131)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy53.fetchObject(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:37)
+	... 10 more
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at java.net.Socket.connect(Socket.java:555)
+	at java.net.Socket.<init>(Socket.java:451)
+	at java.net.Socket.<init>(Socket.java:228)
+	at sun.rmi.transport.proxy.RMIDirectSocketFactory.createSocket(RMIDirectSocketFactory.java:40)
+	at sun.rmi.transport.proxy.RMIMasterSocketFactory.createSocket(RMIMasterSocketFactory.java:148)
+	at sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:617)
+	... 17 more
+
+[20200828-17:19:08-134] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:208)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-17:19:08-197] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:19:08-199] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:19:08-205] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-17:31:13-522] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-17:31:16-810] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-17:34:44-402] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-17:34:44-480] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:34:44-480] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:34:44-496] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-17:41:10-525] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-17:41:14-123] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-17:41:56-616] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-17:41:56-688] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:41:56-688] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:41:56-704] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-17:46:14-718] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-17:46:17-850] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-17:47:44-781] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-17:47:44-891] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:47:44-906] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:47:44-922] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-17:57:18-107] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-17:57:22-458] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-17:57:38-505] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:40)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.ConnectException: Connection refused to host: 10.30.20.213; nested exception is: 
+	java.net.ConnectException: Connection refused: connect
+	at sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:623)
+	at sun.rmi.transport.tcp.TCPChannel.createConnection(TCPChannel.java:216)
+	at sun.rmi.transport.tcp.TCPChannel.newConnection(TCPChannel.java:202)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:131)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy53.fetchObject(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:37)
+	... 10 more
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:606)
+	at java.net.Socket.connect(Socket.java:555)
+	at java.net.Socket.<init>(Socket.java:451)
+	at java.net.Socket.<init>(Socket.java:228)
+	at sun.rmi.transport.proxy.RMIDirectSocketFactory.createSocket(RMIDirectSocketFactory.java:40)
+	at sun.rmi.transport.proxy.RMIMasterSocketFactory.createSocket(RMIMasterSocketFactory.java:148)
+	at sun.rmi.transport.tcp.TCPEndpoint.newSocket(TCPEndpoint.java:617)
+	... 17 more
+
+[20200828-17:57:38-505] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:34)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-17:57:38-505] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:34)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-17:57:38-521] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:208)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-17:57:38-599] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:57:38-599] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-17:57:38-599] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-18:01:10-905] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-18:01:15-694] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-18:02:12-361] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-18:02:12-423] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:02:12-423] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:02:12-423] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-18:09:02-280] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-18:09:05-522] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-18:13:34-543] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-18:13:34-683] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:13:34-683] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:13:34-699] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-18:20:43-574] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-18:20:53-276] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-18:22:44-892] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-18:22:45-002] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:22:45-002] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:22:45-002] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-18:23:45-647] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-18:23:48-375] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-18:28:42-760] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy52.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-18:28:42-917] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:28:42-917] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:28:42-932] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-18:29:27-715] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-18:29:34-949] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-18:32:00-495] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:40)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy53.fetchObject(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:37)
+	... 10 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 15 more
+
+[20200828-18:32:00-495] WARNING AWT-EventQueue-0     o.o.g.a.a.view.PauseAllVehiclesAction.actionPerformed(): Could not connect to kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteVehicleServiceProxy.sendCommAdapterMessage(RemoteVehicleServiceProxy.java:120)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.setVehicleSpeedMultiplier(PauseAllVehiclesAction.java:108)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.actionPerformed(PauseAllVehiclesAction.java:90)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.JToggleButton$ToggleButtonModel.setPressed(JToggleButton.java:308)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289)
+	at java.awt.Component.processMouseEvent(Component.java:6539)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6304)
+	at java.awt.Container.processEvent(Container.java:2239)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2297)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4535)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4476)
+	at java.awt.Container.dispatchEventImpl(Container.java:2283)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:760)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy55.sendCommAdapterMessage(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteVehicleServiceProxy.sendCommAdapterMessage(RemoteVehicleServiceProxy.java:117)
+	... 39 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 44 more
+
+[20200828-18:32:00-511] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:208)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-18:32:00-511] WARNING AWT-EventQueue-0     o.o.g.a.a.view.PauseAllVehiclesAction.actionPerformed(): Could not connect to kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteVehicleServiceProxy.sendCommAdapterMessage(RemoteVehicleServiceProxy.java:114)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.setVehicleSpeedMultiplier(PauseAllVehiclesAction.java:108)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.actionPerformed(PauseAllVehiclesAction.java:90)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.JToggleButton$ToggleButtonModel.setPressed(JToggleButton.java:308)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289)
+	at java.awt.Component.processMouseEvent(Component.java:6539)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6304)
+	at java.awt.Container.processEvent(Container.java:2239)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2297)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4535)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4476)
+	at java.awt.Container.dispatchEventImpl(Container.java:2283)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:760)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:32:00-605] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:32:00-605] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-18:32:00-605] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-18:32:00-605] INFO    AWT-EventQueue-0     o.o.g.application.OpenTCSView.stop()                   : GUI terminating...
+[20200828-18:32:27-825] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-08-28 15:14:37), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
+[20200828-18:32:28-044] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-baseline.properties...
+[20200828-18:32:28-075] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-custom.properties not found, skipped.
+[20200828-18:32:28-075] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview.properties...
+[20200828-18:32:28-107] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
+[20200828-18:32:28-107] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
+[20200828-18:32:28-185] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.loadgenerator.LoadGeneratorPanelModule
+[20200828-18:32:28-200] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.allocation.AllocationPanelModule
+[20200828-18:32:28-200] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.statistics.StatisticsPanelModule
+[20200828-18:32:28-216] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.DefaultImportersExportersModule
+[20200828-18:32:28-231] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.PropertySuggestionsModule
+[20200828-18:32:28-247] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.transport.OrderTypeSuggestionsModule
+[20200828-18:32:29-576] WARNING main                 o.o.guing.DefaultPlantOverviewInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
+[20200828-18:33:05-486] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.loadgenerator.ContinuousLoadPanelFactory
+[20200828-18:33:05-486] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.allocation.ResourceAllocationPanelFactory
+[20200828-18:33:05-486] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.statistics.StatisticsPanelFactory
+[20200828-18:33:05-845] INFO    main                 o.o.g.exchange.KernelEventFetcher.initialize()         : Initializing...
+[20200828-18:54:41-318] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-18:54:45-574] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-19:04:52-518] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:214)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy53.fetchEvents(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:211)
+	... 3 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 8 more
+
+[20200828-19:04:52-518] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:66)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy55.fetchObjects(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:63)
+	... 19 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 24 more
+
+[20200828-19:04:52-518] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:40)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy54.fetchObject(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:37)
+	... 10 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 15 more
+
+[20200828-19:04:52-518] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-581] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:134)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView.restoreModel(OpenTCSView.java:881)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:868)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:847)
+	at org.opentcs.guing.application.OpenTCSView.lambda$switchPlantOverviewState$2(OpenTCSView.java:1018)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-596] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:123)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView.restoreModel(OpenTCSView.java:881)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:868)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:847)
+	at org.opentcs.guing.application.OpenTCSView.lambda$switchPlantOverviewState$2(OpenTCSView.java:1018)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-596] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:134)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView.restoreModel(OpenTCSView.java:885)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:868)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:847)
+	at org.opentcs.guing.application.OpenTCSView.lambda$switchPlantOverviewState$2(OpenTCSView.java:1018)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-612] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:123)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView.restoreModel(OpenTCSView.java:885)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:868)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:847)
+	at org.opentcs.guing.application.OpenTCSView.lambda$switchPlantOverviewState$2(OpenTCSView.java:1018)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-612] INFO    AWT-EventQueue-0     o.o.g.application.OpenTCSView.loadCurrentKernelModel() : Kernel unavailable, aborting.
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemotePlantModelServiceProxy.getModelName(RemotePlantModelServiceProxy.java:52)
+	at org.opentcs.guing.persistence.OpenTCSModelManager.restoreModel(OpenTCSModelManager.java:459)
+	at org.opentcs.guing.application.OpenTCSView.restoreModel(OpenTCSView.java:892)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:868)
+	at org.opentcs.guing.application.OpenTCSView.loadCurrentKernelModel(OpenTCSView.java:847)
+	at org.opentcs.guing.application.OpenTCSView.lambda$switchPlantOverviewState$2(OpenTCSView.java:1018)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-956] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-956] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:52-971] WARNING KernelEventFetcher   o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:137)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:186)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:209)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-19:04:52-971] WARNING KernelEventFetcher   o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:126)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:186)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:209)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-19:04:53-003] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:53-003] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:311)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:04:53-003] INFO    AWT-EventQueue-0     o.o.g.application.OpenTCSView.stop()                   : GUI terminating...
+[20200828-19:05:03-034] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-08-28 15:14:37), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
+[20200828-19:05:03-237] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-baseline.properties...
+[20200828-19:05:03-300] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-custom.properties not found, skipped.
+[20200828-19:05:03-300] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview.properties...
+[20200828-19:05:03-331] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
+[20200828-19:05:03-331] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
+[20200828-19:05:03-440] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.loadgenerator.LoadGeneratorPanelModule
+[20200828-19:05:03-440] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.allocation.AllocationPanelModule
+[20200828-19:05:03-456] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.statistics.StatisticsPanelModule
+[20200828-19:05:03-456] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.DefaultImportersExportersModule
+[20200828-19:05:03-487] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.PropertySuggestionsModule
+[20200828-19:05:03-546] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.transport.OrderTypeSuggestionsModule
+[20200828-19:05:05-558] WARNING main                 o.o.guing.DefaultPlantOverviewInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
+[20200828-19:05:30-028] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.loadgenerator.ContinuousLoadPanelFactory
+[20200828-19:05:30-028] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.allocation.ResourceAllocationPanelFactory
+[20200828-19:05:30-028] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.statistics.StatisticsPanelFactory
+[20200828-19:05:30-185] INFO    main                 o.o.g.exchange.KernelEventFetcher.initialize()         : Initializing...
+[20200828-19:06:16-433] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-19:06:21-246] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-19:12:30-386] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:40)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy53.fetchObject(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:37)
+	... 10 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 15 more
+
+[20200828-19:12:30-386] WARNING AWT-EventQueue-0     o.o.g.a.a.view.PauseAllVehiclesAction.actionPerformed(): Could not connect to kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteVehicleServiceProxy.sendCommAdapterMessage(RemoteVehicleServiceProxy.java:120)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.setVehicleSpeedMultiplier(PauseAllVehiclesAction.java:108)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.actionPerformed(PauseAllVehiclesAction.java:90)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.JToggleButton$ToggleButtonModel.setPressed(JToggleButton.java:308)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289)
+	at java.awt.Component.processMouseEvent(Component.java:6539)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6304)
+	at java.awt.Container.processEvent(Container.java:2239)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2297)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4535)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4476)
+	at java.awt.Container.dispatchEventImpl(Container.java:2283)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:760)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy55.sendCommAdapterMessage(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteVehicleServiceProxy.sendCommAdapterMessage(RemoteVehicleServiceProxy.java:117)
+	... 39 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 44 more
+
+[20200828-19:12:30-386] WARNING AWT-EventQueue-0     o.o.g.a.a.view.PauseAllVehiclesAction.actionPerformed(): Could not connect to kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteVehicleServiceProxy.sendCommAdapterMessage(RemoteVehicleServiceProxy.java:114)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.setVehicleSpeedMultiplier(PauseAllVehiclesAction.java:108)
+	at org.opentcs.guing.application.action.view.PauseAllVehiclesAction.actionPerformed(PauseAllVehiclesAction.java:90)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.JToggleButton$ToggleButtonModel.setPressed(JToggleButton.java:308)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289)
+	at java.awt.Component.processMouseEvent(Component.java:6539)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6304)
+	at java.awt.Container.processEvent(Container.java:2239)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2297)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4535)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4476)
+	at java.awt.Container.dispatchEventImpl(Container.java:2283)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:760)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:12:30-402] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:208)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-19:12:30-643] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:12:30-646] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:12:30-650] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
+[20200828-19:12:30-650] INFO    AWT-EventQueue-0     o.o.g.application.OpenTCSView.stop()                   : GUI terminating...
+[20200828-19:12:49-323] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-08-28 15:14:37), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
+[20200828-19:12:49-567] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-baseline.properties...
+[20200828-19:12:49-621] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview-defaults-custom.properties not found, skipped.
+[20200828-19:12:49-621] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\Git_repository\openTCS-PlantOverview\build\install\openTCS-PlantOverview\.\config\opentcs-plantoverview.properties...
+[20200828-19:12:49-637] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
+[20200828-19:12:49-653] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
+[20200828-19:12:49-731] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.loadgenerator.LoadGeneratorPanelModule
+[20200828-19:12:49-731] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.allocation.AllocationPanelModule
+[20200828-19:12:49-731] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.plugins.panels.statistics.StatisticsPanelModule
+[20200828-19:12:49-746] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.DefaultImportersExportersModule
+[20200828-19:12:49-746] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.PropertySuggestionsModule
+[20200828-19:12:49-762] INFO    main                 o.o.guing.RunPlantOverview.findRegisteredModules()     : Integrating injection module org.opentcs.guing.transport.OrderTypeSuggestionsModule
+[20200828-19:12:51-153] WARNING main                 o.o.guing.DefaultPlantOverviewInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
+[20200828-19:13:02-720] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.loadgenerator.ContinuousLoadPanelFactory
+[20200828-19:13:02-720] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.allocation.ResourceAllocationPanelFactory
+[20200828-19:13:02-720] INFO    main                 o.o.g.util.PanelRegistry.<init>()                      : Setting up plugin panel factory: org.opentcs.guing.plugins.panels.statistics.StatisticsPanelFactory
+[20200828-19:13:02-861] INFO    main                 o.o.g.exchange.KernelEventFetcher.initialize()         : Initializing...
+[20200828-19:18:13-702] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully persisted.
+[20200828-19:18:20-392] INFO    AWT-EventQueue-0     o.o.g.application.StatusPanel.setLogMessage()          : Model "GDS" successfully loaded from kernel.
+[20200828-19:59:08-416] WARNING KernelEventFetcher   o.o.u.event.SimpleEventBus.onEvent()                   : Exception thrown by event handler
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:40)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.getTransportOrder(VehicleAdapter.java:284)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelDriveOrder(VehicleAdapter.java:178)
+	at org.opentcs.guing.exchange.adapter.VehicleAdapter.updateModelProperties(VehicleAdapter.java:117)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectModifiedEvent(OpenTCSEventDispatcher.java:231)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.processObjectEvent(OpenTCSEventDispatcher.java:212)
+	at org.opentcs.guing.exchange.OpenTCSEventDispatcher.onEvent(OpenTCSEventDispatcher.java:165)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:192)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
+	java.net.SocketException: Connection reset
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
+	at com.sun.proxy.$Proxy53.fetchObject(Unknown Source)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObject(RemoteTCSObjectServiceProxy.java:37)
+	... 10 more
+Caused by: java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
+	... 15 more
+
+[20200828-19:59:08-441] SEVERE  KernelEventFetcher   o.o.g.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events, logging out
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:208)
+	at org.opentcs.guing.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:188)
+	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
+	at java.lang.Thread.run(Thread.java:748)
+
+[20200828-19:59:08-551] WARNING AWT-EventQueue-0     o.o.g.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(): Exception fetching transport orders
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.fetchOrdersIfOnline(TransportOrdersContainerPanel.java:195)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.initView(TransportOrdersContainerPanel.java:145)
+	at org.opentcs.guing.transport.TransportOrdersContainerPanel.onEvent(TransportOrdersContainerPanel.java:131)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:59:08-555] WARNING AWT-EventQueue-0     o.o.g.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(): Exception fetching sequences from kernel
+org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
+	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.checkServiceAvailability(AbstractRemoteServiceProxy.java:120)
+	at org.opentcs.access.rmi.services.RemoteTCSObjectServiceProxy.fetchObjects(RemoteTCSObjectServiceProxy.java:60)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.fetchSequencesIfOnline(OrderSequencesContainerPanel.java:141)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.initView(OrderSequencesContainerPanel.java:134)
+	at org.opentcs.guing.transport.OrderSequencesContainerPanel.onEvent(OrderSequencesContainerPanel.java:120)
+	at org.opentcs.util.event.SimpleEventBus.onEvent(SimpleEventBus.java:37)
+	at org.opentcs.guing.application.OpenTCSView$2.run(OpenTCSView.java:1585)
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:301)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+[20200828-19:59:08-565] WARNING KernelEventFetcher   o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.

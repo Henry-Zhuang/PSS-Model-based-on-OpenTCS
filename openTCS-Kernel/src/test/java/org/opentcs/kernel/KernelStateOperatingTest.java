@@ -30,6 +30,7 @@ import org.opentcs.components.kernel.services.VehicleService;
 import org.opentcs.data.model.Vehicle;
 import org.opentcs.kernel.extensions.controlcenter.vehicles.AttachmentManager;
 import org.opentcs.kernel.extensions.xmlhost.orders.ScriptFileManager;
+import org.opentcs.kernel.inbound.InboundConveyor;
 import org.opentcs.kernel.persistence.ModelPersister;
 import org.opentcs.kernel.vehicles.LocalVehicleControllerPool;
 import org.opentcs.kernel.workingset.Model;
@@ -37,7 +38,6 @@ import org.opentcs.kernel.workingset.NotificationBuffer;
 import org.opentcs.kernel.workingset.TCSObjectPool;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.kernel.workingset.PrefixedUlidObjectNameProvider;
-import org.opentcs.kernel.workingset.BinOrderPool;
 import org.opentcs.kernel.outbound.OutboundConveyor;
 import org.opentcs.util.event.SimpleEventBus;
 
@@ -57,8 +57,6 @@ public class KernelStateOperatingTest {
 
   private TCSObjectPool objectPool;
   
-  private BinOrderPool binOrderPool;
-
   private Router router;
 
   private Scheduler scheduler;
@@ -71,7 +69,9 @@ public class KernelStateOperatingTest {
   
   private ChangeTrackService changeTrackService;
 
-  private OutboundConveyor outBoundConveyor;
+  private OutboundConveyor outboundConveyor;
+  
+  private InboundConveyor inboundConveyor;
   @Before
   public void setUp() {
     objectID = 0;
@@ -184,8 +184,8 @@ public class KernelStateOperatingTest {
                                         extensions,
                                         attachmentManager,
                                         mock(VehicleService.class),
-                                        binOrderPool,
                                         changeTrackService,
-                                        outBoundConveyor));
+                                        outboundConveyor,
+                                        inboundConveyor));
   }
 }

@@ -73,9 +73,10 @@ public class StandardOutboundOrderService
       LOG.info("method entry");
       OutboundOrder outBoundOrder = objectPool.getObject(OutboundOrder.class, ref);
       if(outBoundOrder.getState() == OutboundOrder.State.WORKING){
-      // 遍历出库订单所分成的所有料箱订单，将其中的属于该出库订单的SKU要求删去
-      // 若删完后，料箱订单无SKU要求，则将该料箱订单删去。
-      // 注意判断料箱订单对应的运输订单是否已被拣选
+      // 遍历出库订单所预订的所有料箱，在料箱的预订表中删去该出库订单的预订
+      // 若删完后，料箱预订表为空，则检查该料箱对应的出库运输任务是否已执行
+      // 若未执行，则将对应的运输任务删除；否则，不删除；
+      // 然后从出库工作台中删去该出库订单
       //OutboundWorkingSet outBoundWorkingSet.removePickingOrder(ref)
       }
       objectPool.removeObject(ref);

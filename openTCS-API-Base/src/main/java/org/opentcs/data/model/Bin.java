@@ -478,10 +478,9 @@ public class Bin
   
   public static enum State{
     /**
-     * A state indicates that the bin is being transported by a bin vehicle(PSB) 
-     * or an outbound conveyor.
+     * A state indicates that the bin is outbounding.
      */
-    Transporting,
+    Outbounding,
     /**
      * A state indicates that the bin is still (stored in a {@link Location}).
      */
@@ -491,8 +490,8 @@ public class Bin
      */
     Picked,
     /**
-     * A state indicates that the bin is returning to the repository.
+     * A state indicates that the bin is inbounding.
      */
-    Returning
+    Inbounding
   }
 }

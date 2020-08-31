@@ -1,0 +1,21 @@
+{
+  "name": "Git_repository",
+  "version": "1.0.0",
+  "description": "git add 文件名\r git commit -m \"修改备注\"\r git status \t\t\t\t\t//查看状态\r git diff \t\t\t\t\t//查看上次修改的具体情况（即还未提交的版本与最近一次提交的版本的区别）\r git log \t\t\t\t\t//显示从最近到最远的提交日志\r git log --pretty=oneline\t//每个版本的提交日志只显示一行\r git reset --hard HEAD^\t\t//返回上一个版本，HEAD表示当前版本，再HEAD~5往前的第五个版本\r git reset --hard 指定的版本ID（不一定要写全）\r git reflog\t\t\t\t\t//用来记录你的每一次命令\r git checkout -- <file>\t\t//丢弃工作区的修改：如果自修改后还没被放到暂存区，撤销修改回到与版本库一致的状态\r \t\t\t\t\t\t\t\t\t\t\t//  如果已添加到暂存区后，又作了修改，撤销修改回到添加到暂存区后的状态\r \t\t\t\t\t\t\t//总之，就是让这个文件回到最近一次git commit或git add时的状态\r git reset HEAD <file>\t\t//可以把暂存区的修改撤销掉（unstage），重新放回工作区（也就是只有工作区被修改）\r git rm\t\t\t\t\t\t//用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容\r git remote add origin https://github.com/Henry-Zhuang-cn/OpenTCS.git\t//将本地库与远程库连接（HTTP方式）速度较慢\r git remote add origin git@github.com:Henry-Zhuang-cn/OpenTCS.git\t\t//将本地库与远程库连接（SSH方式）\r git push -u origin master\t//把本地库的内容推送到远程，实际上是把当前分支master推送到远程\r \t\t\t\t\t\t\t//加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Henry-Zhuang-cn@github.com/Henry-Zhuang-cn/OpenTCS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Henry-Zhuang-cn/OpenTCS/issues"
+  },
+  "homepage": "https://github.com/Henry-Zhuang-cn/OpenTCS#readme",
+  "dependencies": {}
+}

@@ -58,6 +58,10 @@ public class Location
    */
   public static final String IN_BOUND_STATION_TYPE = "InBound";
   /**
+   * The type of bin stack station.
+   */
+  public static final String BIN_STACK_TYPE = "Bin";
+  /**
    * The bins(including bin ID and SKUs) stored in the stack of this location.
    */
   private List<Bin> Bins = new ArrayList<>();

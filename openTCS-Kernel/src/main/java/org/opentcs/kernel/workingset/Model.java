@@ -1729,7 +1729,7 @@ public class Model {
     ////////// modified by Henry
     Bin newBin = to.getBin();
     if(!newBin.getName().equals("")){
-      newBin = newBin.withAttachedVehicle(newVehicle.getReference()).withState(Bin.State.Transporting);
+      newBin = newBin.withAttachedVehicle(newVehicle.getReference()).withState(Bin.State.Outbounding);
       objectPool.addObject(newBin);
       objectPool.emitObjectEvent(newBin.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
     }

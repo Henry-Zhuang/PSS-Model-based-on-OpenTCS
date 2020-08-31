@@ -54,7 +54,7 @@ import org.opentcs.kernel.services.StandardRouterService;
 import org.opentcs.kernel.services.StandardSchedulerService;
 import org.opentcs.kernel.services.StandardTCSObjectService;
 import org.opentcs.kernel.services.StandardTimeFactorService;
-import org.opentcs.kernel.services.StandardBinOrderService;
+import org.opentcs.kernel.services.StandardInboundOrderService;
 import org.opentcs.kernel.services.StandardTransportOrderService;
 import org.opentcs.kernel.services.StandardVehicleService;
 import org.opentcs.kernel.vehicles.DefaultVehicleControllerPool;
@@ -65,17 +65,20 @@ import org.opentcs.kernel.workingset.Model;
 import org.opentcs.kernel.workingset.NotificationBuffer;
 import org.opentcs.kernel.workingset.PrefixedUlidObjectNameProvider;
 import org.opentcs.kernel.workingset.TCSObjectPool;
-import org.opentcs.kernel.workingset.BinOrderPool;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.util.event.EventBus;
 import org.opentcs.util.event.EventHandler;
 import org.opentcs.util.event.SimpleEventBus;
 import org.opentcs.util.logging.UncaughtExceptionLogger;
-import org.opentcs.components.kernel.services.BinOrderService;
 import org.opentcs.kernel.outbound.OutboundWorkingSet;
 import org.opentcs.kernel.services.StandardOutboundOrderService;
 import org.opentcs.components.kernel.services.CsvFileService;
 import org.opentcs.components.kernel.services.OutboundOrderService;
+import org.opentcs.components.kernel.services.InboundOrderService;
+import org.opentcs.components.kernel.services.OrderEnableService;
+import org.opentcs.kernel.inbound.InboundConveyor;
+import org.opentcs.kernel.outbound.OutboundConveyor;
+import org.opentcs.kernel.services.StandardOrderEnableService;
 
 /**
  * A Guice module for the openTCS kernel application.
@@ -112,8 +115,9 @@ public class DefaultKernelInjectionModule
     bind(TransportOrderPool.class).in(Singleton.class);
     bind(NotificationBuffer.class).in(Singleton.class);
     //// modified by Henry
-    bind(BinOrderPool.class).in(Singleton.class);
     bind(OutboundWorkingSet.class).in(Singleton.class);
+    bind(InboundConveyor.class).in(Singleton.class);
+    bind(OutboundConveyor.class).in(Singleton.class);
     ////
 
     bind(ObjectNameProvider.class)
@@ -181,8 +185,8 @@ public class DefaultKernelInjectionModule
     bind(StandardCsvFileService.class).in(Singleton.class);
     bind(CsvFileService.class).to(StandardCsvFileService.class);
     
-    bind(StandardBinOrderService.class).in(Singleton.class);
-    bind(BinOrderService.class).to(StandardBinOrderService.class);
+    bind(StandardInboundOrderService.class).in(Singleton.class);
+    bind(InboundOrderService.class).to(StandardInboundOrderService.class);
     
     bind(StandardChangeTrackService.class).in(Singleton.class);
     bind(ChangeTrackService.class).to(StandardChangeTrackService.class);
@@ -192,6 +196,9 @@ public class DefaultKernelInjectionModule
     
     bind(StandardOutboundOrderService.class).in(Singleton.class);
     bind(OutboundOrderService.class).to(StandardOutboundOrderService.class);
+    
+    bind(StandardOrderEnableService.class).in(Singleton.class);
+    bind(OrderEnableService.class).to(StandardOrderEnableService.class);
     
     // TEST
     bind(CreateGDSModel.class).in(Singleton.class);

@@ -12,5 +12,6 @@
     <permission name="MODIFY_VEHICLES" />
     <permission name="MODIFY_ORDER" />
     <permission name="PUBLISH_MESSAGES" />
+    <permission name="CHANGE_TIME_FACTOR" />
   </account>
 </userAccounts>

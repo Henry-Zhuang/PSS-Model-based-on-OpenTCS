@@ -40,7 +40,7 @@ public class CreateGDSModel {
   
   public static int PSB_TRACK_NUM = 8;
   
-  public static int POINT_NUM_PER_TRACK = 218;
+  public static int POINT_NUM_PER_TRACK = 50;
   
   public static double X_SCALE = 10;
   
@@ -82,7 +82,7 @@ public class CreateGDSModel {
             .withPosition(new Triple(x*X_INTERVAL, y*Y_INTERVAL, 0))
             .withType(Point.Type.HALT_POSITION);
         objectPool.addObject(newPoint);
-        objectPool.emitObjectEvent(newPoint.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
+        objectPool.emitObjectEvent(newPoint, null, TCSObjectEvent.Type.OBJECT_CREATED);
       }
     }
   }
@@ -103,7 +103,7 @@ public class CreateGDSModel {
         
         objectPool.addObject(newPath);
 
-        objectPool.emitObjectEvent(newPath.clone(),
+        objectPool.emitObjectEvent(newPath,
                                    null,
                                    TCSObjectEvent.Type.OBJECT_CREATED);
         addPointOutgoingPath(srcPoint.getReference(), newPath.getReference());
@@ -122,7 +122,7 @@ public class CreateGDSModel {
 
       objectPool.addObject(newPath);
 
-      objectPool.emitObjectEvent(newPath.clone(),
+      objectPool.emitObjectEvent(newPath,
                                  null,
                                  TCSObjectEvent.Type.OBJECT_CREATED);
       addPointOutgoingPath(srcPoint.getReference(), newPath.getReference());
@@ -140,7 +140,7 @@ public class CreateGDSModel {
 
       objectPool.addObject(newPath);
 
-      objectPool.emitObjectEvent(newPath.clone(),
+      objectPool.emitObjectEvent(newPath,
                                  null,
                                  TCSObjectEvent.Type.OBJECT_CREATED);
       addPointOutgoingPath(srcPoint.getReference(), newPath.getReference());
@@ -158,15 +158,15 @@ public class CreateGDSModel {
         .withAllowedOperations(Arrays.asList(cargoOperations))
         .withProperty("tcs:defaultLocationTypeSymbol", "WORKING_GENERIC");
     objectPool.addObject(binType);
-    objectPool.emitObjectEvent(binType.clone(),
+    objectPool.emitObjectEvent(binType,
                                null,
                                TCSObjectEvent.Type.OBJECT_CREATED);
     objectPool.addObject(inBoundType);
-    objectPool.emitObjectEvent(inBoundType.clone(),
+    objectPool.emitObjectEvent(inBoundType,
                                null,
                                TCSObjectEvent.Type.OBJECT_CREATED);
     objectPool.addObject(outBoundType);
-    objectPool.emitObjectEvent(outBoundType.clone(),
+    objectPool.emitObjectEvent(outBoundType,
                                null,
                                TCSObjectEvent.Type.OBJECT_CREATED);
   }
@@ -189,7 +189,7 @@ public class CreateGDSModel {
     nameID = 1;
     for(Point point :objectPool.getObjects(Point.class,p -> {
         int index = Integer.parseInt(p.getName().split("-")[1])% POINT_NUM_PER_TRACK;
-        return index > 4 && index < 212 && index % 3 !=0 && index != 100;
+        return index > 4 && index < POINT_NUM_PER_TRACK -6 && index % 3 !=0 && index != 100;
       })){
       createBinStack(point,nameID++);
     }
@@ -226,7 +226,7 @@ public class CreateGDSModel {
       newLayout.getLayoutElements().add(mle);
     }
     objectPool.addObject(newLayout);
-    objectPool.emitObjectEvent(newLayout.clone(),
+    objectPool.emitObjectEvent(newLayout,
                                null,
                                TCSObjectEvent.Type.OBJECT_CREATED);
     // Return the newly created layout.
@@ -243,11 +243,11 @@ public class CreateGDSModel {
     if (!path.getSourcePoint().equals(point.getReference())) {
       throw new IllegalArgumentException("Point is not the path's source.");
     }
-    Path previousState = path.clone();
+    Path previousState = path;
     Set<TCSObjectReference<Path>> outgoingPaths = new HashSet<>(point.getOutgoingPaths());
     outgoingPaths.add(path.getReference());
     point = objectPool.replaceObject(point.withOutgoingPaths(outgoingPaths));
-    objectPool.emitObjectEvent(point.clone(),
+    objectPool.emitObjectEvent(point,
                                previousState,
                                TCSObjectEvent.Type.OBJECT_MODIFIED);
     return point;
@@ -265,7 +265,7 @@ public class CreateGDSModel {
     newLocation = newLocation.withAttachedLinks(locationLinks);
     
     objectPool.addObject(newLocation);
-    objectPool.emitObjectEvent(newLocation.clone(),
+    objectPool.emitObjectEvent(newLocation,
                                null,
                                TCSObjectEvent.Type.OBJECT_CREATED);
 
@@ -273,10 +273,10 @@ public class CreateGDSModel {
     Set<Location.Link> pointLinks = new HashSet<>(point.getAttachedLinks());
     pointLinks.add(link);
 
-    Point previousPointState = point.clone();
+    Point previousPointState = point;
     point = objectPool.replaceObject(point.withAttachedLinks(pointLinks));
 
-    objectPool.emitObjectEvent(point.clone(),
+    objectPool.emitObjectEvent(point,
                                previousPointState,
                                TCSObjectEvent.Type.OBJECT_MODIFIED);
 
@@ -294,7 +294,7 @@ public class CreateGDSModel {
     newLocation = newLocation.withAttachedLinks(locationLinks);
     
     objectPool.addObject(newLocation);
-    objectPool.emitObjectEvent(newLocation.clone(),
+    objectPool.emitObjectEvent(newLocation,
                                null,
                                TCSObjectEvent.Type.OBJECT_CREATED);
 
@@ -302,10 +302,10 @@ public class CreateGDSModel {
     Set<Location.Link> pointLinks = new HashSet<>(point.getAttachedLinks());
     pointLinks.add(link);
 
-    Point previousPointState = point.clone();
+    Point previousPointState = point;
     point = objectPool.replaceObject(point.withAttachedLinks(pointLinks));
 
-    objectPool.emitObjectEvent(point.clone(),
+    objectPool.emitObjectEvent(point,
                                previousPointState,
                                TCSObjectEvent.Type.OBJECT_MODIFIED);
   }
@@ -322,7 +322,7 @@ public class CreateGDSModel {
     newLocation = newLocation.withAttachedLinks(locationLinks);
     
     objectPool.addObject(newLocation);
-    objectPool.emitObjectEvent(newLocation.clone(),
+    objectPool.emitObjectEvent(newLocation,
                                null,
                                TCSObjectEvent.Type.OBJECT_CREATED);
 
@@ -330,10 +330,10 @@ public class CreateGDSModel {
     Set<Location.Link> pointLinks = new HashSet<>(point.getAttachedLinks());
     pointLinks.add(link);
 
-    Point previousPointState = point.clone();
+    Point previousPointState = point;
     point = objectPool.replaceObject(point.withAttachedLinks(pointLinks));
 
-    objectPool.emitObjectEvent(point.clone(),
+    objectPool.emitObjectEvent(point,
                                previousPointState,
                                TCSObjectEvent.Type.OBJECT_MODIFIED);
   }

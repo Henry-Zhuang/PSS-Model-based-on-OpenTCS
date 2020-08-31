@@ -10,9 +10,6 @@ package org.opentcs.data.order;
  * @author Henry
  */
 public interface OrderBinConstants {
-  String TYPE_NONE = "None";
-  String TYPE_INBOUND = "Inbound";
-  String TYPE_OUTBOUND = "Outbound";
   
   /**
    * The load operation for PSB vehicle.

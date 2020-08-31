@@ -46,6 +46,7 @@ import org.opentcs.components.kernel.services.ChangeTrackService;
 import org.opentcs.data.TCSObject;
 import org.opentcs.data.model.Bin;
 import org.opentcs.components.kernel.services.CsvFileService;
+import org.opentcs.kernel.inbound.InboundConveyor;
 
 /**
  * This class is the standard implementation of the {@link VehicleService} interface.
@@ -99,6 +100,10 @@ public class StandardVehicleService
    */
   private final ChangeTrackService changeTrackService;
   /**
+   * The inbound conveyor.
+   */
+  private final InboundConveyor inboundConveyor;
+  /**
    * Creates a new instance.
    *
    * @param objectService The tcs object service.
@@ -122,7 +127,8 @@ public class StandardVehicleService
                                 VehicleCommAdapterRegistry commAdapterRegistry,
                                 Model model,
                                 CsvFileService dataBaseService,
-                                ChangeTrackService changeTrackService) {
+                                ChangeTrackService changeTrackService,
+                                InboundConveyor inboundConveyor) {
     super(objectService);
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.globalObjectPool = requireNonNull(globalObjectPool, "globalObjectPool");
@@ -133,6 +139,7 @@ public class StandardVehicleService
     this.model = requireNonNull(model, "model");
     this.csvFileService = requireNonNull(dataBaseService,"dataBaseService");
     this.changeTrackService = requireNonNull(changeTrackService,"changeTrackService");
+    this.inboundConveyor = requireNonNull(inboundConveyor,"inboundConveyor");
   }
 
   @Override
@@ -378,7 +385,7 @@ public class StandardVehicleService
       
       Bin currentBin = globalObjectPool.replaceObject(previousBin
                                                       .withAttachedVehicle(vehicleRef)
-                                                      .withState(Bin.State.Transporting));
+                                                      .withState(Bin.State.Outbounding));
       vehicle = globalObjectPool.replaceObject(vehicle.withBin(currentBin));
       location = globalObjectPool.replaceObject(location);
       
@@ -386,6 +393,8 @@ public class StandardVehicleService
       globalObjectPool.emitObjectEvent(vehicle.clone(), previousVehicle, TCSObjectEvent.Type.OBJECT_MODIFIED);
       globalObjectPool.emitObjectEvent(currentBin, previousBin, TCSObjectEvent.Type.OBJECT_MODIFIED);
       
+      if(location.getType().getName().equals(Location.IN_BOUND_STATION_TYPE))
+        inboundConveyor.updateAreaQueue(location.getPsbTrack());
       csvFileService.outputStockInfo();
     }
   }

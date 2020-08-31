@@ -6,7 +6,6 @@
 package org.opentcs.kernel.services;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,11 +33,10 @@ import org.opentcs.data.model.Vehicle;
 import org.opentcs.data.order.DriveOrder;
 import org.opentcs.data.order.OrderConstants;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.BinOrder;
 import org.opentcs.drivers.vehicle.VehicleControllerPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.opentcs.components.kernel.services.OrderDecompositionService;
+import org.opentcs.components.kernel.services.OrderEnableService;
 
 /**
  *
@@ -63,9 +61,9 @@ public class StandardChangeTrackService
    */
   private final ObjectNameProvider objectNameProvider;
   /**
-   * The data base service.
+   * The order enable service.
    */
-  private final OrderDecompositionService orderDecomService;
+  private final OrderEnableService orderEnableService;
   /**
    * The vehicle controller pool.
    */
@@ -91,12 +89,12 @@ public class StandardChangeTrackService
   public StandardChangeTrackService(TCSObjectService objectService,
                                     TransportOrderService orderService,
                                     ObjectNameProvider orderNameProvider,
-                                    OrderDecompositionService orderDecomService,
+                                    OrderEnableService orderDecomService,
                                     VehicleControllerPool controllerPool) {
     super(objectService);
     this.orderService = requireNonNull(orderService, "orderService");
     this.objectNameProvider = requireNonNull(orderNameProvider, "orderNameProvider");
-    this.orderDecomService = requireNonNull(orderDecomService, "orderDecomService");
+    this.orderEnableService = requireNonNull(orderDecomService, "orderDecomService");
     this.controllerPool = requireNonNull(controllerPool, "controllerPool");
   }
 
@@ -105,10 +103,10 @@ public class StandardChangeTrackService
     if (!isVehicleStateChanged())
       return;
     
-    if(orderDecomService.getLocPosition() == null)
+    if(orderEnableService.getLocPosition() == null)
       return;
     
-    noVehicleTracks = IntStream.range(1, orderDecomService.getLocPosition().length + 1)
+    noVehicleTracks = IntStream.range(1, orderEnableService.getLocPosition().length + 1)
         .boxed().collect(Collectors.toSet());
     
     fetchObjects(Vehicle.class,
@@ -117,6 +115,11 @@ public class StandardChangeTrackService
         .filter(veh -> veh.getType().equals(Vehicle.BIN_VEHICLE_TYPE))
         .forEach(PSB -> noVehicleTracks.remove(fetchObject(Point.class,
                                                            PSB.getCurrentPosition()).getPsbTrack()));
+    System.out.println("无车轨道");
+    for(Integer track : noVehicleTracks){
+      System.out.print(track+" ");
+    }
+    System.out.println("");
     vehicleStateChanged = false;
   }
   
@@ -139,75 +142,76 @@ public class StandardChangeTrackService
   }
   
   @Override
-  public String createChangeTrackOrder(Bin bin, Vehicle binVehicle) {
+  public String createChangeTrackOrder(Bin bin, Vehicle binVehicle) throws Exception {
     synchronized(this){
       
       updateTrackList();
       
       if(bin.getAttachedLocation() == null)
-        return null;
-      // 该PSB已被分配了换轨任务，不可再分配新的换轨任务
+        throw new Exception("Error The bin is not attached to a location when creating change track order");
+      
+      // 遍历换轨任务池，若该PSB已被分配了换轨任务，则不可再分配新的换轨任务
       for(Map.Entry<String, TrackOrderEntry> entry : trackOrderPool.entrySet()){
         if(binVehicle.getName().equals(entry.getValue().getBinVehicle()))
-          return null;
+          throw new Exception("Error The PSB is already assigned to a change track order");
       }
       
       LOG.debug("method entry");
 
-    }
-  }
-  
-  private String createChangeTrackOrder(Vehicle binVehicle, Bin bin) {
-    // 换轨起始轨
-    int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getPsbTrack();
+      // 换轨起始轨
+      int srcTrack = fetchObject(Point.class,binVehicle.getCurrentPosition()).getPsbTrack();
 
-    // 换轨终点轨
-    int dstTrack = bin.getPsbTrack();
-    
-    // 目标箱所在库位
-    String dstLocation = bin.getAttachedLocation().getName();
-    // 需要执行该换轨任务的PST
-    Vehicle trackVehicle = 
-        fetchObjects(Vehicle.class,this::canBeUtilized).stream()
-            .filter(pst -> pst.getAllowedTracks().contains(srcTrack)
-                        && pst.getAllowedTracks().contains(dstTrack))
-            .sorted((Vehicle PST1, Vehicle PST2) -> compareDistance(PST1, PST2, binVehicle, dstLocation))
-            .findFirst()
-            .orElse(null);
-         
-    if(trackVehicle == null){
-      LOG.warn("No change-track vehicles can be utilized at the moment.");
-      return null;
-    }
-    
-    String trackOrderPrefix = namePrefixFor(OrderConstants.TYPE_CHANGE_TRACK);
-    TransportOrderCreationTO psbTO = new TransportOrderCreationTO(trackOrderPrefix+BIN_ORDER_SUFFIX)
-        .withDestinations(BinDestinations(trackVehicle, srcTrack, dstTrack, dstLocation))
-        .withIntendedVehicleName(binVehicle.getName())
-        .withType(OrderConstants.TYPE_CHANGE_TRACK);
-    
-    TransportOrderCreationTO pstTO = new TransportOrderCreationTO(trackOrderPrefix+TRACK_ORDER_SUFFIX)
-        .withDestinations(TrackDestinations(trackVehicle, srcTrack, dstTrack))
-        .withIntendedVehicleName(trackVehicle.getName())
-        .withType(OrderConstants.TYPE_CHANGE_TRACK);
-    
-    try{
-      TransportOrder psbOrder = orderService.createTransportOrder(psbTO);
-      orderService.createTransportOrder(pstTO);
-      trackOrderPool.put(trackOrderPrefix, 
-                         new TrackOrderEntry(binVehicle.getName(),
-                                            trackVehicle.getName(),
-                                            srcTrack, 
-                                            dstTrack));
-      noVehicleTracks.add(srcTrack);
-      noVehicleTracks.remove(dstTrack);
-      return psbOrder.getName();
-    }
-    catch (ObjectUnknownException | ObjectExistsException exc) {
-      throw new IllegalStateException("Unexpectedly interrupted",exc);
-    }
-    catch (KernelRuntimeException exc) {
-      throw new KernelRuntimeException(exc.getCause());
+      // 换轨终点轨
+      int dstTrack = bin.getPsbTrack();
+
+      // 目标箱所在库位
+      String dstLocation = bin.getAttachedLocation().getName();
+
+      // 需要执行该换轨任务的PST
+      Vehicle trackVehicle = 
+          fetchObjects(Vehicle.class,this::canBeUtilized).stream()
+              .filter(pst -> pst.getAllowedTracks().contains(srcTrack)
+                          && pst.getAllowedTracks().contains(dstTrack))
+              .sorted((Vehicle PST1, Vehicle PST2) -> idleFirst(PST1, PST2, binVehicle, dstLocation))
+              .findFirst()
+              .orElse(null);
+
+      if(trackVehicle == null){
+        System.out.println("From "+srcTrack +" to "+ dstTrack +" no PST ");
+        throw new Exception("Error No PST can be utilized at the moment.");
+      }
+
+      String trackOrderPrefix = orderPrefixFor(OrderConstants.TYPE_CHANGE_TRACK);
+      TransportOrderCreationTO psbTO = new TransportOrderCreationTO(trackOrderPrefix+BIN_ORDER_SUFFIX)
+          .withDestinations(BinDestinations(trackVehicle, srcTrack, dstTrack, dstLocation))
+          .withIntendedVehicleName(binVehicle.getName())
+          .withType(OrderConstants.TYPE_CHANGE_TRACK);
+
+      TransportOrderCreationTO pstTO = new TransportOrderCreationTO(trackOrderPrefix+TRACK_ORDER_SUFFIX)
+          .withDestinations(TrackDestinations(trackVehicle, srcTrack, dstTrack))
+          .withIntendedVehicleName(trackVehicle.getName())
+          .withType(OrderConstants.TYPE_CHANGE_TRACK);
+
+      try{
+        TransportOrder psbOrder = orderService.createTransportOrder(psbTO);
+        orderService.createTransportOrder(pstTO);
+        LOG.info("创建换轨订单"+psbTO.getName());
+        trackOrderPool.put(trackOrderPrefix, 
+                           new TrackOrderEntry(binVehicle.getName(),
+                                              trackVehicle.getName(),
+                                              srcTrack, 
+                                              dstTrack));
+        
+        noVehicleTracks.add(srcTrack);
+        noVehicleTracks.remove(dstTrack);
+        return psbOrder.getName();
+      }
+      catch (ObjectUnknownException | ObjectExistsException exc) {
+        throw new IllegalStateException("Unexpectedly interrupted",exc);
+      }
+      catch (KernelRuntimeException exc) {
+        throw new KernelRuntimeException(exc.getCause());
+      }
     }
   }
 
@@ -285,7 +289,7 @@ public class StandardChangeTrackService
     return orderName.substring(0, orderName.length()-BIN_ORDER_SUFFIX.length());
   }
   
-  private String namePrefixFor(@Nonnull String prefix) {
+  private String orderPrefixFor(@Nonnull String prefix) {
     return objectNameProvider.getUniqueName(prefix);
   }
   
@@ -294,16 +298,34 @@ public class StandardChangeTrackService
         && trackVehicle.getIntegrationLevel().equals(Vehicle.IntegrationLevel.TO_BE_UTILIZED);
   }
   
-  private int compareDistance(Vehicle PST1, Vehicle PST2, Vehicle binVehicle, String locationName){
-    Point point1 = fetchObject(Point.class, PST1.getCurrentPosition());
-    Point point2 = fetchObject(Point.class, PST2.getCurrentPosition());
-    Point srcPoint = fetchObject(Point.class, binVehicle.getCurrentPosition());
-    Location dstLocation = fetchObject(Location.class, locationName);
-    Integer distance1 = Math.abs(point1.getPstTrack()-srcPoint.getPstTrack())
-        + Math.abs(point1.getPstTrack()-dstLocation.getPstTrack());
-    Integer distance2 = Math.abs(point2.getPstTrack()-srcPoint.getPstTrack())
-        + Math.abs(point2.getPstTrack()-dstLocation.getPstTrack());
-    return distance1.compareTo(distance2);
+  /**
+   * 比较两个PST的优先级，选择优先级高的PST执行换轨任务.
+   * <p>优先选择空闲的PST；若均空闲或均繁忙，则选择距离较近的PST</p>
+   * 
+   * @param PST1 待比较的PST1
+   * @param PST2 待比较的PST2
+   * @param binVehicle 待换轨的PSB
+   * @param locationName 换轨后PSB需要前往的库位站
+   * @return 若PST1比PST2更优，则返回1；若PST2比PST1更优，返回-1；若两者同优，返回0；
+   */
+  private int idleFirst(Vehicle PST1, Vehicle PST2, Vehicle binVehicle, String locationName){
+    if(PST1.getProcState() != PST2.getProcState()){
+      if(PST1.getProcState() == Vehicle.ProcState.IDLE)
+        return 1;
+      else
+        return -1;
+    }
+    else{
+      Point point1 = fetchObject(Point.class, PST1.getCurrentPosition());
+      Point point2 = fetchObject(Point.class, PST2.getCurrentPosition());
+      Point srcPoint = fetchObject(Point.class, binVehicle.getCurrentPosition());
+      Location dstLocation = fetchObject(Location.class, locationName);
+      Integer distance1 = Math.abs(point1.getPstTrack()-srcPoint.getPstTrack())
+          + Math.abs(point1.getPstTrack()-dstLocation.getPstTrack());
+      Integer distance2 = Math.abs(point2.getPstTrack()-srcPoint.getPstTrack())
+          + Math.abs(point2.getPstTrack()-dstLocation.getPstTrack());
+      return distance1.compareTo(distance2);
+    }      
   }
 
   private List<DestinationCreationTO> BinDestinations(Vehicle trackVehicle, int srcTrack, int dstTrack, String dstLocation) {
@@ -351,7 +373,8 @@ public class StandardChangeTrackService
   }
 
   @Override
-  public boolean isNoVehicleTrack(int psbTrack) {
+  public synchronized boolean isNoVehicleTrack(int psbTrack) {
+    updateTrackList();
     return noVehicleTracks.contains(psbTrack);
   }
   

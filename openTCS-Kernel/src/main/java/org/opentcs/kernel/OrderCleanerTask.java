@@ -20,8 +20,7 @@ import org.opentcs.customizations.kernel.GlobalSyncObject;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.order.OrderSequence;
 import org.opentcs.data.order.TransportOrder;
-import org.opentcs.data.order.BinOrder;
-import org.opentcs.kernel.workingset.BinOrderPool;
+import org.opentcs.data.order.InboundOrder;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +46,6 @@ class OrderCleanerTask
    */
   private final TransportOrderPool orderPool;
   /**
-   * Keeps all the transport bin orders.
-   * created by Henry
-   */
-  private final BinOrderPool binOrderPool;
-  /**
    * Check whether transport orders may be removed.
    */
   private final Set<TransportOrderCleanupApproval> orderCleanupApprovals;
@@ -75,15 +69,13 @@ class OrderCleanerTask
                           TransportOrderPool orderPool,
                           Set<TransportOrderCleanupApproval> orderCleanupApprovals,
                           Set<OrderSequenceCleanupApproval> sequenceCleanupApprovals,
-                          OrderPoolConfiguration configuration,
-                          BinOrderPool orderBinPool) {
+                          OrderPoolConfiguration configuration) {
     this.globalSyncObject = requireNonNull(globalSyncObject, "globalSyncObject");
     this.orderPool = requireNonNull(orderPool, "orderPool");
     this.orderCleanupApprovals = requireNonNull(orderCleanupApprovals, "orderCleanupApprovals");
     this.sequenceCleanupApprovals = requireNonNull(sequenceCleanupApprovals,
                                                    "sequenceCleanupApprovals");
     this.configuration = requireNonNull(configuration, "configuration");
-    this.binOrderPool = requireNonNull(orderBinPool,"orderBinPool");
   }
 
   public long getSweepInterval() {
@@ -115,13 +107,13 @@ class OrderCleanerTask
       }
       
       //////// modified by Henry
-      for(BinOrder binOrder
-              : binOrderPool.getObjectPool().getObjects(BinOrder.class)
+      for(InboundOrder inOrder
+              : orderPool.getObjectPool().getObjects(InboundOrder.class)
                   .stream()
                   .filter(order -> order.getState().isFinalState())
-                  .filter(Border -> Border.getCreationTime().toEpochMilli()<creationTimeThreshold)
+                  .filter(iOrder -> iOrder.getCreationTime().toEpochMilli()<creationTimeThreshold)
                   .collect(Collectors.toSet()))
-        binOrderPool.removeBinOrder(binOrder.getReference());
+        orderPool.getObjectPool().removeObject(inOrder.getReference());
     }
   }
 

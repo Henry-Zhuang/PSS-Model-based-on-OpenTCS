@@ -10,10 +10,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import org.opentcs.components.kernel.services.OrderDecompositionService;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.order.OutboundOrder;
 import org.opentcs.data.order.OutboundOrder.State;
+import org.opentcs.components.kernel.services.OrderEnableService;
 
 /**
  * 经过出库传送带后料箱到达的分拣工作台.
@@ -29,17 +29,17 @@ public class OutboundWorkingSet {
    */
   private final List<TCSObjectReference<OutboundOrder>> workingSets = new ArrayList<>();
   /**
-   * 订单分解服务，用于分解出库订单并将其放入工作台列表.
+   * 订单激活服务，用于分解出库订单并将其放入工作台列表.
    */
-  private final OrderDecompositionService orderDecomService;
+  private final OrderEnableService orderEnableService;
   /**
    * 用零长度的byte数组作为同步锁.
    */
   private final byte[] lock = new byte[0];
   
   @Inject
-  public OutboundWorkingSet(OrderDecompositionService orderDecomService) {
-    this.orderDecomService = orderDecomService;
+  public OutboundWorkingSet(OrderEnableService orderEnableService) {
+    this.orderEnableService = orderEnableService;
   }
   
   public List<TCSObjectReference<OutboundOrder>> getWorkingSets(){
@@ -56,7 +56,7 @@ public class OutboundWorkingSet {
   
   public void enableOutboundOrder(){
     List<OutboundOrder> sortedOrders = 
-        orderDecomService.fetchObjects(OutboundOrder.class,order -> order.hasState(State.WAITING))
+        orderEnableService.fetchObjects(OutboundOrder.class,order -> order.hasState(State.WAITING))
             .stream()
             .sorted(Comparator.comparing(OutboundOrder::getDeadline))
             .collect(Collectors.toList());

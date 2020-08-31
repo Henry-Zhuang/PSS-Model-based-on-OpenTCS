@@ -49,12 +49,12 @@ import org.opentcs.drivers.vehicle.LoadHandlingDevice;
 import org.opentcs.drivers.vehicle.VehicleCommAdapter;
 import org.opentcs.kernel.extensions.controlcenter.vehicles.AttachmentManager;
 import org.opentcs.kernel.extensions.xmlhost.orders.ScriptFileManager;
+import org.opentcs.kernel.inbound.InboundConveyor;
 import org.opentcs.kernel.persistence.ModelPersister;
 import org.opentcs.kernel.vehicles.LocalVehicleControllerPool;
 import org.opentcs.kernel.workingset.Model;
 import org.opentcs.kernel.workingset.NotificationBuffer;
 import org.opentcs.kernel.workingset.TCSObjectPool;
-import org.opentcs.kernel.workingset.BinOrderPool;
 import org.opentcs.kernel.outbound.OutboundConveyor;
 import org.opentcs.kernel.workingset.TransportOrderPool;
 import org.opentcs.util.Comparators;
@@ -81,11 +81,6 @@ class KernelStateOperating
    * The order facade to the object pool.
    */
   private final TransportOrderPool orderPool;
-  /**
-   * The order facade to the object bin pool.
-   * created by Henry
-   */
-  private final BinOrderPool binOrderPool;
   /**
    * This kernel's router.
    */
@@ -123,7 +118,11 @@ class KernelStateOperating
   /**
    * A task for simulating the outbound conveyor.
    */
-  private final OutboundConveyor outBoundConveyor;
+  private final OutboundConveyor outboundConveyor;
+  /**
+   * A task for simulating the outbound conveyor.
+   */
+  private final InboundConveyor inboundConveyor;
   /**
    * This kernel state's local extensions.
    */
@@ -144,7 +143,12 @@ class KernelStateOperating
    * A handle for the outbound conveyor.
    * modified by Henry
    */
-  private ScheduledFuture<?> outBoundConveyorFuture;
+  private ScheduledFuture<?> outboundConveyorFuture;
+  /**
+   * A handle for the outbound conveyor.
+   * modified by Henry
+   */
+  private ScheduledFuture<?> inboundConveyorFuture;
   /**
    * The change-track service.
    * modified by Henry
@@ -184,9 +188,9 @@ class KernelStateOperating
                        @ActiveInOperatingMode Set<KernelExtension> extensions,
                        AttachmentManager attachmentManager,
                        VehicleService vehicleService,
-                       BinOrderPool binOrderPool,
                        ChangeTrackService changeTrackService,
-                       OutboundConveyor outBoundConveyor) {
+                       OutboundConveyor outboundConveyor,
+                       InboundConveyor inboundConveyor) {
     super(globalSyncObject,
           objectPool,
           model,
@@ -206,9 +210,9 @@ class KernelStateOperating
     this.extensions = requireNonNull(extensions, "extensions");
     this.attachmentManager = requireNonNull(attachmentManager, "attachmentManager");
     this.vehicleService = requireNonNull(vehicleService, "vehicleService");
-    this.binOrderPool = requireNonNull(binOrderPool, "binOrderPool");
     this.changeTrackService = requireNonNull(changeTrackService, "changeTrackService");
-    this.outBoundConveyor = requireNonNull(outBoundConveyor, "outBoundConveyor");
+    this.outboundConveyor = requireNonNull(outboundConveyor, "outboundConveyor");
+    this.inboundConveyor = requireNonNull(inboundConveyor, "inboundConveyor");
   }
 
   // Implementation of interface Kernel starts here.
@@ -252,10 +256,16 @@ class KernelStateOperating
                                                            orderCleanerTask.getSweepInterval(),
                                                            TimeUnit.MILLISECONDS);
     
+    // 开启入库传送带
+    inboundConveyor.initialize();
+    inboundConveyorFuture = kernelExecutor.scheduleAtFixedRate(inboundConveyor, 
+                                                               inboundConveyor.getRunInterval(), 
+                                                               inboundConveyor.getRunInterval(), 
+                                                               TimeUnit.MILLISECONDS);
     // 开启出库传送带
-    outBoundConveyorFuture = kernelExecutor.scheduleAtFixedRate(outBoundConveyor,
-                                                                outBoundConveyor.getIntervalTime(),
-                                                                0,
+    outboundConveyorFuture = kernelExecutor.scheduleAtFixedRate(outboundConveyor,
+                                                                outboundConveyor.getRunInterval(),
+                                                                outboundConveyor.getRunInterval(),
                                                                 TimeUnit.MILLISECONDS);
 
     // Start kernel extensions.
@@ -265,6 +275,8 @@ class KernelStateOperating
     }
     LOG.debug("Finished initializing kernel extensions.");
 
+    
+    
     initialized = true;
     
     LOG.debug("Operating state initialized.");
@@ -297,9 +309,13 @@ class KernelStateOperating
     cleanerTaskFuture = null;
     
     //// modified by Henry
-    outBoundConveyorFuture.cancel(false);
-    outBoundConveyorFuture = null;
-    outBoundConveyor.clear();
+    outboundConveyorFuture.cancel(false);
+    outboundConveyorFuture = null;
+    outboundConveyor.clear();
+    
+    inboundConveyorFuture.cancel(false);
+    inboundConveyorFuture = null;
+    inboundConveyor.clear();
     
     LOG.debug("Terminating change track service ...");
     changeTrackService.clear();
@@ -333,10 +349,6 @@ class KernelStateOperating
 
     // Remove all orders and order sequences from the pool.
     orderPool.clear();
-    
-    ////// modified by Henry
-    binOrderPool.clear();
-    ////// modified end
 
     initialized = false;
 

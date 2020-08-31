@@ -78,7 +78,7 @@ public interface Dispatcher
   /**
    * Notifies the dispatcher that it should start the dispatching bin process.
    */
-  default void dispatchBin(){}
+  default void enableOrder(){}
   /////////////////created end
 
   /**

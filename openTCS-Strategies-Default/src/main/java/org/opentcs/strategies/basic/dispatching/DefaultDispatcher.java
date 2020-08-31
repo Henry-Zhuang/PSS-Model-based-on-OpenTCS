@@ -66,7 +66,7 @@ public class DefaultDispatcher
   private final FullDispatchTask fullDispatchTask;
 
   //created by Henry
-  private final BinDispatchTask binDispatchTask;
+  private final OrderEnableTask orderEnableTask;
   //
   
   private final Provider<PeriodicVehicleRedispatchingTask> periodicDispatchTaskProvider;
@@ -101,7 +101,7 @@ public class DefaultDispatcher
                            @ApplicationEventBus EventSource eventSource,
                            @KernelExecutor ScheduledExecutorService kernelExecutor,
                            FullDispatchTask fullDispatchTask,
-                           BinDispatchTask binDispatchTask,
+                           OrderEnableTask orderEnableTask,
                            Provider<PeriodicVehicleRedispatchingTask> periodicDispatchTaskProvider,
                            DefaultDispatcherConfiguration configuration,
                            RerouteUtil rerouteUtil) {
@@ -112,7 +112,7 @@ public class DefaultDispatcher
     this.eventSource = requireNonNull(eventSource, "eventSource");
     this.kernelExecutor = requireNonNull(kernelExecutor, "kernelExecutor");
     this.fullDispatchTask = requireNonNull(fullDispatchTask, "fullDispatchTask");
-    this.binDispatchTask = requireNonNull(binDispatchTask, "binDispatchTask");
+    this.orderEnableTask = requireNonNull(orderEnableTask, "orderEnableTask");
     this.periodicDispatchTaskProvider = requireNonNull(periodicDispatchTaskProvider,
                                                        "periodicDispatchTaskProvider");
     this.configuration = requireNonNull(configuration, "configuration");
@@ -133,7 +133,7 @@ public class DefaultDispatcher
     fullDispatchTask.initialize();
     
     //modified by Henry
-    binDispatchTask.initialize();
+    orderEnableTask.initialize();
 
     implicitDispatchTrigger = new ImplicitDispatchTrigger(this);
     eventSource.subscribe(implicitDispatchTrigger);
@@ -166,7 +166,7 @@ public class DefaultDispatcher
 
     fullDispatchTask.terminate();
     //modified by Henry
-    binDispatchTask.terminate();
+    orderEnableTask.terminate();
 
     initialized = false;
   }
@@ -185,10 +185,10 @@ public class DefaultDispatcher
 
   ///////// created by Henry
   @Override
-  public void dispatchBin() {
+  public void enableOrder() {
     LOG.debug("Scheduling dispatchBin task...");
     // Schedule this to be executed by the kernel executor.
-    kernelExecutor.submit(binDispatchTask);
+    kernelExecutor.submit(orderEnableTask);
   }
   //////// created end
   

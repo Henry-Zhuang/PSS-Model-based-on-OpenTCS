@@ -34,7 +34,7 @@ import org.opentcs.util.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.opentcs.components.kernel.services.CsvFileService;
-import org.opentcs.components.kernel.services.OrderDecompositionService;
+import org.opentcs.components.kernel.services.OrderEnableService;
 
 /**
  * This class is the standard implementation of the {@link PlantModelService} interface.
@@ -79,7 +79,7 @@ public class StandardPlantModelService
    */
   private final CsvFileService csvFileService;
   
-  private final OrderDecompositionService orderDecomService;
+  private final OrderEnableService orderEnableService;
   
   private final CreateGDSModel createGDSModel;
   /**
@@ -93,7 +93,7 @@ public class StandardPlantModelService
    * @param eventHandler Where this instance sends events to.
    * @param notificationService The notification service.
    * @param csvFileService The data base service.
-   * @param orderDecomService
+   * @param orderEnableService
    */
   @Inject
   public StandardPlantModelService(LocalKernel kernel,
@@ -104,7 +104,7 @@ public class StandardPlantModelService
                                    @ApplicationEventBus EventHandler eventHandler,
                                    NotificationService notificationService,
                                    CsvFileService csvFileService,
-                                   OrderDecompositionService orderDecomService,
+                                   OrderEnableService orderEnableService,
                                    CreateGDSModel createGDSModel) {
     super(objectService);
     this.kernel = requireNonNull(kernel, "kernel");
@@ -114,7 +114,7 @@ public class StandardPlantModelService
     this.eventHandler = requireNonNull(eventHandler, "eventHandler");
     this.notificationService = requireNonNull(notificationService, "notificationService");
     this.csvFileService = requireNonNull(csvFileService,"csvFileService");
-    this.orderDecomService = requireNonNull(orderDecomService,"orderDecomService");
+    this.orderEnableService = requireNonNull(orderEnableService,"orderDecomService");
     this.createGDSModel = createGDSModel;
   }
 
@@ -131,7 +131,7 @@ public class StandardPlantModelService
       throws IllegalStateException {
     synchronized (globalSyncObject) {
       if (!modelPersister.hasSavedModel()) {
-//          createPlantModel();//TEST
+//          createPlantModel();//创建高德斯模型
         createPlantModel(new PlantModelCreationTO(Kernel.DEFAULT_MODEL_NAME));
         return;
       }
@@ -178,7 +178,7 @@ public class StandardPlantModelService
     synchronized (globalSyncObject) {
       model.createPlantModelObjects(to);
       // modified by Henry
-      orderDecomService.updateTrackInfo();
+      orderEnableService.updateTrackInfo();
       csvFileService.outputStockInfo();
     }
 
@@ -196,7 +196,7 @@ public class StandardPlantModelService
   }
 
   // 利用代码创建高德斯地图模型
-  @Deprecated
+//  @Deprecated
   private void createPlantModel()
       throws ObjectUnknownException, ObjectExistsException, IllegalStateException {
 
@@ -213,7 +213,7 @@ public class StandardPlantModelService
     synchronized (globalSyncObject) {
       createGDSModel.createPlantModelObjects();
       // modified by Henry
-      orderDecomService.updateTrackInfo();
+      orderEnableService.updateTrackInfo();
       csvFileService.outputStockInfo();
     }
 

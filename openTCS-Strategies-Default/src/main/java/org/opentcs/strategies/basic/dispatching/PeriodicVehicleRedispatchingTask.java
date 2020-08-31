@@ -58,7 +58,7 @@ public class PeriodicVehicleRedispatchingTask
         .findAny()
         .ifPresent(vehicle -> {
           LOG.debug("Vehicle {} could process transport order, triggering dispatcher ...", vehicle);
-          dispatcherService.dispatchBin();
+          dispatcherService.enableOrder();
           dispatcherService.dispatch();
         });
   }

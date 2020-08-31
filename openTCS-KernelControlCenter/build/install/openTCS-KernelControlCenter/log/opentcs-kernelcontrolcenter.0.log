@@ -1,105 +1,11 @@
-[20200714-18:23:11-686] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-07-14 16:08:00), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
-[20200714-18:23:11-983] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\OpenTCStest\workBin\openTCS-4.18.0-src\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter-defaults-baseline.properties...
-[20200714-18:23:12-030] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\OpenTCStest\workBin\openTCS-4.18.0-src\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter-defaults-custom.properties not found, skipped.
-[20200714-18:23:12-030] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\OpenTCStest\workBin\openTCS-4.18.0-src\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter.properties...
-[20200714-18:23:12-061] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
-[20200714-18:23:12-077] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
-[20200714-18:23:12-171] INFO    main                 o.o.kernelcontrolcenter.RunKernelControlCenter.findRegisteredModules(): Integrating injection module org.opentcs.kernelcontrolcenter.DefaultKernelControlCenterExtensionsModule
-[20200714-18:23:12-171] INFO    main                 o.o.kernelcontrolcenter.RunKernelControlCenter.findRegisteredModules(): Integrating injection module org.opentcs.kernelcontrolcenter.LoopbackCommAdapterPanelsModule
-[20200714-18:23:14-023] WARNING main                 o.o.kernelcontrolcenter.DefaultKernelControlCenterInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
-[20200714-18:23:20-206] INFO    main                 o.o.kernelcontrolcenter.KernelControlCenterApplication.online(): Switching application state to online...
-[20200714-18:28:57-202] WARNING org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher-fetcherTask o.o.k.exchange.DefaultServiceCallWrapper.call()        : Failed to call remote service method: org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask$$Lambda$42/1331105034@34adee80
-org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
-	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:206)
-	at org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask.lambda$runActualTask$0(KernelEventFetcher.java:190)
-	at org.opentcs.kernelcontrolcenter.exchange.DefaultServiceCallWrapper.call(DefaultServiceCallWrapper.java:89)
-	at org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:190)
-	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
-	at java.lang.Thread.run(Thread.java:748)
-Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
-	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
-	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
-	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
-	at com.sun.proxy.$Proxy27.fetchEvents(Unknown Source)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:203)
-	... 5 more
-Caused by: java.net.SocketException: Connection reset
-	at java.net.SocketInputStream.read(SocketInputStream.java:210)
-	at java.net.SocketInputStream.read(SocketInputStream.java:141)
-	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
-	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
-	at java.io.DataInputStream.readByte(DataInputStream.java:265)
-	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
-	... 10 more
-
-[20200714-18:28:57-249] WARNING org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher-fetcherTask o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
-[20200714-18:30:57-732] INFO    AWT-EventQueue-0     o.o.kernelcontrolcenter.KernelControlCenterApplication.offline(): Switching application state to offline...
-[20200715-14:32:46-381] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-07-14 16:08:00), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
-[20200715-14:32:46-631] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\OpenTCStest\workBin\openTCS-4.18.0-src\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter-defaults-baseline.properties...
-[20200715-14:32:46-677] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\OpenTCStest\workBin\openTCS-4.18.0-src\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter-defaults-custom.properties not found, skipped.
-[20200715-14:32:46-693] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\OpenTCStest\workBin\openTCS-4.18.0-src\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter.properties...
-[20200715-14:32:46-709] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
-[20200715-14:32:46-724] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
-[20200715-14:32:46-849] INFO    main                 o.o.kernelcontrolcenter.RunKernelControlCenter.findRegisteredModules(): Integrating injection module org.opentcs.kernelcontrolcenter.DefaultKernelControlCenterExtensionsModule
-[20200715-14:32:46-881] INFO    main                 o.o.kernelcontrolcenter.RunKernelControlCenter.findRegisteredModules(): Integrating injection module org.opentcs.kernelcontrolcenter.LoopbackCommAdapterPanelsModule
-[20200715-14:32:49-239] WARNING main                 o.o.kernelcontrolcenter.DefaultKernelControlCenterInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
-[20200715-14:33:15-534] INFO    main                 o.o.kernelcontrolcenter.KernelControlCenterApplication.online(): Switching application state to online...
-[20200715-14:39:19-675] WARNING org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher-fetcherTask o.o.k.exchange.DefaultServiceCallWrapper.call()        : Failed to call remote service method: org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask$$Lambda$42/1585793481@6412f78e
-org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
-	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:206)
-	at org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask.lambda$runActualTask$0(KernelEventFetcher.java:190)
-	at org.opentcs.kernelcontrolcenter.exchange.DefaultServiceCallWrapper.call(DefaultServiceCallWrapper.java:89)
-	at org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:190)
-	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
-	at java.lang.Thread.run(Thread.java:748)
-Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
-	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
-	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
-	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
-	at com.sun.proxy.$Proxy27.fetchEvents(Unknown Source)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:203)
-	... 5 more
-Caused by: java.net.SocketException: Connection reset
-	at java.net.SocketInputStream.read(SocketInputStream.java:210)
-	at java.net.SocketInputStream.read(SocketInputStream.java:141)
-	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
-	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
-	at java.io.DataInputStream.readByte(DataInputStream.java:265)
-	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
-	... 10 more
-
-[20200715-14:39:19-675] WARNING org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher-fetcherTask o.o.a.r.services.RemoteKernelServicePortalProxy.logout(): Not logged in, doing nothing.
-[20200715-14:42:07-124] SEVERE  org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher-fetcherTask o.o.k.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(): Exception fetching events
-org.opentcs.components.kernel.services.ServiceUnavailableException: Remote service unreachable
-	at org.opentcs.access.rmi.services.AbstractRemoteServiceProxy.findSuitableExceptionFor(AbstractRemoteServiceProxy.java:145)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:206)
-	at org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask.lambda$runActualTask$0(KernelEventFetcher.java:190)
-	at org.opentcs.kernelcontrolcenter.exchange.DefaultServiceCallWrapper.call(DefaultServiceCallWrapper.java:89)
-	at org.opentcs.kernelcontrolcenter.exchange.KernelEventFetcher$EventFetcherTask.runActualTask(KernelEventFetcher.java:190)
-	at org.opentcs.util.CyclicTask.run(CyclicTask.java:154)
-	at java.lang.Thread.run(Thread.java:748)
-Caused by: java.rmi.UnmarshalException: Error unmarshaling return header; nested exception is: 
-	java.net.SocketException: Connection reset
-	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:254)
-	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:163)
-	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:235)
-	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:180)
-	at com.sun.proxy.$Proxy27.fetchEvents(Unknown Source)
-	at org.opentcs.access.rmi.services.RemoteKernelServicePortalProxy.fetchEvents(RemoteKernelServicePortalProxy.java:203)
-	... 5 more
-Caused by: java.net.SocketException: Connection reset
-	at java.net.SocketInputStream.read(SocketInputStream.java:210)
-	at java.net.SocketInputStream.read(SocketInputStream.java:141)
-	at java.io.BufferedInputStream.fill(BufferedInputStream.java:246)
-	at java.io.BufferedInputStream.read(BufferedInputStream.java:265)
-	at java.io.DataInputStream.readByte(DataInputStream.java:265)
-	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:240)
-	... 10 more
-
-[20200715-15:00:08-653] INFO    AWT-EventQueue-0     o.o.kernelcontrolcenter.KernelControlCenterApplication.offline(): Switching application state to offline...
+[20200811-14:24:38-373] INFO    main                 o.o.util.Environment.logSystemInfo()                   : openTCS baseline version: 4.18.0-SNAPSHOT (build date: 2020-08-06 10:58:11), customization '-' version - (build date: -), Java: 1.8.0_251, Oracle Corporation; JVM: 25.251-b08, Oracle Corporation; OS: Windows 10, amd64
+[20200811-14:24:38-654] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using default configuration file D:\downloads\Git_repository\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter-defaults-baseline.properties...
+[20200811-14:24:38-696] WARNING main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Supplementary configuration file D:\downloads\Git_repository\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter-defaults-custom.properties not found, skipped.
+[20200811-14:24:38-935] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.buildSource(): Using overrides from supplementary configuration file D:\downloads\Git_repository\openTCS-KernelControlCenter\build\install\openTCS-KernelControlCenter\.\config\opentcs-kernelcontrolcenter.properties...
+[20200811-14:24:38-955] INFO    main                 o.o.c.cfg4j.Cfg4jConfigurationBindingProvider.reloadInterval(): Using configuration reload interval of 10000 ms.
+[20200811-14:24:38-965] INFO    main                 o.c.provider.ConfigurationProviderBuilder.build()      : Initializing ConfigurationProvider with org.opentcs.configuration.cfg4j.CachedConfigurationSource source, org.opentcs.configuration.cfg4j.PeriodicalReloadStrategy reload strategy and org.cfg4j.source.context.environment.DefaultEnvironment environment
+[20200811-14:24:39-028] INFO    main                 o.o.kernelcontrolcenter.RunKernelControlCenter.findRegisteredModules(): Integrating injection module org.opentcs.kernelcontrolcenter.DefaultKernelControlCenterExtensionsModule
+[20200811-14:24:39-033] INFO    main                 o.o.kernelcontrolcenter.RunKernelControlCenter.findRegisteredModules(): Integrating injection module org.opentcs.kernelcontrolcenter.LoopbackCommAdapterPanelsModule
+[20200811-14:24:40-480] WARNING main                 o.o.kernelcontrolcenter.DefaultKernelControlCenterInjectionModule.configureSocketConnections(): SSL encryption disabled, connections will not be secured!
+[20200811-14:24:56-879] INFO    main                 o.o.kernelcontrolcenter.KernelControlCenterApplication.online(): Switching application state to online...
+[20200811-15:35:04-555] INFO    AWT-EventQueue-0     o.o.kernelcontrolcenter.KernelControlCenterApplication.offline(): Switching application state to offline...

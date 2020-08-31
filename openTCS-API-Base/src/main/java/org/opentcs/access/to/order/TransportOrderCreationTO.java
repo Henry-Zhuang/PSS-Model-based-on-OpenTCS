@@ -12,7 +12,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,7 @@ import javax.annotation.Nullable;
 import org.opentcs.access.to.CreationTO;
 import org.opentcs.data.TCSObjectReference;
 import org.opentcs.data.order.OrderConstants;
-import org.opentcs.data.order.BinOrder;
+import org.opentcs.data.order.InboundOrder;
 import org.opentcs.util.annotations.ScheduledApiChange;
 
 /**
@@ -76,10 +75,10 @@ public class TransportOrderCreationTO
    */
   private boolean dispensable;
   /**
-   * A reference to the transport order bin that this transport order is attached to.
+   * A reference to the inbound order that this transport order is attached to.
    * modified by Henry
    */
-  private TCSObjectReference<BinOrder> attachedBinOrder;
+  private TCSObjectReference<InboundOrder> attachedInboundOrder;
   
   // created by Henry
   public TransportOrderCreationTO(@Nonnull String name){
@@ -110,7 +109,7 @@ public class TransportOrderCreationTO
                                    @Nonnull String type,
                                    @Nonnull Instant deadline,
                                    boolean dispensable,
-                                   TCSObjectReference<BinOrder> attachedBinOrder) {
+                                   TCSObjectReference<InboundOrder> attachedBinOrder) {
     super(name, properties);
     this.incompleteName = incompleteName;
     this.destinations = requireNonNull(destinations, "destinations");
@@ -120,7 +119,7 @@ public class TransportOrderCreationTO
     this.type = requireNonNull(type, "type");
     this.deadline = requireNonNull(deadline, "deadline");
     this.dispensable = dispensable;
-    this.attachedBinOrder = attachedBinOrder;
+    this.attachedInboundOrder = attachedBinOrder;
   }
 
   @Deprecated
@@ -148,7 +147,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   @Deprecated
@@ -176,7 +175,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   @Deprecated
@@ -208,7 +207,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -241,7 +240,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -284,7 +283,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -328,7 +327,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -372,7 +371,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -416,7 +415,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -465,7 +464,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         category,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -494,7 +493,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -543,7 +542,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline.toInstant(),
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -563,7 +562,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
 
   /**
@@ -606,16 +605,16 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
   
   //////////////////////////////////////////modified by Henry
 
-  public TCSObjectReference<BinOrder> getAttachedBinOrder() {
-    return attachedBinOrder;
+  public TCSObjectReference<InboundOrder> getAttachedInboundOrder() {
+    return attachedInboundOrder;
   }
 
-  public TransportOrderCreationTO withAttachedBinOrder(TCSObjectReference<BinOrder> attachedBinOrder) {
+  public TransportOrderCreationTO withAttachedInboundOrder(TCSObjectReference<InboundOrder> attachedInboundOrder) {
     return new TransportOrderCreationTO(getName(),
                                         getModifiableProperties(),
                                         incompleteName,
@@ -625,7 +624,7 @@ public class TransportOrderCreationTO
                                         intendedVehicleName,
                                         type,
                                         deadline,
-                                        dispensable, attachedBinOrder);
+                                        dispensable, attachedInboundOrder);
   }
   //////////////////////////////////////////modified end
 }

@@ -64,9 +64,9 @@ public class StandardDispatcherService
   
   /////////////// created by Henry
   @Override
-  public void dispatchBin() {
+  public void enableOrder() {
     synchronized (globalSyncObject) {
-      dispatcher.dispatchBin();
+      dispatcher.enableOrder();
     }
   }
   /////////////// created end

@@ -39,6 +39,8 @@ import org.opentcs.util.annotations.ScheduledApiChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.opentcs.components.kernel.ObjectNameProvider;
+import org.opentcs.data.order.InboundOrder;
+import org.opentcs.data.order.OutboundOrder;
 
 /**
  * A {@code TransportOrderPool} keeps all {@code TransportOrder}s for an openTCS
@@ -99,7 +101,9 @@ public class TransportOrderPool {
     Set<String> removableNames = new HashSet<>();
     for (TCSObject<?> curObject : objects) {
       if (curObject instanceof TransportOrder
-          || curObject instanceof OrderSequence) {
+          || curObject instanceof OrderSequence
+          || curObject instanceof OutboundOrder
+          || curObject instanceof InboundOrder) {
         removableNames.add(curObject.getName());
       }
     }
@@ -166,7 +170,7 @@ public class TransportOrderPool {
         .withWrappingSequence(getWrappingSequence(to))
         .withDependencies(getDependencies(to))
         .withProperties(to.getProperties())
-        .withAttachedBinOrder(to.getAttachedBinOrder());// modified by Henry
+        .withAttachedInboundOrder(to.getAttachedInboundOrder());// modified by Henry
     objectPool.addObject(newOrder);
     objectPool.emitObjectEvent(newOrder.clone(), null, TCSObjectEvent.Type.OBJECT_CREATED);
 
